@@ -1,5 +1,5 @@
 {
-  "name": "some_name",
+  "name": "gw1_jvm",
   "version": "1.0.0",
   "description": "",
   "main": "vite.config.js",
@@ -11,6 +11,6 @@
     "preview": "vite preview --open --host",
     "preview:php": "php -S localhost:8080"
   },
-  "author": "David Verhulst",
+  "author": "Joppe, Vincent, Mattias",
   "license": "ISC"
 }
