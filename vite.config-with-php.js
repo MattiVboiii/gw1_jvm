@@ -6,13 +6,13 @@ export default {
     usePHP({
       entry: [
         // frontend
-        "index.php",
-        "src/pages/**/*.php",
-        "src/partials/**/*.php",
+        "frontend/index.php",
+        "frontend/pages/**/*.php",
+        "frontend/partials/**/*.php",
         // admin
         "admin/index.php",
-        "admin/src/pages/**/*.php",
-        "admin/src/partials/**/*.php",
+        "admin/pages/**/*.php",
+        "admin/partials/**/*.php",
       ],
     }),
     viteStaticCopy({
@@ -20,9 +20,9 @@ export default {
         { src: "vendor", dest: "" },
         { src: "system", dest: "" },
         // frontend
-        { src: "src/php_includes", dest: "src/" },
+        { src: "frontend/php_includes", dest: "frontend/" },
         // admin
-        { src: "admin/src/php_includes", dest: "admin/src/" },
+        { src: "admin/php_includes", dest: "admin/" },
       ],
     }),
   ],

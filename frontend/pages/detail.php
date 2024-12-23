@@ -9,11 +9,11 @@ print $test;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/src/css/detail.css">
+    <link rel="stylesheet" href="/frontend/css/detail.css">
 </head>
 
 <body>
-    <?php include('src/partials/header.inc.php') ?>
+    <?php include('frontend/partials/header.inc.php') ?>
     Detail Page
 </body>
 
