@@ -17,6 +17,7 @@ export default {
     }),
     viteStaticCopy({
       targets: [
+        { src: ".env", dest: "" },
         { src: "vendor", dest: "" },
         { src: "system", dest: "" },
         // frontend
