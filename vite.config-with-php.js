@@ -1,15 +1,29 @@
+import usePHP from "vite-plugin-php";
+import { viteStaticCopy } from "vite-plugin-static-copy";
+
 export default {
-  build: {
-    //de volgende instelling genereert een manifest bestand waar alle gebuilde files in zitten.
-    //we moeten tenslotte hun unieke filename kennen om ze te kunnen koppelen met de php file.
-    //de reden dat de gegenereerde files telkens andere filenames hebben geeft 1 groot voordeel.
-    //een bestand met een nieuwe naam wordt altijd gedownload en is dus nooit gecached.
-    manifest: true,
-    //de watch instelling zorgt ervoor dat de build altijd opnieuw wordt uitgevoerd als de scss od js file wijzigt
-    watch: true,
-    //onderstaande stelt de js file in als entrypoint voor vite ipv. index.html
-    rollupOptions: {
-      input: ["/js/index.js", "/admin/js/index.js"],
-    },
-  },
+  plugins: [
+    usePHP({
+      entry: [
+        // frontend
+        "index.php",
+        "src/pages/**/*.php",
+        "src/partials/**/*.php",
+        // admin
+        "admin/index.php",
+        "admin/src/pages/**/*.php",
+        "admin/src/partials/**/*.php",
+      ],
+    }),
+    viteStaticCopy({
+      targets: [
+        { src: "vendor", dest: "" },
+        { src: "system", dest: "" },
+        // frontend
+        { src: "src/php_includes", dest: "src/" },
+        // admin
+        { src: "admin/src/php_includes", dest: "admin/src/" },
+      ],
+    }),
+  ],
 };

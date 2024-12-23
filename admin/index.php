@@ -1,6 +1,8 @@
 <?php
-$_SERVER["admin"] = true;
-include_once "../includes/css_js.inc.php";
+
+include 'system/db.inc.php';
+include 'admin/src/php_includes/func.inc.php';
+print $test;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,15 +11,17 @@ include_once "../includes/css_js.inc.php";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN HOMEPAGE</title>
-    <link rel="stylesheet" href="../dist/<?= $cssPath ?>" />
-    <script type="module" src="../dist/<?= $jsPath ?>"></script>
+    <title>WEBSITE HOMEPAGE</title>
+    <link rel="stylesheet" href="/admin/src/css/style.css" />
+    <script src="/admin/src/js/script.js" defer type="module"></script>
 </head>
 
 <body>
-    <?= "php works on admin page" ?>
-    <p class="icon-location2"></p>
-    <img src="images/sample.jpg" alt="">
+    <?php include('admin/src/partials/header.inc.php') ?>
+    <?= "php works on backend website" ?>
+    <p class="icon-pacman"></p>
+    <img src="/admin/images/sample.jpg" alt="">
+    <h2>php_includes work if 2 * 3 equals: <?= mul(2, 3) ?></h2>
 </body>
 
 </html>

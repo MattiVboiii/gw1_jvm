@@ -5,12 +5,15 @@
   "main": "vite.config.js",
   "scripts": {
     "start": "npm run dev",
-    "dev": "vite --open --host",
-    "build": "vite build",
-    "build:php": "vite build --config vite.config-with-php.js",
-    "preview": "vite preview --open --host",
-    "preview:php": "php -S localhost:8080"
+    "dev": "vite --open --host --config vite.config-with-php.js",
+    "build": "vite build --config vite.config-with-php.js",
+    "preview": "php -S localhost:8080 -t dist"
   },
   "author": "Joppe, Vincent, Mattias",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^6.0.5",
+    "vite-plugin-php": "^1.0.67",
+    "vite-plugin-static-copy": "^2.2.0"
+  }
 }
