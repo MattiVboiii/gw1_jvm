@@ -1,8 +1,10 @@
 <?php
+require_once 'system/db.inc.php';
+include_once 'admin/php_includes/func.inc.php';
 
-include 'system/db.inc.php';
-include 'admin/php_includes/func.inc.php';
-print $test;
+print '<pre>';
+print_r(getClubs());
+print '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">

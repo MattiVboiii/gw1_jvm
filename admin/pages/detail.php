@@ -1,6 +1,6 @@
 <?php
-include 'system/db.inc.php';
-print $test;
+require_once 'system/db.inc.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

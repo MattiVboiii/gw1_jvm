@@ -1,8 +1,9 @@
 <?php
-
-include 'system/db.inc.php';
-include 'frontend/php_includes/func.inc.php';
-print $test;
+require_once 'system/db.inc.php';
+include_once 'frontend/php_includes/func.inc.php';
+print '<pre>';
+print_r(getClubs());
+print '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">

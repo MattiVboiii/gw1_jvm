@@ -5,7 +5,7 @@
   "main": "vite.config.js",
   "scripts": {
     "start": "npm run dev",
-    "dev": "vite --open --host --config vite.config-with-php.js",
+    "dev": "vite --open frontend/ --host --config vite.config-with-php.js",
     "build": "vite build --config vite.config-with-php.js",
     "preview": "php -S localhost:8080 -t dist -d include_path=`realpath dist`"
   },
