@@ -7,7 +7,7 @@
     "start": "npm run dev",
     "dev": "vite --open frontend/ --host --config vite.config-with-php.js",
     "build": "vite build --config vite.config-with-php.js",
-    "preview": "php -S localhost:8080 -t dist -d include_path=`realpath dist`"
+    "preview": "bash -c \"export INCLUDE_PATH=$(realpath dist/) && php -S localhost:8080 -t dist/ -d include_path=$INCLUDE_PATH\""
   },
   "author": "Joppe, Vincent, Mattias",
   "license": "ISC",
