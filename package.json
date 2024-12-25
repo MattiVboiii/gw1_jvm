@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "vite.config.js",
+  "type": "module",
   "scripts": {
     "start": "npm run dev",
     "dev": "vite --open frontend/ --host --config vite.config-with-php.js",
