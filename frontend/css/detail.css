@@ -27,6 +27,7 @@ body {
       background-color: red;
       display: flex;
       justify-content: center;
+      padding-top: 2rem;
       > :nth-child(1) {
         /*logo*/
         display: flex;
