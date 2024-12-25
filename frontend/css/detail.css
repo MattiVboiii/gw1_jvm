@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 body {
-  background-color: orange;
+  background-color: grey;
 }
 body * {
   line-height: calc(2px + 2ex + 2px);
@@ -39,13 +39,101 @@ body {
         background-color: teal;
         display: flex;
         flex-direction: column;
-        aspect-ratio: 4/1;
+        aspect-ratio: 16/8;
       }
     }
     > :nth-child(3) {
+      /*gegevens club*/
       background-color: yellow;
       display: flex;
       justify-content: center;
+      gap: 3rem;
+      padding-top: 2rem;
+      > :nth-child(1) {
+        /*gegevens club*/
+        background-color: green;
+        h2 {
+          font-size: 3rem;
+          font-style: oblique;
+        }
+        ul {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          li {
+            h3 {
+              font-weight: 600;
+            }
+          }
+        }
+      }
+      > :nth-child(2) {
+        /*het bestuur van de club*/
+        background-color: #b31e79;
+        width: 30rem;
+        h2 {
+          font-size: 3rem;
+          font-style: oblique;
+        }
+        ul {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+
+          li {
+            h3 {
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+    > :nth-child(4) {
+      background-color: rebeccapurple;
+      padding-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      > :nth-child(1) {
+        /*upcomming games*/
+        > h2 {
+          font-weight: 600;
+          font-style: oblique;
+        }
+        ul {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+      > :nth-child(2) {
+        /*upcomming games*/
+        > h2 {
+          font-weight: 600;
+          font-style: oblique;
+        }
+        ul {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    }
+    > :nth-child(5) {
+      padding-top: 2rem;
+      background-color: pink;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      justify-content: center;
+      > form {
+        label {
+          font-weight: 600;
+        }
+        input {
+          width: 30vw;
+        }
+      }
     }
   }
 }

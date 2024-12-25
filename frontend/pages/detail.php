@@ -22,11 +22,14 @@ require_once 'system/db.inc.php';
                 <img src="https://static.wbsc.org/upload/7784025f-15e3-9d72-ec0a-5cea1fb36fac.png" alt="foto van de club">
                 foto van club
             </div>
-            <div><img src="https://picsum.photos/id/237/200/300" alt="sfeerfoto">sfeerfoto</div>
+            <div>
+                <img src="https://picsum.photos/id/237/200/300" alt="sfeerfoto">
+                sfeerfoto
+            </div>
         </div>
         <div>
         <div>
-            <h2>gegvens van de club</h2><br>
+            <h2>gegevens van de club</h2><br>
             <ul>
                 <li>
                     <h3>Provincie</h3>
@@ -45,6 +48,7 @@ require_once 'system/db.inc.php';
 
         <div>
         <ul>
+            <h2>het bestuur</h2>
             <li>
                 <h3>Voorzitter</h3>
                 <p>Joppe for presiden</p>
@@ -72,32 +76,37 @@ require_once 'system/db.inc.php';
         </ul>
         </div>
         </div>
-<div>
-    <ul>
-        <li>eeste wedstrijd</li>
-        <li>tweede wedstrijd</li>
-        <li>derde wedstrijd</li>
-    </ul>
-</div>
-<div>
-    <ul>
-        <li>eerste evenement</li>
-        <li> tweede evenement</li>
-        <li>derde evenement</li>
-    </ul>
-</div>
-
+        <div>
+            <div>
+                <h2>we want you to support our teams!</h2>
+                <ul>
+                    <li>eerste wedstrijd</li>
+                    <li>tweede wedstrijd</li>
+                    <li>derde wedstrijd</li>
+                </ul>
+            </div>
+            <div>
+            <h2>we want you to have fun at our upcomming events</h2>
+                <ul>
+                    
+                    <li>eerste evenement</li>
+                    <li> tweede evenement</li>
+                    <li>derde evenement</li>
+                </ul>
+            </div>
+        </div>
+    <div>
 <form action="post">
     <label for="surname">Surname *</label><br>
     <input type="text" id="surname" name="surname" placeholder="please insert Surname"><br><br>
     <label for="firstname">Firstname*</label><br>
     <input type="text" id="firstname" name="firstname" placeholder="please insert firstname"><br><br>
-    <label for="email">email*</label><br>
+    <label for="email">Email*</label><br>
     <input type="text" id="email" name="email" placeholder="please insert your email adress"><br><br>
-    <label for="phone">telefoon</label><br>
+    <label for="phone">Telefoon</label><br>
     <input type="text" id="phone" name="phone" placeholder="please insert your phonenumber"><br><br>
 </form>
-    
+</div>
     </main>
 </body>
 
