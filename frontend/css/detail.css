@@ -13,5 +13,39 @@ body {
 }
 body * {
   line-height: calc(2px + 2ex + 2px);
-  font-size: 5rem;
+  font-size: 2rem;
+}
+body {
+  main {
+    h1 {
+      text-align: center;
+      font-size: 5rem;
+      font-weight: 600;
+    }
+    > :nth-child(2) {
+      /*div rond de 2 fotos*/
+      background-color: red;
+      display: flex;
+      justify-content: center;
+      > :nth-child(1) {
+        /*logo*/
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: 4/1;
+        background-color: blue;
+      }
+      > :nth-child(2) {
+        /*sfeerfoto naast logo*/
+        background-color: teal;
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: 4/1;
+      }
+    }
+    > :nth-child(3) {
+      background-color: yellow;
+      display: flex;
+      justify-content: center;
+    }
+  }
 }
