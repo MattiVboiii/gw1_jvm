@@ -5,13 +5,73 @@
   font-size: 62.5%;
   --soft-orange: hsl(35, 77%, 62%);
 }
+
 * {
   box-sizing: border-box;
 }
+
 body {
-  background-color: green;
+  font-family: "Inter", sans-serif;
 }
-body * {
-  line-height: calc(2px + 2ex + 2px);
-  font-size: 5rem;
+
+p {
+  line-height: normal;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2vw;
+  color: white;
+  background-color: purple;
+  ul {
+    display: flex;
+    gap: 20px;
+  }
+  img {
+    width: 50px;
+  }
+}
+
+header,
+footer {
+  background-color: yellow;
+  padding: 20px;
+  p {
+    text-align: center;
+  }
+}
+
+.club-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0 auto;
+  gap: 2rem;
+  justify-content: center;
+  align-content: center;
+  width: 50%;
+}
+
+section {
+  height: 25vh;
+  max-width: 25vw;
+  position: relative;
+  border: 3px solid black;
+  overflow: hidden;
+}
+
+section h2 {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  width: 100%;
+  position: absolute;
+  bottom: -100%;
+  transition: bottom 0.3s ease;
+}
+
+section:hover h2 {
+  bottom: 0;
 }
