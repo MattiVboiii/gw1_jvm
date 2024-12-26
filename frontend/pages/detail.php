@@ -1,5 +1,20 @@
 <?php
 require_once 'system/db.inc.php';
+$id = (int)@$_GET['id'];
+
+function getClubLogoById(int $id): array|bool
+{ 
+  
+    $sql = "SELECT logo_url FROM clubs
+    WHERE clubs.id = :id;";
+
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute([
+        ":id" => $id
+    ]);
+   
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
 ?>
 <!DOCTYPE html>
@@ -15,12 +30,15 @@ require_once 'system/db.inc.php';
 <body>
     <?php include('frontend/partials/header.inc.php') ?>
    
+
+   
     <main>
         <h1>club baseballos</h1>
         <div>
             <div>
                 <img src="https://static.wbsc.org/upload/7784025f-15e3-9d72-ec0a-5cea1fb36fac.png" alt="foto van de club">
                 foto van club
+                <img src="<?= getClubLogoById($id)['logo_url']?>">
             </div>
             <div>
                 <img src="https://picsum.photos/id/237/200/300" alt="sfeerfoto">
