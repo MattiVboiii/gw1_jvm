@@ -5,6 +5,9 @@ function getClubInfo(int $id): array|bool
 { 
   
     $sql = "SELECT * FROM clubs
+    -- left join external_references on clubs.id = external_references.club_id
+    -- left join reference_types on external_references.reference_type_id = reference_types.id 
+    -- bovenstaande 2 rgels werken niet, name wordt dan main url
     WHERE clubs.id = :id;";
 
     $stmt = connectToDatabase()->prepare($sql);
@@ -67,6 +70,27 @@ AND management_roles.role_name = 'penningmeester';";
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function getClubUrl(int $id): array|bool
+{ 
+  
+    $sql = "SELECT * FROM clubs
+    left join external_references on clubs.id = external_references.club_id
+    left join reference_types on external_references.reference_type_id = reference_types.id 
+    WHERE clubs.id = :id;";
+
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute([
+        ":id" => $id
+    ]);
+   
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+// print '<pre>';
+// print_r(getClubUrl($id));
+// print '</pre>';
+// exit;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,6 +133,10 @@ AND management_roles.role_name = 'penningmeester';";
                 <li>
                     <h3>Adres (Straat + Huisnummer)</h3>
                     <p><?= getClubInfo($id)['street']?> <?= getClubInfo($id)['address']?><?= getClubInfo($id)['bus']?></p>
+                </li>
+                <li>
+                    <h3>Clubwebsite</h3>
+                    <p><a href="<?= getClubUrl($id)['reference']?>">click me!</a></p>
                 </li>
             </ul>
         </div>
