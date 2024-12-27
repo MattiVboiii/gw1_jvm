@@ -1,17 +1,68 @@
 <?php
 require_once 'system/db.inc.php';
 $id = (int)@$_GET['id'];
-
-function getClubLogoById(int $id): array|bool
+function getClubInfo(int $id): array|bool
 { 
   
-    $sql = "SELECT logo_url FROM clubs
+    $sql = "SELECT * FROM clubs
     WHERE clubs.id = :id;";
 
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute([
         ":id" => $id
     ]);
+   
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function getClubVoorzitter(int $id): array|bool
+{ 
+  global $voorzitter;
+    $sql = "SELECT * FROM baseball.clubs
+left join management
+on clubs.id = management.club_id
+left join management_roles
+on management_role_id = management_roles.id
+where clubs.id = $id
+AND management_roles.role_name = 'secretaris Generaal';";
+
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute();
+   
+    return $voorzitter = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function getClubSecretarisGeneraal(int $id): array|bool
+{ 
+  
+    $sql = "SELECT * FROM baseball.clubs
+left join management
+on clubs.id = management.club_id
+left join management_roles
+on management_role_id = management_roles.id
+where clubs.id = $id
+AND management_roles.role_name = 'Voorzitter';";
+
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute();
+   
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+function getClubPenningMeester(int $id): array|bool
+{ 
+  
+    $sql = "SELECT * FROM baseball.clubs
+left join management
+on clubs.id = management.club_id
+left join management_roles
+on management_role_id = management_roles.id
+where clubs.id = $id
+AND management_roles.role_name = 'penningmeester';";
+
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute();
    
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
@@ -33,17 +84,15 @@ function getClubLogoById(int $id): array|bool
 
    
     <main>
-        <h1>club baseballos</h1>
+        <h1><?= getClubInfo($id)['name']?></h1>
         <div>
             <div>
-                <img src="https://static.wbsc.org/upload/7784025f-15e3-9d72-ec0a-5cea1fb36fac.png" alt="foto van de club">
-                foto van club
-                <img src="<?= getClubLogoById($id)['logo_url']?>">
+                <img src="<?= getClubInfo($id)['logo_url']?>">
             </div>
-            <div>
+            <!-- <div>
                 <img src="https://picsum.photos/id/237/200/300" alt="sfeerfoto">
                 sfeerfoto
-            </div>
+            </div> -->
         </div>
         <div>
         <div>
@@ -51,15 +100,15 @@ function getClubLogoById(int $id): array|bool
             <ul>
                 <li>
                     <h3>Provincie</h3>
-                    <p>De gegevens</p>
+                    <p><?= getClubInfo($id)['province']?></p>
                 </li>
                 <li>
-                    <h3>Postcode + Gemeente</h3>
-                    <p>De gegevens</p>
+                    <h3>Gemeente</h3>
+                    <p>postcode <br><?= getClubInfo($id)['zip']?> <?= getClubInfo($id)['city']?></p>
                 </li>
                 <li>
                     <h3>Adres (Straat + Huisnummer)</h3>
-                    <p>De gegevens</p>
+                    <p><?= getClubInfo($id)['street']?> <?= getClubInfo($id)['address']?><?= getClubInfo($id)['bus']?></p>
                 </li>
             </ul>
         </div>
@@ -69,15 +118,30 @@ function getClubLogoById(int $id): array|bool
             <h2>het bestuur</h2>
             <li>
                 <h3>Voorzitter</h3>
-                <p>Joppe for presiden</p>
+                <p><?= !isset(getClubVoorzitter($id)['firstname']) 
+                        ? "no info given" 
+                        : getClubVoorzitter($id)['firstname']; ?> <?= !isset(getClubVoorzitter($id)['lastname']) 
+                        ? "" 
+                        : getClubVoorzitter($id)['lastname']; ?></p></p>
             </li>
             <li>
                 <h3>Secretaris generaal</h3>
-                <p>Matti for General</p>
+                <p><?= !isset(getClubSecretarisGeneraal($id)['firstname']) 
+                        ? "no info given" 
+                        : getClubSecretarisGeneraal($id)['firstname']; ?> <?= !isset(getClubSecretarisGeneraal($id)['lastname']) 
+                        ? "" 
+                        : getClubSecretarisGeneraal($id)['lastname']; ?></p>
             </li>
             <li>
                 <h3>penningMeester</h3>
-                <p> Marcus Licinius Crassus</p>
+                <p> 
+                    <?= !isset(getClubPenningMeester($id)['firstname']) 
+                        ? "no info given" 
+                        : getClubPenningMeester($id)['firstname']; ?> 
+                        <?= !isset(getClubPenningMeester($id)['lastname']) 
+                        ? "" 
+                        : getClubPenningMeester($id)['lastname']; ?>
+                </p>
             </li>
             <li>
                 <h3>Hoofdcoach</h3>
