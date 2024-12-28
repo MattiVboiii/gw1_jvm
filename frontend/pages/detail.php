@@ -1,6 +1,7 @@
 <?php
 require_once 'system/db.inc.php';
 $id = (int)@$_GET['id'];
+$matches = getFutureMatches($id);
 function getClubInfo(int $id): array|bool
 { 
   
@@ -86,11 +87,29 @@ function getClubUrl(int $id): array|bool
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function getFutureMatches(int $id): array|bool
+{ 
+  
+    $sql = "SELECT clubs.id,clubs.name as clubname, team_1_id,team_2_name as opponent, date FROM baseball.matches
+left join teams on team_1_id = teams.id
+left join clubs on club_id
+where date > NOW()
+and team_1_id = $id
+and clubs.id = $id
+order by date asc
+limit 3";
 
-// print '<pre>';
-// print_r(getClubUrl($id));
-// print '</pre>';
-// exit;
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute();
+   
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+print '<pre>';
+print_r(getFutureMatches($id));
+print '</pre>';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -192,8 +211,26 @@ function getClubUrl(int $id): array|bool
                 <ul>
                     <li>eerste wedstrijd</li>
                     <li>tweede wedstrijd</li>
-                    <li>derde wedstrijd</li>
+                    <li>derde wedstrijd</li>                    
                 </ul>
+                <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Visitors</th>
+                                <th>Hometeam</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($matches as $match): ?>
+                        <tr>
+                            <td><?= $match['date']?></td>
+                            <td><?= $match['opponent']?></td>
+                            <td><?= getClubInfo($id)['name']?></td>
+                        </tr>
+                        <?php endforeach ?>
+                        </tbody>
+                    </table>
             </div>
             <div>
             <h2>we want you to have fun at our upcomming events</h2>
