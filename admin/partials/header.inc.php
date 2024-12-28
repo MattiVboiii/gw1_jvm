@@ -21,7 +21,7 @@ enum NAV
             NAV::HOME => 'fa-solid fa-house',
             NAV::CLUBS => 'fa-solid fa-baseball',
             NAV::TEAMS => 'fa-solid fa-people-group',
-            default => '#'
+            default => ''
         };
     }
 }
