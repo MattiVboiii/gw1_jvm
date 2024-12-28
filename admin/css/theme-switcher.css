@@ -1,0 +1,40 @@
+.theme-switcher {
+  --overlay-left: 50%;
+  position: relative;
+  background-color: white;
+  border-radius: 9000px; /* hack to make a pill shape, huge value = pill */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  overflow: hidden;
+  box-shadow: 0 0 0px 1px rgba(255, 255, 255, 0.5);
+  transition: all 3s;
+  button {
+    outline: none;
+    background: transparent;
+    border: none;
+    width: 33%;
+    text-align: center;
+    padding: 10px;
+    width: fit-content;
+    color: black;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--overlay-left);
+    translate: -50%;
+    width: 200%;
+    height: 100%;
+    backdrop-filter: invert(1);
+    mask: radial-gradient(circle at center, transparent 12%, black 13%);
+    transition: all 100ms;
+    pointer-events: none;
+  }
+  &.dark {
+    --overlay-left: 16%;
+  }
+  &.light {
+    --overlay-left: 83%;
+  }
+}
