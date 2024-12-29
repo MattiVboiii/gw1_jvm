@@ -19,10 +19,6 @@ include_once 'frontend/php_includes/func.inc.php';
 
 <body>
     <?php include('frontend/partials/header.inc.php') ?>
-    <!-- <?= "php works on front website" ?>
-    <p class="icon-pacman"></p>
-    <img src="/frontend/images/sample.jpg" alt="">
-    <h2>php_includes work if 2 + 2 equals: <?= sum(2, 2) ?></h2> -->
     <main>
         <nav>
             <img src="/frontend/images/sample.jpg" alt="">
@@ -39,28 +35,27 @@ include_once 'frontend/php_includes/func.inc.php';
         $sectionPerPage = 4;
         $page = (int) ($_GET['page'] ?? 1);
         $sections = getClubs();
+        $totalSections = count($sections);
         $sectionsToShow = array_slice($sections, ($page - 1) * $sectionPerPage, $sectionPerPage);
+        $totalPages = ceil($totalSections / $sectionPerPage);
         ?>
         <div class="club-container">
             <?php foreach ($sectionsToShow as $club) : ?>
-                <section style="background-image: url('<?= $club['logo_url'] ?>');">
-                    <h2><?= $club['name'] ?></h2>
-                </section>
+                <a href="/frontend/pages/detail.php?club_id=<?= (int) $club['id'] ?>">
+                    <section style="background-image: url('<?= htmlspecialchars($club['logo_url']) ?>');">
+                        <h2><?= htmlspecialchars($club['name']) ?></h2>
+                    </section>
+                </a>
             <?php endforeach; ?>
         </div>
         <div class="pagination">
-            <?php if ($page > 1) : ?>
-                <a href="?page=<?= $page - 1 ?>" class="prev">&lt;</a>
-            <?php else : ?>
-                <a class="prev" href="#" aria-disabled="true">&lt;</a>
-            <?php endif; ?>
-            <?php for ($i = 1; $i <= ceil(count($sections) / $sectionPerPage); $i++) : ?>
-                <a href="?page=<?= $i ?>" class="page-<?= $i ?> <?= $i == $page ? 'active' : '' ?>"><?= $i ?></a>
+            <a href="?page=<?= max(1, $page - 1) ?>" class="prev<?= $page <= 1 ? ' disabled' : '' ?>">&lt;</a>
+            <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                <a href="?page=<?= $i ?>" class="page-<?= $i ?><?= $i == $page ? ' active' : '' ?>"><?= $i ?></a>
             <?php endfor; ?>
-            <?php if ($page < ceil(count($sections) / $sectionPerPage)) : ?>
-                <a href="?page=<?= $page + 1 ?>" class="next">&gt;</a>
-            <?php else : ?>
-                <a class="next" href="#" aria-disabled="true">&gt;</a>
+            <a href="?page=<?= min($totalPages, $page + 1) ?>" class="next<?= $page >= $totalPages ? ' disabled' : '' ?>">&gt;</a>
+            <?php if ($totalSections > $sectionPerPage) : ?>
+                <p>Showing <?= ($page - 1) * $sectionPerPage + 1 ?> to <?= min($page * $sectionPerPage, $totalSections) ?> of <?= $totalSections ?> clubs.</p>
             <?php endif; ?>
         </div>
         <footer>
