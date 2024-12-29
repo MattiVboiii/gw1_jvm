@@ -16,7 +16,7 @@ a {
 body {
   background-color: var(--bs-body-bg);
 
-  font-family: "Roboto", serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
 
   margin-left: var(--nav-width);
