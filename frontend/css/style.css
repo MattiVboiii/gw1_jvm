@@ -25,12 +25,22 @@ nav {
   padding: 0 2vw;
   color: white;
   background-color: purple;
-  ul {
-    display: flex;
-    gap: 20px;
-  }
   img {
     width: 50px;
+  }
+  ul {
+    display: flex;
+    gap: 10px;
+    a {
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      &:hover {
+        background-color: yellow;
+        color: blue;
+        text-decoration: underline;
+      }
+    }
   }
 }
 
@@ -46,32 +56,37 @@ footer {
 .club-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin: 0 auto;
+  margin: 10px auto;
   gap: 2rem;
   justify-content: center;
   align-content: center;
   width: 50%;
+  section {
+    height: 30vh;
+    max-width: 25vw;
+    position: relative;
+    border: 3px solid black;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    h2 {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-weight: bold;
+      padding: 10px;
+      width: 100%;
+      position: absolute;
+      bottom: -100%;
+      transition: bottom 0.3s ease;
+    }
+    &:hover h2 {
+      bottom: 0;
+    }
+  }
 }
 
-section {
-  height: 25vh;
-  max-width: 25vw;
-  position: relative;
-  border: 3px solid black;
-  overflow: hidden;
-}
-
-section h2 {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  font-weight: bold;
-  padding: 10px;
-  width: 100%;
-  position: absolute;
-  bottom: -100%;
-  transition: bottom 0.3s ease;
-}
-
-section:hover h2 {
-  bottom: 0;
+.pagination {
+  display: flex;
+  justify-content: center;
 }
