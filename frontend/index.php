@@ -20,14 +20,6 @@ include_once 'frontend/php_includes/func.inc.php';
 <body>
     <?php include('frontend/partials/header.inc.php') ?>
     <main>
-        <nav>
-            <img src="/frontend/images/sample.jpg" alt="">
-            <ul>
-                <?php foreach (getClubs() as $club) : ?>
-                    <li><a href="#"><?= $club['name'] ?></a></li>
-                <?php endforeach; ?>
-            </ul>
-        </nav>
         <header>
             <p>BANNER - Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis harum quibusdam, accusantium magnam sapiente mollitia quae dicta, dolore consequuntur incidunt modi excepturi quod expedita saepe ipsa autem repellat suscipit nisi!</p>
         </header>
@@ -41,22 +33,22 @@ include_once 'frontend/php_includes/func.inc.php';
         ?>
         <div class="club-container">
             <?php foreach ($sectionsToShow as $club) : ?>
-                <a href="/frontend/pages/detail.php?club_id=<?= (int) $club['id'] ?>">
+                <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
                     <section style="background-image: url('<?= htmlspecialchars($club['logo_url']) ?>');">
                         <h2><?= htmlspecialchars($club['name']) ?></h2>
                     </section>
                 </a>
             <?php endforeach; ?>
-        </div>
-        <div class="pagination">
-            <a href="?page=<?= max(1, $page - 1) ?>" class="prev<?= $page <= 1 ? ' disabled' : '' ?>">&lt;</a>
-            <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                <a href="?page=<?= $i ?>" class="page-<?= $i ?><?= $i == $page ? ' active' : '' ?>"><?= $i ?></a>
-            <?php endfor; ?>
-            <a href="?page=<?= min($totalPages, $page + 1) ?>" class="next<?= $page >= $totalPages ? ' disabled' : '' ?>">&gt;</a>
-            <?php if ($totalSections > $sectionPerPage) : ?>
-                <p>Showing <?= ($page - 1) * $sectionPerPage + 1 ?> to <?= min($page * $sectionPerPage, $totalSections) ?> of <?= $totalSections ?> clubs.</p>
-            <?php endif; ?>
+            <div class="pagination">
+                <a href="?page=<?= max(1, $page - 1) ?>" class="prev<?= $page <= 1 ? ' disabled' : '' ?>">&lt;</a>
+                <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                    <a href="?page=<?= $i ?>" class="page-<?= $i ?><?= $i == $page ? ' active' : '' ?>"><?= $i ?></a>
+                <?php endfor; ?>
+                <a href="?page=<?= min($totalPages, $page + 1) ?>" class="next<?= $page >= $totalPages ? ' disabled' : '' ?>">&gt;</a>
+                <?php if ($totalSections > $sectionPerPage) : ?>
+                    <p>Showing <?= ($page - 1) * $sectionPerPage + 1 ?> to <?= min($page * $sectionPerPage, $totalSections) ?> of <?= $totalSections ?> clubs.</p>
+                <?php endif; ?>
+            </div>
         </div>
         <footer>
             <p>FOOTER - Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti voluptate, nulla repellat cupiditate molestias voluptas tenetur, vitae minima maxime delectus dolore. Excepturi voluptas maxime quam nesciunt sequi, dolore illo. Quam!</p>

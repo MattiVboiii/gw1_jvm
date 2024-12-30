@@ -35,3 +35,11 @@ function getClubs(): array
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getTeams(): array
+{
+    $sql = 'SELECT * FROM teams';
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}

@@ -46,32 +46,6 @@ p {
   line-height: normal;
 }
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 2vw;
-  color: white;
-  background-color: purple;
-  img {
-    width: 50px;
-  }
-  ul {
-    display: flex;
-    gap: 10px;
-    a {
-      color: white;
-      text-decoration: none;
-      padding: 10px;
-      &:hover {
-        background-color: yellow;
-        color: blue;
-        text-decoration: underline;
-      }
-    }
-  }
-}
-
 header,
 footer {
   background-color: yellow;
@@ -84,7 +58,7 @@ footer {
 .club-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin: 10px auto;
+  margin: 100px auto;
   gap: 2rem;
   justify-content: center;
   align-content: center;
@@ -115,6 +89,7 @@ footer {
 }
 
 .pagination {
+  grid-column: 1 / -1;
   display: flex;
   justify-content: center;
   margin: 2rem 0;
