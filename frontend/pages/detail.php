@@ -2,6 +2,8 @@
 require_once 'system/db.inc.php';
 $id = (int)@$_GET['id'];
 $matches = getFutureMatches($id);
+$bestuur= getManagement($id);
+$sfeerfoto=getSfeerFoto($id);
 function getClubInfo(int $id): array|bool
 { 
   
@@ -15,58 +17,6 @@ function getClubInfo(int $id): array|bool
     $stmt->execute([
         ":id" => $id
     ]);
-   
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-function getClubVoorzitter(int $id): array|bool
-{ 
-  global $voorzitter;
-    $sql = "SELECT * FROM baseball.clubs
-left join management
-on clubs.id = management.club_id
-left join management_roles
-on management_role_id = management_roles.id
-where clubs.id = $id
-AND management_roles.role_name = 'secretaris Generaal';";
-
-    $stmt = connectToDatabase()->prepare($sql);
-    $stmt->execute();
-   
-    return $voorzitter = $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-function getClubSecretarisGeneraal(int $id): array|bool
-{ 
-  
-    $sql = "SELECT * FROM baseball.clubs
-left join management
-on clubs.id = management.club_id
-left join management_roles
-on management_role_id = management_roles.id
-where clubs.id = $id
-AND management_roles.role_name = 'Voorzitter';";
-
-    $stmt = connectToDatabase()->prepare($sql);
-    $stmt->execute();
-   
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-
-function getClubPenningMeester(int $id): array|bool
-{ 
-  
-    $sql = "SELECT * FROM baseball.clubs
-left join management
-on clubs.id = management.club_id
-left join management_roles
-on management_role_id = management_roles.id
-where clubs.id = $id
-AND management_roles.role_name = 'penningmeester';";
-
-    $stmt = connectToDatabase()->prepare($sql);
-    $stmt->execute();
    
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
@@ -94,21 +44,55 @@ function getFutureMatches(int $id): array|bool
 left join teams on team_1_id = teams.id
 left join clubs on club_id
 where date > NOW()
-and team_1_id = $id
-and clubs.id = $id
+and team_1_id = :id
+and clubs.id = :idc
 order by date asc
 limit 3";
 
     $stmt = connectToDatabase()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([
+        ":id" => $id,
+        ":idc" => $id,
+    ]);
    
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getManagement($id){
+    $sql = "SELECT role_name as role, CONCAT(firstname, ' ', lastname) as fullname  FROM baseball.management 
+left join management_roles on management.management_role_id = management_roles.id
+where club_id = :id
+and  show_on_club = 1";
+    
+        $stmt = connectToDatabase()->prepare($sql);
+        $stmt->execute([
+            ":id" => $id,
+        ]);
+       
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getSfeerFoto($id){
+    $sql = "SELECT * FROM baseball.clubs
+left join media on clubs.id = media.club_id
+where show_on_club = 1
+and club_id = :id
+limit 1"; //weg te halen later
+        
+            $stmt = connectToDatabase()->prepare($sql);
+            $stmt->execute([
+                ":id" => $id,
+            ]);
+           
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
 
 print '<pre>';
-print_r(getFutureMatches($id));
+print_r(getSfeerFoto($id));
 print '</pre>';
+// exit;
 
 ?>
 <!DOCTYPE html>
@@ -132,10 +116,11 @@ print '</pre>';
             <div>
                 <img src="<?= getClubInfo($id)['logo_url']?>">
             </div>
-            <!-- <div>
-                <img src="https://picsum.photos/id/237/200/300" alt="sfeerfoto">
-                sfeerfoto
-            </div> -->
+            <div>
+                <?php foreach($sfeerfoto as $foto): ?>
+                    <img src="<?=$foto['media_url'] ?>" alt="sfeerfoto">
+                <?php endforeach ?>
+            </div>
         </div>
         <div>
         <div>
@@ -163,45 +148,15 @@ print '</pre>';
         <div>
         <ul>
             <h2>het bestuur</h2>
+            <?php foreach($bestuur as $lid): ?>
+
             <li>
-                <h3>Voorzitter</h3>
-                <p><?= !isset(getClubVoorzitter($id)['firstname']) 
-                        ? "no info given" 
-                        : getClubVoorzitter($id)['firstname']; ?> <?= !isset(getClubVoorzitter($id)['lastname']) 
-                        ? "" 
-                        : getClubVoorzitter($id)['lastname']; ?></p></p>
+                <h3><?=$lid['role']?></h3>
+                <p><?=$lid['fullname']?></p>
             </li>
-            <li>
-                <h3>Secretaris generaal</h3>
-                <p><?= !isset(getClubSecretarisGeneraal($id)['firstname']) 
-                        ? "no info given" 
-                        : getClubSecretarisGeneraal($id)['firstname']; ?> <?= !isset(getClubSecretarisGeneraal($id)['lastname']) 
-                        ? "" 
-                        : getClubSecretarisGeneraal($id)['lastname']; ?></p>
-            </li>
-            <li>
-                <h3>penningMeester</h3>
-                <p> 
-                    <?= !isset(getClubPenningMeester($id)['firstname']) 
-                        ? "no info given" 
-                        : getClubPenningMeester($id)['firstname']; ?> 
-                        <?= !isset(getClubPenningMeester($id)['lastname']) 
-                        ? "" 
-                        : getClubPenningMeester($id)['lastname']; ?>
-                </p>
-            </li>
-            <li>
-                <h3>Hoofdcoach</h3>
-                <p>ne coach</p>
-            </li>
-            <li>
-                <h3>Hulpcoach</h3>
-                <p>nog nen coach</p>
-            </li>
-            <li>
-                <h3>andere</h3>
-                <p>belangrijke persoon maar geen idee in welke functie</p>
-            </li>
+                
+            <?php endforeach ?>
+           
         </ul>
         </div>
         </div>
@@ -243,16 +198,6 @@ print '</pre>';
             </div>
         </div>
     <div>
-<form action="post">
-    <label for="surname">Surname *</label><br>
-    <input type="text" id="surname" name="surname" placeholder="please insert Surname"><br><br>
-    <label for="firstname">Firstname*</label><br>
-    <input type="text" id="firstname" name="firstname" placeholder="please insert firstname"><br><br>
-    <label for="email">Email*</label><br>
-    <input type="text" id="email" name="email" placeholder="please insert your email adress"><br><br>
-    <label for="phone">Telefoon</label><br>
-    <input type="text" id="phone" name="phone" placeholder="please insert your phonenumber"><br><br>
-</form>
 </div>
     </main>
 </body>
