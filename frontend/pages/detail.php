@@ -4,6 +4,9 @@ $id = (int)@$_GET['id'];
 $matches = getFutureMatches($id);
 $bestuur= getManagement($id);
 $sfeerfoto=getSfeerFoto($id);
+$locatie = getClubInfo($id);
+$latitude = getClubInfo($id)['latitude']; // deze in url zetten van google maps
+$longitude = getClubInfo($id)['longitude']; // deze in url zetten van google maps
 function getClubInfo(int $id): array|bool
 { 
   
@@ -90,9 +93,9 @@ limit 1"; //weg te halen later
 
 
 // print '<pre>';
-// print_r(getSfeerFoto($id));
+// print_r(getClubInfo($id));
 // print '</pre>';
-// exit;
+// // exit;
 
 ?>
 <!DOCTYPE html>
@@ -136,77 +139,73 @@ limit 1"; //weg te halen later
                 </div>
             </div>
         </div>
+        <div class="container">
         <div>
-        <div>
-            <h2>gegevens van de club</h2><br>
-            <ul>
-                <li>
-                    <h3>Provincie</h3>
-                    <p><?= getClubInfo($id)['province']?></p>
-                </li>
-                <li>
-                    <h3>Gemeente</h3>
-                    <p>postcode <br><?= getClubInfo($id)['zip']?> <?= getClubInfo($id)['city']?></p>
-                </li>
-                <li>
-                    <h3>Adres (Straat + Huisnummer)</h3>
-                    <p><?= getClubInfo($id)['street']?> <?= getClubInfo($id)['address']?><?= getClubInfo($id)['bus']?></p>
-                </li>
-                
-            </ul>
-        </div>
-
-        <div>
-        <ul>
-            <h2>het bestuur</h2>
-            <?php foreach($bestuur as $lid): ?>
-
-            <li>
-                <h3><?=$lid['role']?></h3>
-                <p><?=$lid['fullname']?></p>
-            </li>
-                
-            <?php endforeach ?>
-           
-        </ul>
+            <h2>Who we are!</h2>
+            <p><?= getClubInfo($id)['description'] ?></p>
         </div>
         </div>
-        <div>
+        <div class="container">
             <div>
-                <h2>we want you to support our teams!</h2>
-                <ul>
-                    <li>eerste wedstrijd</li>
-                    <li>tweede wedstrijd</li>
-                    <li>derde wedstrijd</li>                    
-                </ul>
-                <table>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Visitors</th>
-                                <th>Hometeam</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach($matches as $match): ?>
-                        <tr>
-                            <td><?= $match['date']?></td>
-                            <td><?= $match['opponent']?></td>
-                            <td><?= getClubInfo($id)['name']?></td>
-                        </tr>
-                        <?php endforeach ?>
-                        </tbody>
-                    </table>
-            </div>
-            <div>
-            <h2>we want you to have fun at our upcomming events</h2>
-                <ul>
+                <div class="bestuur">
+                    <h2>The pillars of our club</h2><br>
+                    <ul>
+
+                    <?php foreach($bestuur as $lid): ?>
+
+                        <li>
+                            <h3><?=$lid['role']?></h3>
+                            <p><?=$lid['fullname']?></p>
+                        </li>
+                            
+                    <?php endforeach ?>
                     
-                    <li>eerste evenement</li>
-                    <li> tweede evenement</li>
-                    <li>derde evenement</li>
+                    </ul>
+                </div>
+                        
+                <div class="adress">
+                <ul>
+                    <h2>The Best place to play ball!</h2>
+                    <li>
+                                <h3>Provincie</h3>
+                                <p><?= getClubInfo($id)['province']?></p>
+                            </li>
+                            <li>
+                                <h3>Gemeente</h3>
+                                <p>postcode <br><?= getClubInfo($id)['zip']?> <?= getClubInfo($id)['city']?></p>
+                            </li>
+                            <li>
+                                <h3>Adres </h3>
+                                <p><?= getClubInfo($id)['street']?> <?= getClubInfo($id)['address']?><?= getClubInfo($id)['bus']?></p>
+                            </li>
                 </ul>
+                </div>
+                <div class="games">
+                    <h2>we want you to support our teams!</h2>
+                    <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Visitors</th>
+                                    <th>Hometeam</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach($matches as $match): ?>
+                            <tr>
+                                <td><?= $match['date']?></td>
+                                <td><?= $match['opponent']?></td>
+                                <td><?= getClubInfo($id)['name']?></td>
+                            </tr>
+                            <?php endforeach ?>
+                            </tbody>
+                        </table>
+                </div>
             </div>
+            <div class="gmap">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2500.9260097618044!2d<?=$longitude ?>!3d<?= $latitude?>!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNTHCsDExJzAwLjkiTiA0wrAyMyc0Ny41IkU!5e0!3m2!1snl!2sbe!4v1735571631468!5m2!1snl!2sbe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
         </div>
     <div>
 </div>
