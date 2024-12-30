@@ -89,9 +89,9 @@ limit 1"; //weg te halen later
 }
 
 
-print '<pre>';
-print_r(getSfeerFoto($id));
-print '</pre>';
+// print '<pre>';
+// print_r(getSfeerFoto($id));
+// print '</pre>';
 // exit;
 
 ?>
@@ -111,15 +111,29 @@ print '</pre>';
 
    
     <main>
-        <h1><?= getClubInfo($id)['name']?></h1>
-        <div>
+        <div class="container">
             <div>
-                <img src="<?= getClubInfo($id)['logo_url']?>">
-            </div>
-            <div>
-                <?php foreach($sfeerfoto as $foto): ?>
-                    <img src="<?=$foto['media_url'] ?>" alt="sfeerfoto">
-                <?php endforeach ?>
+                <div>
+                    <img src="<?= getClubInfo($id)['logo_url']?>">
+                    <h1><?= getClubInfo($id)['name']?></h1>
+                </div>
+                <div>
+                    <?php foreach($sfeerfoto as $foto): ?>
+                        <img src="<?=$foto['media_url'] ?>" alt="sfeerfoto">
+                    <?php endforeach ?>
+                </div>
+                <div>
+                    <h3>check out our socials</h3>
+                    <div>
+                <i class="fa-sharp fa-solid fa-envelope"></i>
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <div>
+                    <h3>Clubwebsite</h3>
+                    <p><a href="<?= getClubUrl($id)['reference']?>">click me!</a></p>
+                    </div>
+                </div>
             </div>
         </div>
         <div>
@@ -138,10 +152,7 @@ print '</pre>';
                     <h3>Adres (Straat + Huisnummer)</h3>
                     <p><?= getClubInfo($id)['street']?> <?= getClubInfo($id)['address']?><?= getClubInfo($id)['bus']?></p>
                 </li>
-                <li>
-                    <h3>Clubwebsite</h3>
-                    <p><a href="<?= getClubUrl($id)['reference']?>">click me!</a></p>
-                </li>
+                
             </ul>
         </div>
 

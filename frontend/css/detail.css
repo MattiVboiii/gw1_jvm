@@ -1,6 +1,7 @@
 @import url("./reset.css");
 @import url("./icons.css");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");
 :root {
   font-size: 62.5%;
   --soft-orange: hsl(35, 77%, 62%);
@@ -45,5 +46,71 @@ body * {
 }
 body {
   main {
+    > :nth-child(1) {
+      /*container*/
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      > :nth-child(1) {
+        /*div containing pictures*/
+        background-color: red;
+        display: grid;
+        grid-template-columns: minmax(250px, 1fr) 1fr;
+        grid-template-rows: minmax(1fr, 150px) 1fr;
+        > :nth-child(1) {
+          /* div logo*/
+          object-fit: contain;
+          grid-column: 1/2;
+          grid-row: 1/2;
+          align-self: center;
+          img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+          > h1 {
+            /*clubnaam*/
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 800;
+            grid-column: 1/2;
+          }
+        }
+        > :nth-child(2) {
+          /* div foto*/
+          grid-column: 2/-1;
+          grid-row: 1/3;
+          aspect-ratio: 4/3;
+          overflow: initial;
+
+          img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+          }
+        }
+        > :nth-child(3) {
+          display: flex;
+          flex-direction: column;
+          /*socials*/
+          > h3 {
+            font-size: 2rem;
+            text-align: center;
+          }
+          > :nth-child(2) {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+          }
+          > :nth-child(3) {
+            text-align: center;
+          }
+        }
+      }
+    }
   }
 }
