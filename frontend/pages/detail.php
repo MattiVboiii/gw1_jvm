@@ -93,7 +93,7 @@ limit 1"; //weg te halen later
 
 
 // print '<pre>';
-// print_r(getClubInfo($id));
+// print_r(getFutureMatches($id));
 // print '</pre>';
 // // exit;
 
