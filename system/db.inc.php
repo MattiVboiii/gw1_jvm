@@ -35,3 +35,11 @@ function getClubs(): array
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getClub(int $id): array|false
+{
+    $sql = 'SELECT * FROM clubs WHERE id = :id';
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
