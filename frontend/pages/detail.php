@@ -1,6 +1,7 @@
 <?php
 require_once 'system/db.inc.php';
 $id = (int)@$_GET['id'];
+$clubinfo = getClubInfo($id);
 $matches = getFutureMatches($id);
 $bestuur= getManagement($id);
 $sfeerfoto=getSfeerFoto($id);
@@ -134,16 +135,21 @@ limit 1"; //weg te halen later
                     </div>
                     <div>
                     <h3>Clubwebsite</h3>
-                    <p><a href="<?= getClubUrl($id)['reference']?>">click me!</a></p>
+                        <p><a href="<?= getClubUrl($id)['reference']?>"><?= explode("www.",getClubUrl($id)['reference'])[1] ?></a></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="container">
-        <div>
+
+        <?php if(!empty(getClubInfo($id)['description'])): ?>
+            <div>
             <h2>Who we are!</h2>
+            
             <p><?= getClubInfo($id)['description'] ?></p>
         </div>
+        <?php endif ?>
+       
         </div>
         <div class="container">
             <div>
