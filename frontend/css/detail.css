@@ -1,17 +1,219 @@
 @import url("./reset.css");
 @import url("./icons.css");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");
 :root {
   font-size: 62.5%;
   --soft-orange: hsl(35, 77%, 62%);
+  --color-bg-body: #f4f5f6;
+  --color-text-body: #070a0d;
+  --color-bg-primary: #041e42;
+  --color-text-primary: #cdd2d9;
+  --color-emphasis-primary: #ffffff;
+  --color-bg-footer: #333333;
+  --color-text-footer: #ffffff;
+  --color-bg-secondary: #ffffff;
+  --color-emphasis-secondary: #070a0d;
+  --color-text-secondary: #474c4c;
+  --color-accent: #057aff;
+
+  --success: #198754;
+  --success-bg-subtle: #d1e7dd;
+  --success-border-subtle: #a3cfbb;
+  --success-text-emphasis: #0a3622;
+  --danger: #dc3545;
+  --danger-bg-subtle: #f8d7da;
+  --danger-border-subtle: #f8d7da;
+  --danger-text-emphasis: #58151c;
+  --warning: #ffc107;
+  --warning-bg-subtle: #fff3cd;
+  --warning-border-subtle: #ffe69c;
+  --warning-text-emphasis: #664d03;
+  --info: #0dcaf0;
+  --info-bg-subtle: #cff4fc;
+  --info-border-subtle: #9eeaf9;
+  --info-text-emphasis: #055160;
 }
 * {
   box-sizing: border-box;
 }
 body {
-  background-color: orange;
+  background-color: var(--color-bg-body);
 }
 body * {
   line-height: calc(2px + 2ex + 2px);
-  font-size: 5rem;
+  font-size: 2rem;
+}
+body {
+  .container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--color-bg-secondary);
+    max-width: 1440px;
+  }
+}
+body {
+  main {
+    > :nth-child(1) {
+      /*container*/
+      > :nth-child(1) {
+        /*div containing pictures*/
+        display: grid;
+        grid-template-columns: minmax(250px, 1fr) 1fr;
+        grid-template-rows: minmax(1fr, 150px) 1fr;
+        > :nth-child(1) {
+          /* div logo*/
+          object-fit: contain;
+          grid-column: 1/2;
+          grid-row: 1/2;
+          align-self: center;
+          img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+          > h1 {
+            /*clubnaam*/
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 800;
+            grid-column: 1/2;
+          }
+        }
+        > :nth-child(2) {
+          /* div foto*/
+          grid-column: 2/-1;
+          grid-row: 1/3;
+          aspect-ratio: 10/8;
+          overflow: initial;
+          padding-right: 1rem;
+
+          img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        > :nth-child(3) {
+          display: flex;
+          flex-direction: column;
+          /*socials*/
+          > h3 {
+            font-size: 2rem;
+            text-align: center;
+            color: var(--color-text-secondary);
+          }
+          > :nth-child(2) {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+          }
+          > :nth-child(3) {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            text-align: center;
+            a {
+              color: var(--color-bg-primary);
+            }
+          }
+        }
+      }
+    }
+    > :nth-child(2) {
+      > div {
+        > h2 {
+          font-size: 3rem;
+          text-align: center;
+        }
+        > p {
+          background-color: var(--color-bg-body);
+          max-height: 300px;
+          max-width: 70%;
+          overflow: scroll;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+    > :nth-child(3) {
+      /*container gegevens club + adress + games + kaart*/
+      display: flex;
+      justify-content: space-around;
+      gap: 2rem;
+      margin-top: 2rem;
+      padding-bottom: 2rem;
+      padding-top: 2rem;
+      > :nth-child(1) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 1rem;
+        .bestuur {
+          padding-left: 1rem;
+          grid-column: 1/2;
+          grid-row: 1/2;
+          h2 {
+            font-style: oblique;
+            font-size: 2.2rem;
+          }
+          h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+          }
+        }
+        .adress {
+          grid-column: 2/3;
+          grid-row: 1/2;
+          h2 {
+            font-style: oblique;
+            font-size: 2.2rem;
+          }
+          h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+          }
+        }
+        .games {
+          grid-column: 1/3;
+          grid-row: 2/3;
+          > h2 {
+            font-style: oblique;
+            font-size: 2.5rem;
+            text-align: center;
+            padding-bottom: 1rem;
+          }
+          > table {
+            margin-left: auto;
+            margin-right: auto;
+            border: solid 2px black;
+            thead {
+              border: solid 1px black;
+              tr {
+                th {
+                  border: solid 1px black;
+                }
+              }
+            }
+            tbody {
+              tr {
+                td {
+                  border: solid 1px black;
+                  padding: 1rem;
+                  color: var(--color-text-body);
+                }
+              }
+            }
+          }
+        }
+      }
+      > .gmap {
+        padding-right: 1rem;
+      }
+    }
+  }
 }
