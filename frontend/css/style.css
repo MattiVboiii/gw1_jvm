@@ -41,6 +41,8 @@
 
 body {
   font-family: "Inter", sans-serif;
+  background-color: var(--color-bg-body);
+  color: var(--color-text-body);
 }
 
 p {
@@ -49,11 +51,12 @@ p {
 
 header,
 footer {
-  background-color: yellow;
   padding: 20px;
-  p {
-    text-align: center;
-  }
+}
+
+header {
+  background-color: var(--info);
+  text-align: center;
 }
 
 .club-container {
@@ -73,18 +76,40 @@ footer {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    h2 {
+    transition: 0.3s linear;
+    .content {
       background-color: rgba(0, 0, 0, 0.5);
       color: white;
-      font-weight: bold;
       padding: 10px;
       width: 100%;
+      max-height: 29.5vh;
       position: absolute;
-      bottom: -100%;
-      transition: bottom 0.3s ease;
-    }
-    &:hover h2 {
       bottom: 0;
+      transition: 0.3s ease;
+      transform: translateY(100%);
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 5px;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
+
+      h2 {
+        font-weight: bold;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+    }
+    &:hover {
+      background-size: 50%;
+      .content {
+        transform: translateY(0);
+      }
     }
   }
 }
@@ -96,6 +121,7 @@ footer {
   margin: 2rem 0;
   gap: 1rem;
   a {
+    text-align: center;
     padding: 0.5rem 1rem;
     border: 1px solid black;
     border-radius: 0.25rem;
@@ -107,5 +133,10 @@ footer {
     &.active {
       background-color: rgba(0, 0, 0, 0.3);
     }
+  }
+  p {
+    padding: 0.5rem 1rem;
+    border: 1px solid black;
+    border-radius: 0.25rem;
   }
 }
