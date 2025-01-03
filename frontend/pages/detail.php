@@ -8,6 +8,7 @@ $sfeerfoto=getSfeerFoto($id);
 $locatie = getClubInfo($id);
 $latitude = getClubInfo($id)['latitude']; // deze in url zetten van google maps
 $longitude = getClubInfo($id)['longitude']; // deze in url zetten van google maps
+$socials = getSocials($id);
 function getClubInfo(int $id): array|bool
 { 
   
@@ -92,9 +93,27 @@ limit 1"; //weg te halen later
 
 }
 
+function getSocials($id){
+    $sql = "select clubs.id,clubs.name as clubname ,reference as sociallink,reference_types.name as linkname,is_social   FROM clubs
+left join external_references on clubs.id = external_references.club_id
+left join reference_types on external_references.reference_type_id = reference_types.id
+where clubs.id = :id
+and is_social = 1;";
+
+$stmt = connectToDatabase()->prepare($sql);
+            $stmt->execute([
+                ":id" => $id,
+            ]);
+           
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+     
+}
+
+
+
 
 // print '<pre>';
-// print_r(getFutureMatches($id));
+// print_r($socials);
 // print '</pre>';
 // // exit;
 
@@ -118,7 +137,9 @@ limit 1"; //weg te halen later
         <div class="container">
             <div>
                 <div>
+                    <div>
                     <img src="<?= getClubInfo($id)['logo_url']?>">
+                    </div>
                     <h1><?= getClubInfo($id)['name']?></h1>
                 </div>
                 <div>
@@ -129,9 +150,39 @@ limit 1"; //weg te halen later
                 <div>
                     <h3>check out our socials</h3>
                     <div>
-                <i class="fa-sharp fa-solid fa-envelope"></i>
-                <i class="fa-brands fa-facebook"></i>
-                <i class="fa-brands fa-instagram"></i>
+                    <?php
+
+if (!empty($socials)) {
+    echo '<ul>';
+    foreach ($socials as $social) {
+        
+        $socialLink = $social['sociallink']; // Escape special characters for security
+        $linkName = strtolower($social['linkname']); // Convert link name to lowercase
+
+        
+        $iconClass = '';
+        switch ($linkName) {
+            case 'instagram':
+                $iconClass = 'fa-brands fa-instagram';
+                break;
+            case 'facebook':
+                $iconClass = 'fa-brands fa-facebook';
+                break;
+            case 'youtube':
+                $iconClass = 'fa-brands fa-youtube';
+                break;
+        }
+        echo '<li>';
+        echo '<a href="' . $socialLink . '" target="_blank">';
+        echo '<i class="' . $iconClass . '"></i>';
+        echo '</a>';
+        echo '</li>';
+    }
+    echo '</ul>';
+} else {
+    echo '<p>No social media links available for this club.</p>';
+}
+?>
                     </div>
                     <div>
                     <h3>Clubwebsite</h3>
@@ -154,7 +205,7 @@ limit 1"; //weg te halen later
         <div class="container">
             <div>
                 <div class="bestuur">
-                    <h2>The pillars of our club</h2><br>
+                    <h2>The pillars of our club</h2>
                     <ul>
 
                     <?php foreach($bestuur as $lid): ?>
@@ -178,7 +229,7 @@ limit 1"; //weg te halen later
                             </li>
                             <li>
                                 <h3>Gemeente</h3>
-                                <p>postcode <br><?= getClubInfo($id)['zip']?> <?= getClubInfo($id)['city']?></p>
+                                <p> <br><?= getClubInfo($id)['zip']?> <?= getClubInfo($id)['city']?></p>
                             </li>
                             <li>
                                 <h3>Adres </h3>
@@ -209,13 +260,20 @@ limit 1"; //weg te halen later
                 </div>
             </div>
             <div class="gmap">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2500.9260097618044!2d<?=$longitude ?>!3d<?= $latitude?>!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNTHCsDExJzAwLjkiTiA0wrAyMyc0Ny41IkU!5e0!3m2!1snl!2sbe!4v1735571631468!5m2!1snl!2sbe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2500.9260097618044!2d<?=$longitude ?>!3d<?= $latitude?>!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNTHCsDExJzAwLjkiTiA0wrAyMyc0Ny41IkU!5e0!3m2!1snl!2sbe!4v1735571631468!5m2!1snl!2sbe"  style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
         </div>
     <div>
 </div>
     </main>
+    <div>
+    <ul>
+    
+</ul>
+    </div>
+    <footer>
+        <div></div>
+    </footer>
 </body>
-
 </html>

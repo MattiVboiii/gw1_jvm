@@ -2,6 +2,7 @@
 @import url("./icons.css");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 :root {
   font-size: 62.5%;
   --soft-orange: hsl(35, 77%, 62%);
@@ -35,6 +36,7 @@
   --info-text-emphasis: #055160;
 }
 * {
+  font-family: Roboto, sans-serif;
   box-sizing: border-box;
 }
 body {
@@ -54,28 +56,46 @@ body {
   }
 }
 body {
+  display: grid;
+  grid-template-columns: auto;
+  header {
+    nav {
+      height: 150px;
+    }
+  }
   main {
+    padding-top: 1rem;
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 2rem;
     > :nth-child(1) {
       /*container*/
+      border-radius: 2rem;
       > :nth-child(1) {
         /*div containing pictures*/
         display: grid;
-        grid-template-columns: minmax(250px, 1fr) 1fr;
-        grid-template-rows: minmax(1fr, 150px) 1fr;
+        grid-template-columns: minmax(auto, 200px) auto;
+        grid-template-rows: auto auto;
+        /* gap: 1rem; */
         > :nth-child(1) {
-          /* div logo*/
-          object-fit: contain;
-          grid-column: 1/2;
-          grid-row: 1/2;
-          align-self: center;
-          img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+          /*div rond foto en clubnaam*/
+          /* background-color: green; */
+          place-self: center;
+          > :nth-child(1) {
+            /* div logo*/
+            height: 20%;
+
+            img {
+              display: block;
+              width: 100%;
+              object-fit: cover;
+              background-color: transparent;
+            }
           }
+
           > h1 {
             /*clubnaam*/
+            padding-top: 3rem;
             text-align: center;
             font-size: 3rem;
             font-weight: 800;
@@ -84,17 +104,18 @@ body {
         }
         > :nth-child(2) {
           /* div foto*/
+          /* background-color: yellow; */
           grid-column: 2/-1;
           grid-row: 1/3;
           aspect-ratio: 10/8;
-          overflow: initial;
+          overflow: hidden;
           padding-right: 1rem;
 
           img {
             display: block;
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
           }
         }
         > :nth-child(3) {
@@ -110,23 +131,31 @@ body {
             margin-left: auto;
             margin-right: auto;
             margin-top: 1rem;
-            display: flex;
-            gap: 1rem;
+            > :nth-child(1) {
+              display: flex;
+              gap: 2rem;
+            }
           }
           > :nth-child(3) {
             padding-top: 1rem;
             padding-bottom: 1rem;
             text-align: center;
             a {
+              padding-top: 0.5rem;
               color: var(--color-bg-primary);
+              text-decoration: none;
             }
           }
         }
       }
     }
     > :nth-child(2) {
+      margin-top: 1rem;
+      border-radius: 2rem;
       > div {
+        padding-bottom: 2rem;
         > h2 {
+          padding: 1rem 0;
           font-size: 3rem;
           text-align: center;
         }
@@ -138,10 +167,20 @@ body {
           margin-left: auto;
           margin-right: auto;
         }
+        > p::-webkit-scrollbar {
+          /*voor chrome safari en opera*/
+          display: none;
+        }
+        > p {
+          /* internetexplorer bleik! Edge bleik! en Firefox*/
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
       }
     }
     > :nth-child(3) {
       /*container gegevens club + adress + games + kaart*/
+      border-radius: 2rem;
       display: flex;
       justify-content: space-around;
       gap: 2rem;
@@ -149,6 +188,7 @@ body {
       padding-bottom: 2rem;
       padding-top: 2rem;
       > :nth-child(1) {
+        flex-shrink: 10;
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto;
@@ -160,10 +200,15 @@ body {
           h2 {
             font-style: oblique;
             font-size: 2.2rem;
+            padding-bottom: 1rem;
           }
           h3 {
             font-size: 2.2rem;
             font-weight: 600;
+          }
+          p {
+            padding-bottom: 1rem;
+            font-size: 2rem;
           }
         }
         .adress {
@@ -172,10 +217,14 @@ body {
           h2 {
             font-style: oblique;
             font-size: 2.2rem;
+            padding-bottom: 1rem;
           }
           h3 {
             font-size: 2.2rem;
             font-weight: 600;
+          }
+          p {
+            padding-bottom: 1rem;
           }
         }
         .games {
@@ -205,6 +254,7 @@ body {
                   border: solid 1px black;
                   padding: 1rem;
                   color: var(--color-text-body);
+                  font-style: 2rem;
                 }
               }
             }
@@ -213,6 +263,53 @@ body {
       }
       > .gmap {
         padding-right: 1rem;
+        flex-grow: 3;
+        min-width: 250px;
+        min-height: 250px;
+        > iframe {
+          min-width: 150px;
+          min-height: 150px;
+          width: 100%;
+          height: 100%;
+          border: none;
+        }
+      }
+    }
+  }
+  footer {
+    div {
+      height: 150px;
+      background-color: var(--color-bg-footer);
+    }
+  }
+}
+@media (max-width: 946px) {
+  body {
+    main {
+      > :nth-child(3) {
+        > :nth-child(1) {
+          .bestuur {
+            h2 {
+              padding-bottom: 3.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 856px) {
+  body {
+    main {
+      > :nth-child(3) {
+        > :nth-child(1) {
+          .bestuur {
+            h2 {
+              padding-bottom: 1rem;
+            }
+          }
+        }
       }
     }
   }
