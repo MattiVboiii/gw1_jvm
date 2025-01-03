@@ -9,6 +9,7 @@ $locatie = getClubInfo($id);
 $latitude = getClubInfo($id)['latitude']; // deze in url zetten van google maps
 $longitude = getClubInfo($id)['longitude']; // deze in url zetten van google maps
 $socials = getSocials($id);
+$maxID = maxID();
 function getClubInfo(int $id): array|bool
 { 
   
@@ -109,13 +110,32 @@ $stmt = connectToDatabase()->prepare($sql);
      
 }
 
+function maxID(){
+    $sql = "SELECT max(id) as max_id FROM baseball.clubs";
+    $stmt = connectToDatabase()->prepare($sql);
+    
+    // Execute the query
+    $stmt->execute();
+
+    // Fetch the result
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Check if 'max_id' is set in the result
+    if (isset($result['max_id']) && $result['max_id'] !== null) {
+        return (int) $result['max_id'];
+    } 
+    }
 
 
+
+if($id > $maxID) {
+    header("Location:/frontend/pages/404.php");
+}
 
 // print '<pre>';
-// print_r($socials);
+// print_r(maxID());
+// var_dump(maxID());
 // print '</pre>';
-// // exit;
+// exit;
 
 ?>
 <!DOCTYPE html>
@@ -191,9 +211,10 @@ if (!empty($socials)) {
                 </div>
             </div>
         </div>
+        <?php if(!empty(getClubInfo($id)['description'])): ?>
         <div class="container">
 
-        <?php if(!empty(getClubInfo($id)['description'])): ?>
+        
             <div>
             <h2>Who we are!</h2>
             
@@ -229,7 +250,7 @@ if (!empty($socials)) {
                             </li>
                             <li>
                                 <h3>Gemeente</h3>
-                                <p> <br><?= getClubInfo($id)['zip']?> <?= getClubInfo($id)['city']?></p>
+                                <p><?= getClubInfo($id)['zip']?> <?= getClubInfo($id)['city']?></p>
                             </li>
                             <li>
                                 <h3>Adres </h3>
