@@ -37,24 +37,26 @@
   setTheme(getPreferredTheme());
 
   const showActiveTheme = (theme) => {
-    const themeSwitcher = document.querySelector(".theme-switcher");
+    const themeSwitchers = document.querySelectorAll(".theme-switcher");
 
-    if (!themeSwitcher) {
+    if (!themeSwitchers.length) {
       return;
     }
 
-    switch (theme) {
-      case "dark":
-        themeSwitcher.classList.add("dark");
-        themeSwitcher.classList.remove("light");
-        break;
-      case "light":
-        themeSwitcher.classList.add("light");
-        themeSwitcher.classList.remove("dark");
-        break;
-      default:
-        themeSwitcher.classList.remove("dark");
-        themeSwitcher.classList.remove("light");
+    for (const themeSwitcher of themeSwitchers) {
+      switch (theme) {
+        case "dark":
+          themeSwitcher.classList.add("dark");
+          themeSwitcher.classList.remove("light");
+          break;
+        case "light":
+          themeSwitcher.classList.add("light");
+          themeSwitcher.classList.remove("dark");
+          break;
+        default:
+          themeSwitcher.classList.remove("dark");
+          themeSwitcher.classList.remove("light");
+      }
     }
   };
 
