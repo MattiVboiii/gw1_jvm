@@ -154,7 +154,7 @@ if($id > $maxID) {
 
    
     <main>
-        <div class="container">
+        <div class="container basic">
             <div>
                 <div>
                     <div>
@@ -200,7 +200,7 @@ if (!empty($socials)) {
     }
     echo '</ul>';
 } else {
-    echo '<p>No social media links available for this club.</p>';
+    echo "<p>The club-owner didn't share any socials.</p>";
 }
 ?>
                     </div>
@@ -212,7 +212,7 @@ if (!empty($socials)) {
             </div>
         </div>
         <?php if(!empty(getClubInfo($id)['description'])): ?>
-        <div class="container">
+        <div class="container description">
 
         
             <div>
@@ -223,7 +223,7 @@ if (!empty($socials)) {
         <?php endif ?>
        
         </div>
-        <div class="container">
+        <div class="container extrainfo">
             <div>
                 <div class="bestuur">
                     <h2>The pillars of our club</h2>
