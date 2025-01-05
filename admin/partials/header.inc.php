@@ -1,4 +1,5 @@
 <?php
+include 'admin/php_includes/alerts.inc.php';
 
 enum NAV
 {
@@ -50,6 +51,9 @@ function renderHeader(NAV $activePage)
                 </div>
             </div>
         </nav>
+        <div class="container">
+            <?php renderAlerts() ?>
+        </div>
     </header>
 <?php
 }

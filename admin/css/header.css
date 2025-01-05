@@ -23,6 +23,9 @@ body {
       background-color: inherit;
     }
   }
+  .alert {
+    min-height: 58px;
+  }
 }
 
 @media (max-width: 992px) and (min-width: 577px) {
