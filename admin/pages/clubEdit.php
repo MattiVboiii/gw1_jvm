@@ -2,18 +2,15 @@
 include 'admin/partials/header.inc.php';
 require_once 'system/db.inc.php';
 
-$id = (int)($_POST['id'] ?? 0);
-$id = 1;
+$id = (int)($_GET['id'] ?? 0);
 $club = getClub($id);
 
 if (!$club) {
-    // redirect with error notice
-    print "could not find club with id: $id";
-    exit;
+    redirectWithDangerAlert('/admin/pages/clubs.php', "could not find club with id: $id");
 }
 
-$logoURL = $_POST['inputLogoUrl'] /*?? $club['logo_url']*/;
-$name = $_POST['inputName'] /*?? $club['name']*/;
+$logoURL = $_POST['inputLogoUrl'] ?? $club['logo_url'];
+$name = $_POST['inputName'] ?? $club['name'];
 $description = $_POST['inputDescription'] ?? $club['description'];
 $province = $_POST['inputProvince'] ?? $club['province'];
 $city = $_POST['inputCity'] ?? $club['city'];
@@ -21,56 +18,250 @@ $zip = $_POST['inputZip'] ?? $club['zip'];
 $street = $_POST['inputStreet'] ?? $club['street'];
 $address = $_POST['inputAddress'] ?? $club['address'];
 $bus = $_POST['inputBus'] ?? $club['bus'];
-$longitude = toFloat($_POST['inputLongitude'] ?? $club['longitude']);
-$latitude = toFloat($_POST['inputLatitude'] ?? $club['latitude']);
+$longitude = new TryToFloat($_POST['inputLongitude'] ?? $club['longitude']);
+$latitude = new TryToFloat($_POST['inputLatitude'] ?? $club['latitude']);
 $errors = [];
 
+$isAlphaNumeric = fn($input) => preg_match('/^[A-Z0-9 ]+$/i', $input);
+$isAlpha = fn($input) => preg_match('/^[A-Z \-]+$/i', $input);
+$isTel = fn($input) => preg_match('/^[0-9\+]+$/i', $input);
+
 if (isset($_POST['submit'])) {
-    $isAlphaNumeric = fn($input) => preg_match('/[A-Z0-9 ]/i', $input);
-    $isAlpha = fn($input) => preg_match('/[A-Z \-]/i', $input);
+    if (!$logoURL) $errors['logoURL'] = 'Logo URL is required';
+    elseif (strlen($logoURL) > 255) $errors['logoURL'] = 'Logo URL has a maximum length of 255 characters';
 
-    if (!$logoURL) $errors[] = 'Logo URL is required';
-    elseif (strlen($logoURL) > 255) $errors[] = 'Logo URL has a maximum length of 255 characters';
+    if (!$name) $errors['name'] = 'Name is required';
+    elseif (strlen($name) > 255) $errors['name'] = 'Name has a maximum length of 255 characters';
+    elseif (!$isAlpha($name)) $errors['name'] = 'Name can not contain numbers or special characters (except -)';
 
-    if (!$name) $errors[] = 'Name is required';
-    elseif (strlen($name) > 255) $errors[] = 'Name has a maximum length of 255 characters';
-    elseif (!$isAlpha($name)) $errors[] = 'Name can not contain numbers or special characters (except -)';
+    if (!$province) $errors['province'] = 'Province is required';
+    elseif (strlen($province) > 45) $errors['province'] = 'Province has a maximum length of 45 characters';
+    elseif (!$isAlpha($province)) $errors['province'] = 'Province can not contain numbers or special characters (except -)';
 
-    if (!$province) $errors[] = 'Province is required';
-    elseif (strlen($province) > 45) $errors[] = 'Province has a maximum length of 45 characters';
-    elseif (!$isAlpha($province)) $errors[] = 'Province can not contain numbers or special characters (except -)';
+    if (!$city) $errors['city'] = 'City is required';
+    elseif (strlen($city) > 45) $errors['city'] = 'City has a maximum length of 45 characters';
+    elseif (!$isAlpha($city)) $errors['city'] = 'City can not contain numbers or special characters (except -)';
 
-    if (!$zip) $errors[] = 'Zip is required';
-    elseif (strlen($zip) > 20) $errors[] = 'Zip has a maximum length of 20 characters';
-    elseif (!$isAlphaNumeric($zip)) $errors[] = 'Zip must be alphanumeric';
+    if (!$zip) $errors['zip'] = 'Zip is required';
+    elseif (strlen($zip) > 20) $errors['zip'] = 'Zip has a maximum length of 20 characters';
+    elseif (!$isAlphaNumeric($zip)) $errors['zip'] = 'Zip must be alphanumeric';
 
-    if (!$street) $errors[] = 'Street is required';
-    elseif (strlen($street) > 45) $errors[] = 'Street has a maximum length of 45 characters';
-    elseif (!$isAlphaNumeric($street)) $errors[] = 'Street must be alphanumeric';
+    if (!$street) $errors['street'] = 'Street is required';
+    elseif (strlen($street) > 45) $errors['street'] = 'Street has a maximum length of 45 characters';
+    elseif (!$isAlphaNumeric($street)) $errors['street'] = 'Street must be alphanumeric';
 
-    if (!$address) $errors[] = 'Address is required';
-    elseif (strlen($address) > 20) $errors[] = 'Address has a maximum length of 20 characters';
-    elseif (!$isAlpha($address)) $errors[] = 'Address must be alphanumeric';
+    if (!$address) $errors['address'] = 'Address is required';
+    elseif (strlen($address) > 20) $errors['address'] = 'Address has a maximum length of 20 characters';
+    elseif (!$isAlphaNumeric($address)) $errors['address'] = 'Address must be alphanumeric';
 
-    if (strlen($bus) > 20) $errors[] = 'Bus has a maximum length of 20 characters';
-    elseif (!$isAlphaNumeric($bus)) $errors[] = 'Bus must be alphanumeric';
+    if ($bus) {
+        if (strlen($bus) > 20) $errors['bus'] = 'Bus has a maximum length of 20 characters';
+        elseif (!$isAlphaNumeric($bus)) $errors['bus'] = 'Bus must be alphanumeric';
+    }
 
     // arbitrary high length to not inhibit normal users, but still inhibit malicious ones.
-    if (strlen($description) > 4000) $errors[] = 'Name has a maximum length of 4000 characters';
+    if (strlen($description) > 4000) $errors['description'] = 'Description has a maximum length of 4000 characters';
 
-    if (!$latitude) $errors[] = 'Latitude is required.';
-    elseif (abs($latitude) > 90) $errors[] = 'Latitude must be between -90° en 90°.';
+    if (!$latitude->input) $errors['latitude'] = 'Latitude is required.';
+    elseif (!$latitude->isNum) $errors['latitude'] = 'Latitude must be a number';
+    elseif (abs($latitude->val) > 90) $errors['latitude'] = 'Latitude must be between -90° en 90°.';
 
-    if (!$longitude) $errors[] = 'Longitude is required.';
-    if (abs($longitude) > 180) $errors[] = 'Longitude must be between -180° en 180°.';
+    if (!$longitude->input) $errors['longitude'] = 'Longitude is required.';
+    elseif (!$longitude->isNum) $errors['longitude'] = 'Longitude must be a number';
+    if (abs($longitude->val) > 180) $errors['longitude'] = 'Longitude must be between -180° en 180°.';
+
+    if ($errors) {
+        addDangerAlert('Some club fields are incorrect.');
+    } else {
+        $success = updateClub(
+            $id,
+            $name,
+            $province,
+            $zip,
+            $city,
+            $street,
+            $address,
+            $bus,
+            $logoURL,
+            $longitude->val,
+            $latitude->val,
+            $description
+        );
+        if ($success) {
+            redirectWithSuccessAlert('/admin/pages/clubs.php', "Updated club #$id : $name");
+        } elseif ($success === 0) {
+            addWarningAlert('No updates were made.<br> - Club might already be updated. (most likely)<br> - Club might no longer exist.');
+        } else {
+            addDangerAlert('Something went critically wrong, no updates were made.');
+        }
+    }
 }
 
-function toFloat(string|float $val): float
+class TryToFloat
 {
-    if (is_float($val)) return $val;
-    return (float)str_replace(',', '.', $val);
+    public bool $isNum;
+    public string|float $input;
+    public float $val;
+    function __construct(string|float $val)
+    {
+        $this->input = $val;
+        $val = is_string($val)
+            ? str_replace(',', '.', $val)
+            : $val;
+        $this->isNum = is_numeric($val);
+        $this->val = (float)$val;
+    }
 }
 
+
+
+$clubManagement = getClubManagement($id);
+$managementRoles = getManagementRoles();
+
+$idM = $_POST['inputIdM'] ?? null;
+$roleIdM = $_POST['inputRoleIdM'] ?? null;
+$roleDescriptionM = $_POST['inputRoleDescriptionM'] ?? null;
+$firstNameM = $_POST['inputFirstNameM'] ?? null;
+$lastNameM = $_POST['inputLastNameM'] ?? null;
+$emailM = $_POST['inputEmailM'] ?? null;
+$telM = $_POST['inputTelM'] ?? null;
+$showOnClubM = isset($_POST['inputShowOnClubM']);
+$submitM = isset($_POST['submitM']);
+
+$makeShowVal = fn($id) => fn($post, $db) => ($submitM && ($idM == $id)) ? $post : $db;
+
+if ($submitM) {
+    if (!$roleIdM) $errors['roleIdM'] = 'Role is required.';
+    elseif (!in_array($roleIdM, array_keys($managementRoles))) $errors['roleIdM'] = 'Invalid role Selected.';
+
+    if ($roleDescriptionM) {
+        if (strlen($roleDescriptionM) > 45) $errors['roleDescriptionM'] = 'Role description too long. (max: 45)';
+    }
+
+    if (!$firstNameM) $errors['firstNameM'] = 'First name is required';
+    elseif (strlen($firstNameM) > 45) $errors['firstNameM'] = 'First name has a maximum length of 45 characters';
+    elseif (!$isAlpha($firstNameM)) $errors['firstNameM'] = 'First name can not contain numbers or special characters (except -)';
+
+    if (!$lastNameM) $errors['lastNameM'] = 'Last name is required';
+    elseif (strlen($lastNameM) > 45) $errors['lastNameM'] = 'Last name has a maximum length of 45 characters';
+    elseif (!$isAlpha($lastNameM)) $errors['lastNameM'] = 'Last name can not contain numbers or special characters (except -)';
+
+    if ($emailM) {
+        if (strlen($emailM) > 254) $errors['emailM'] = 'E-mail too long. (max: 254)';
+    }
+
+    if ($telM) {
+        if (!$isTel($telM)) $errors['telM'] = 'Tel/gsm must consist of only numbers without spaces. A leading "+" is allowed.';
+    }
+
+    if ($errors) {
+        addDangerAlert('Some management fields are incorrect.');
+    } else {
+        $success = updateManagement(
+            (int)$idM,
+            (int)$roleIdM,
+            $roleDescriptionM,
+            $firstNameM,
+            $lastNameM,
+            $emailM,
+            $telM,
+            (int)$showOnClubM
+        );
+        if ($success) {
+            redirectWithSuccessAlert("/admin/pages/clubEdit.php?id=$id", "Updated role #$idM : {$managementRoles[$roleIdM]} - $firstNameM $lastNameM");
+        } elseif ($success === 0) {
+            addWarningAlert('No updates were made.<br> - Role might already be updated. (most likely)<br> - Role might no longer exist.');
+        } else {
+            addDangerAlert('Something went critically wrong, no updates were made.');
+        }
+    }
+}
+
+$idMC = $_POST['inputIdMC'] ?? null;
+$roleIdMC = $_POST['inputRoleIdMC'] ?? null;
+$roleDescriptionMC = $_POST['inputRoleDescriptionMC'] ?? null;
+$firstNameMC = $_POST['inputFirstNameMC'] ?? null;
+$lastNameMC = $_POST['inputLastNameMC'] ?? null;
+$emailMC = $_POST['inputEmailMC'] ?? null;
+$telMC = $_POST['inputTelMC'] ?? null;
+$showOnClubMC = isset($_POST['inputShowOnClubMC']);
+$submitMC = isset($_POST['submitMC']);
+
+if ($submitMC) {
+    if (!$roleIdMC) $errors['roleIdMC'] = 'Role is required.';
+    elseif (!in_array($roleIdMC, array_keys($managementRoles))) $errors['roleIdMC'] = 'Invalid role Selected.';
+
+    if ($roleDescriptionMC) {
+        if (strlen($roleDescriptionMC) > 45) $errors['roleDescriptionMC'] = 'Role description too long. (max: 45)';
+    }
+
+    if (!$firstNameMC) $errors['firstNameMC'] = 'First name is required';
+    elseif (strlen($firstNameMC) > 45) $errors['firstNameMC'] = 'First name has a maximum length of 45 characters';
+    elseif (!$isAlpha($firstNameMC)) $errors['firstNameMC'] = 'First name can not contain numbers or special characters (except -)';
+
+    if (!$lastNameMC) $errors['lastNameMC'] = 'Last name is required';
+    elseif (strlen($lastNameMC) > 45) $errors['lastNameMC'] = 'Last name has a maximum length of 45 characters';
+    elseif (!$isAlpha($lastNameMC)) $errors['lastNameMC'] = 'Last name can not contain numbers or special characters (except -)';
+
+    if ($emailMC) {
+        if (strlen($emailMC) > 254) $errors['emailMC'] = 'E-mail too long. (max: 254)';
+    }
+
+    if ($telMC) {
+        if (!$isTel($telMC)) $errors['telMC'] = 'Tel/gsm must consist of only numbers without spaces. A leading "+" is allowed.';
+    }
+
+    if ($errors) {
+        addDangerAlert('Some fields are incorrect in the "create new management position" form.');
+    } else {
+        $idMC = $success = createManagement(
+            (int)$id,
+            (int)$roleIdMC,
+            $roleDescriptionMC,
+            $firstNameMC,
+            $lastNameMC,
+            $emailMC,
+            $telMC,
+            (int)$showOnClubMC
+        );
+        if ($success) {
+            redirectWithSuccessAlert("/admin/pages/clubEdit.php?id=$id", "created role #$idMC : {$managementRoles[$roleIdMC]} - $firstNameMC $lastNameMC");
+        } else {
+            addDangerAlert('Something went critically wrong, no new role was created.');
+        }
+    }
+}
+
+if (isset($_POST['submitRoleDeletion'], $_POST['inputRoleDeletionId'])) {
+    $roleNameD = $_POST['inputRoleNameD'] ?? '';
+    $firstNameD = $_POST['inputFirstNameD'] ?? '';
+    $lastNameD = $_POST['inputLastNameD'] ?? '';
+    $idD = $_POST['inputRoleDeletionId'];
+
+    $fullName = "#$idD: $roleNameD - $firstNameD $lastNameD";
+
+    $deletionCount = $success = deleteManagement((int)$_POST['inputRoleDeletionId']);
+
+    // every option redirect because this form is too dangerous to risk re-submission;
+    if ($deletionCount > 1) {
+        redirectWithDangerAlert("/admin/pages/clubEdit.php?id=$id", "Multiple deletions were made.<br> - This should never have happened.<br> - Please contact support.<br> - $deletionCount deletions were made.");
+    } elseif ($success) {
+        redirectWithSuccessAlert("/admin/pages/clubEdit.php?id=$id", "Deleted role $fullName");
+    } elseif ($deletionCount === 0) {
+        redirectWithWarningAlert("/admin/pages/clubEdit.php?id=$id", 'No deletions were made.<br> - Role might already be deleted.');
+    } else {
+        redirectWithDangerAlert("/admin/pages/clubEdit.php?id=$id", "Something went critically wrong.<br>$fullName<br>was not deleted.");
+    }
+}
+
+$makeGetValidationClass = function ($isSubmitted) use ($errors) {
+    return function (string $errorKey) use ($errors, $isSubmitted) {
+        if (!$isSubmitted) return;
+        return isset($errors[$errorKey])
+            ? 'is-invalid'
+            : 'is-valid';
+    };
+};
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,95 +269,364 @@ function toFloat(string|float $val): float
 <head>
     <?php require 'admin/partials/head.inc.php' ?>
     <title>Admin - Clubs</title>
+    <link rel="stylesheet" href="/admin/css/clubForm.css">
+    <script defer type="module" src="/admin/js/clubForm.js"></script>
+    <script defer type="module" src="/admin/js/clubEdit-modal.js"></script>
+    <script type="module" src="/admin/js/clubEdit-roleCreate.js"></script>
 </head>
 
 <body>
     <?php renderHeader(NAV::CLUBS) ?>
     <main>
-        <div class="card">
-            <div class="card-header">
-                <h1 class="card-title fs-3"><?= $club['name'] ?></h1>
-            </div>
-            <div class="card-body">
-                <?php if ($errors): ?>
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-start">
-                            <h3 class="card-title fs-5">Errors</h3>
-                            <span class="badge text-bg-danger rounded-pill"><?= count($errors) ?></span>
+        <div class="container d-flex flex-column gap-5">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="card-title fs-3"><?= $club['name'] ?></h1>
+                </div>
+                <div class="card-body">
+
+                    <form method="post" class="container-fluid">
+                        <?php $getValidationClass = $makeGetValidationClass(isset($_POST['submit'])) ?>
+                        <fieldset class="mb-3">
+                            <div class="img-container img-thumbnail m-auto mb-3">
+                                <img src="<?= $logoURL ?>" alt="Club logo" id="img-logo"
+                                    onerror="this.onerror=null;this.src='/admin/images/default-logo.png'">
+                            </div>
+                            <legend class="mb-3">Club info</legend>
+                            <div class="input-group mb-3 has-validation">
+                                <div class="form-floating <?= $getValidationClass('logoURL') ?>">
+                                    <input type="url" class="form-control <?= $getValidationClass('logoURL') ?>" name="inputLogoUrl" id="inputLogoUrl" placeholder="https://..." value="<?= $logoURL ?>">
+                                    <label for="inputLogoUrl" class="form-label">Logo URL</label>
+                                </div>
+                                <button class="btn btn-outline-secondary" type="button" id="btn-logo-preview">Preview</button>
+                                <div class="invalid-feedback">
+                                    <?= $errors['logoURL'] ?>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control <?= $getValidationClass('name') ?>" name="inputName" id="inputName" placeholder="name..." value="<?= $name ?>">
+                                <label for="inputName" class="form-label">Name</label>
+                                <div class="invalid-feedback">
+                                    <?= $errors['name'] ?>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control <?= $getValidationClass('description') ?>" placeholder="Leave a club description here" name="inputDescription" id="inputDescription"><?= $description ?></textarea>
+                                <label for="inputDescription">Description</label>
+                                <div class="invalid-feedback">
+                                    <?= $errors['description'] ?>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="mb-3 row g-3">
+                            <legend class="mb-0">Club Location</legend>
+                            <div class="col-md-5 col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control <?= $getValidationClass('province') ?>" name="inputProvince" id="inputProvince" placeholder="province..." value="<?= $province ?>">
+                                    <label for="inputProvince" class="form-label">Province</label>
+                                    <div class="invalid-feedback">
+                                        <?= $errors['province'] ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-7">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control <?= $getValidationClass('city') ?>" name="inputCity" id="inputCity" placeholder="city..." value="<?= $city ?>">
+                                    <label for="inputCity" class="form-label">City</label>
+                                    <div class="invalid-feedback">
+                                        <?= $errors['city'] ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-5">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control <?= $getValidationClass('zip') ?>" name="inputZip" id="inputZip" placeholder="zip..." value="<?= $zip ?>">
+                                    <label for="inputZip" class="form-label">zip</label>
+                                    <div class="invalid-feedback">
+                                        <?= $errors['zip'] ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control <?= $getValidationClass('street') ?>" name="inputStreet" id="inputStreet" placeholder="street..." value="<?= $street ?>">
+                                    <label for="inputStreet" class="form-label">Street</label>
+                                    <div class="invalid-feedback">
+                                        <?= $errors['street'] ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control <?= $getValidationClass('address') ?>" name="inputAddress" id="inputAddress" placeholder="address..." value="<?= $address ?>">
+                                    <label for="inputAddress" class="form-label">address</label>
+                                    <div class="invalid-feedback">
+                                        <?= $errors['address'] ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control <?= $getValidationClass('bus') ?>" name="inputBus" id="inputBus" placeholder="bus..." value="<?= $bus ?>">
+                                    <label for="inputBus" class="form-label">Bus</label>
+                                    <div class="invalid-feedback">
+                                        <?= $errors['bus'] ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control <?= $getValidationClass('latitude') ?>" name="inputLatitude" id="inputLatitude" placeholder="latitude..." value="<?= $latitude->input ?>">
+                                    <label for="inputLatitude" class="form-label">Latitude</label>
+                                    <div class="invalid-feedback">
+                                        <?= $errors['latitude'] ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control <?= $getValidationClass('longitude') ?>" name="inputLongitude" id="inputLongitude" placeholder="Longitude..." value="<?= $longitude->input ?>">
+                                    <label for="inputLongitude" class="form-label">Longitude</label>
+                                    <div class="invalid-feedback">
+                                        <?= $errors['longitude'] ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" name="submit" class="btn btn-primary">Update</button>
                         </div>
-                        <div class="card-body">
-                            <ul>
-                                <?php foreach ($errors as $error): ?>
-                                    <li>
-                                        <?= $error ?>
-                                    </li>
-                                <?php endforeach ?>
-                            </ul>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h1 class="card-title fs-3">Management</h1>
+                    <button type="button" id="btn-showRoleCreate" class="btn btn-success">Create New</button>
+                </div>
+                <div class="card-body d-flex flex-column gap-3">
+                    <div class="accordion d-none" id="managementCreateAccordion">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button <?= $submitMC ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-create" aria-expanded="<?= $submitMC ? 'true' : 'false' ?>" aria-controls="collapse-create">
+                                    Create New Management Position
+                                </button>
+                            </h3>
+                        </div>
+                        <div id="collapse-create" class="accordion-collapse collapse <?= $submitMC ? 'show' : '' ?>" data-bs-parent="#managementCreateAccordion">
+                            <div class="accordion-body bg-body-tertiary">
+                                <form method="post" class="container-fluid">
+                                    <?php $getValidationClass = $makeGetValidationClass($submitMC) ?>
+                                    <fieldset class="row g-3">
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <select class="form-select <?= $getValidationClass('roleIdMC') ?>" name="inputRoleIdMC" id="inputRoleIdMC">
+                                                    <?php foreach ($managementRoles as $id => $name): ?>
+                                                        <option <?= $roleIdMC == $id ? 'selected' : '' ?> value="<?= $id ?>"><?= $name ?></option>
+                                                    <?php endforeach ?>
+                                                </select>
+                                                <label for="inputRoleIdMC">Role</label>
+                                                <div class="invalid-feedback">
+                                                    <?= $errors['roleIdMC'] ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <input type="text" <?= $roleIdMC != 7 ? 'disabled' : '' ?> class="form-control <?= $getValidationClass('roleDescriptionMC') ?>" name="inputRoleDescriptionMC" id="inputRoleDescriptionMC" placeholder="role..." value="<?= $roleDescriptionMC ?>">
+                                                <label for="inputRoleDescriptionMC" class="form-label">Role Description</label>
+                                                <div class="invalid-feedback">
+                                                    <?= $errors['roleDescriptionMC'] ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control <?= $getValidationClass('firstNameMC') ?>" name="inputFirstNameMC" id="inputFirstNameMC" placeholder="first name..." value="<?= $firstNameMC ?>">
+                                                <label for="inputFirstNameMC" class="form-label">First name</label>
+                                                <div class="invalid-feedback">
+                                                    <?= $errors['firstNameMC'] ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control <?= $getValidationClass('lastNameMC') ?>" name="inputLastNameMC" id="inputLastNameMC" placeholder="last name..." value="<?= $lastNameMC ?>">
+                                                <label for="inputLastNameMC" class="form-label">Last name</label>
+                                                <div class="invalid-feedback">
+                                                    <?= $errors['lastNameMC'] ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control <?= $getValidationClass('emailMC') ?>" name="inputEmailMC" id="inputEmailMC" placeholder="email..." value="<?= $emailMC ?>">
+                                                <label for="inputEmailMC" class="form-label">E-mail</label>
+                                                <div class="invalid-feedback">
+                                                    <?= $errors['emailMC'] ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-floating">
+                                                <input type="tel" class="form-control <?= $getValidationClass('telMC') ?>" name="inputTelMC" id="inputTelMC" placeholder="tel..." value="<?= $telMC ?>">
+                                                <label for="inputTelMC" class="form-label">Telephone / Gsm</label>
+                                                <div class="invalid-feedback">
+                                                    <?= $errors['telMC'] ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input <?= $getValidationClass('showOnClubMC') ?>" type="checkbox" role="switch" name="inputShowOnClubMC" id="inputShowOnClubMC" <?= $showOnClubMC == 1 ? 'checked' : '' ?>>
+                                                <label class="form-check-label" for="inputShowOnClubMC">Show role in club section</label>
+                                                <div class="invalid-feedback">
+                                                    <?= $errors['showOnClubMC'] ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12 d-flex justify-content-end gap-3">
+                                            <button type="submit" name="submitMC" class="btn btn-success">Create</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                <?php endif ?>
 
-                <form method="post">
-                    <fieldset class="mb-3">
-                        <legend class="mb-3">Club info</legend>
-                        <div class="form-floating mb-3">
-                            <input type="url" class="form-control" name="inputLogoUrl" id="inputLogoUrl" placeholder="https://..." value="<?= $logoURL ?>">
-                            <label for="inputLogoUrl" class="form-label">Logo URL</label>
-                        </div>
-                        <div class="form-floating mb-3">
+                    <div class="accordion" id="managementAccordion">
 
-                            <input type="text" class="form-control" name="inputName" id="inputName" placeholder="name..." value="<?= $name ?>">
-                            <label for="inputName" class="form-label">Name</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" placeholder="Leave a club description here" id="inputDescription"><?= $description ?></textarea>
-                            <label for="inputDescription">Description</label>
-                        </div>
-                    </fieldset>
-                    <fieldset class="mb-3">
-                        <legend class="mb-3">Club Location</legend>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="inputProvince" id="inputProvince" placeholder="province..." value="<?= $province ?>">
-                            <label for="inputProvince" class="form-label">Province</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="inputCity" id="inputCity" placeholder="city..." value="<?= $city ?>">
-                            <label for="inputCity" class="form-label">City</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="inputZip" id="inputZip" placeholder="zip..." value="<?= $zip ?>">
-                            <label for="inputZip" class="form-label">zip</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="inputStreet" id="inputStreet" placeholder="street..." value="<?= $street ?>">
-                            <label for="inputStreet" class="form-label">Street</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="inputAddress" id="inputAddress" placeholder="address..." value="<?= $address ?>">
-                            <label for="inputAddress" class="form-label">address</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="inputBus" id="inputBus" placeholder="bus..." value="<?= $bus ?>">
-                            <label for="inputBus" class="form-label">Bus</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="inputLatitude" id="inputLatitude" placeholder="latitude..." value="<?= $latitude ?>">
-                            <label for="inputLatitude" class="form-label">Latitude</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="inputLongitude" id="inputLongitude" placeholder="Longitude..." value="<?= $longitude ?>">
-                            <label for="inputLongitude" class="form-label">Longitude</label>
-                        </div>
-                    </fieldset>
+                        <?php foreach ($clubManagement as $position): ?>
+                            <?php $showVal = $makeShowVal($position['id']) ?>
+                            <div class="accordion-item">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button <?= $idM == $position['id'] ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $position['id'] ?>" aria-expanded="<?= $idM == $position['id'] ? 'true' : 'false' ?>" aria-controls="collapse<?= $position['id'] ?>">
+                                        <?= $managementRoles[$position['management_role_id']] . ' - ' . $position['firstname'] . ' ' . $position['lastname']  ?>
+                                    </button>
+                                </h3>
+                            </div>
+                            <div id="collapse<?= $position['id'] ?>" class="accordion-collapse collapse <?= $idM == $position['id'] ? 'show' : '' ?>" data-bs-parent="#managementAccordion">
+                                <div class="accordion-body bg-body-tertiary">
+                                    <form method="post" class="container-fluid">
+                                        <?php $getValidationClass = $makeGetValidationClass($submitM) ?>
+                                        <fieldset class="row g-3">
+                                            <input type="hidden" name="inputIdM" value="<?= $position['id'] ?>">
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <select class="form-select <?= $getValidationClass('roleIdM') ?>" name="inputRoleIdM" id="inputRoleIdM<?= $position['id'] ?>">
+                                                        <?php foreach ($managementRoles as $id => $name): ?>
+                                                            <option <?= $showVal($roleIdM, $position['management_role_id']) == $id ? 'selected' : '' ?> value="<?= $id ?>"><?= $name ?></option>
+                                                        <?php endforeach ?>
+                                                    </select>
+                                                    <label for="inputRoleIdM">Role</label>
+                                                    <div class="invalid-feedback">
+                                                        <?= $errors['roleIdM'] ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <input type="text" <?= $showVal($roleIdM, $position['management_role_id']) != 7 ? 'disabled' : '' ?> class="form-control <?= $getValidationClass('roleDescriptionM') ?>" name="inputRoleDescriptionM" id="inputRoleDescriptionM<?= $position['id'] ?>" placeholder="role..." value="<?= $showVal($roleDescriptionM, $position['role_description']) ?>">
+                                                    <label for="inputRoleDescriptionM" class="form-label">Role Description</label>
+                                                    <div class="invalid-feedback">
+                                                        <?= $errors['roleDescriptionM'] ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control <?= $getValidationClass('firstNameM') ?>" name="inputFirstNameM" id="inputFirstNameM<?= $position['id'] ?>" placeholder="first name..." value="<?= $showVal($firstNameM, $position['firstname']) ?>">
+                                                    <label for="inputFirstNameM" class="form-label">First name</label>
+                                                    <div class="invalid-feedback">
+                                                        <?= $errors['firstNameM'] ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control <?= $getValidationClass('lastNameM') ?>" name="inputLastNameM" id="inputLastNameM<?= $position['id'] ?>" placeholder="last name..." value="<?= $showVal($lastNameM, $position['lastname']) ?>">
+                                                    <label for="inputLastNameM" class="form-label">Last name</label>
+                                                    <div class="invalid-feedback">
+                                                        <?= $errors['lastNameM'] ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-floating">
+                                                    <input type="email" class="form-control <?= $getValidationClass('emailM') ?>" name="inputEmailM" id="inputEmailM<?= $position['id'] ?>" placeholder="email..." value="<?= $showVal($emailM, $position['email']) ?>">
+                                                    <label for="inputEmailM" class="form-label">E-mail</label>
+                                                    <div class="invalid-feedback">
+                                                        <?= $errors['emailM'] ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-floating">
+                                                    <input type="tel" class="form-control <?= $getValidationClass('telM') ?>" name="inputTelM" id="inputTelM<?= $position['id'] ?>" placeholder="tel..." value="<?= $showVal($telM, $position['tel']) ?>">
+                                                    <label for="inputTelM" class="form-label">Telephone / Gsm</label>
+                                                    <div class="invalid-feedback">
+                                                        <?= $errors['telM'] ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input <?= $getValidationClass('showOnClubM') ?>" type="checkbox" role="switch" name="inputShowOnClubM" id="inputShowOnClubM<?= $position['id'] ?>" <?= $showVal($showOnClubM, $position['show_on_club']) == 1 ? 'checked' : '' ?>>
+                                                    <label class="form-check-label" for="inputShowOnClubM">Show role in club section</label>
+                                                    <div class="invalid-feedback">
+                                                        <?= $errors['showOnClubM'] ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12 d-flex justify-content-end gap-3">
+                                                <button type="button" class="btn btn-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modal-management-deletion"
+                                                    data-idM="<?= $position['id'] ?>"
+                                                    data-role="<?= $managementRoles[$position['management_role_id']] ?>"
+                                                    data-firstNameM="<?= $position['firstname'] ?>"
+                                                    data-lastNameM="<?= $position['lastname'] ?>">Delete</button>
+                                                <button type="submit" name="submitM" class="btn btn-primary">Update</button>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php endforeach ?>
+                    </div>
 
-
-
-                    <button type="submit" name="submit" class="btn btn-primary">Update</button>
-                </form>
+                </div>
             </div>
         </div>
 
-
+        <div class="modal fade" id="modal-management-deletion" tabindex="-1" aria-labelledby="management-deletion-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-danger-subtle text-danger-emphasis border-danger-subtle">
+                    <div class="modal-header border-danger-subtle">
+                        <h1 class="modal-title fs-5 d-flex gap-3 align-items-center fw-bold" id="management-deletion-label">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            WARNING: Role Deletion
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body ">
+                        <p></p>
+                    </div>
+                    <div class="modal-footer border-danger-subtle">
+                        <form method="post">
+                            <input type="hidden" name="inputRoleDeletionId" id="inputRoleDeletionId">
+                            <input type="hidden" name="inputRoleNameD" id="inputRoleNameD">
+                            <input type="hidden" name="inputFirstNameD" id="inputFirstNameD">
+                            <input type="hidden" name="inputLastNameD" id="inputLastNameD">
+                            <button type="submit" class="btn btn-danger" name="submitRoleDeletion">Confirm Deletion</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
 </body>

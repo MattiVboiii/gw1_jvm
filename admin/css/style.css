@@ -17,9 +17,7 @@ body {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
 
-  main {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 20px;
+  .container {
+    margin-top: 20px;
   }
 }
