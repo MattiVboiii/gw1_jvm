@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `baseball` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `baseball`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: baseball
+-- Host: localhost    Database: baseball
 -- ------------------------------------------------------
--- Server version	8.0.39
+-- Server version	8.4.3
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -134,7 +132,7 @@ CREATE TABLE `external_references` (
   KEY `fk_external_urls_url_types1_idx` (`reference_type_id`),
   CONSTRAINT `fk_external_urls_clubs1` FOREIGN KEY (`club_id`) REFERENCES `clubs` (`id`),
   CONSTRAINT `fk_external_urls_url_types1` FOREIGN KEY (`reference_type_id`) REFERENCES `reference_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +141,7 @@ CREATE TABLE `external_references` (
 
 LOCK TABLES `external_references` WRITE;
 /*!40000 ALTER TABLE `external_references` DISABLE KEYS */;
-INSERT INTO `external_references` VALUES (1,1,1,NULL,'http://www.antwerpeagles.com',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(2,1,2,NULL,'secretariaat@antwerpeagles.com',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(3,2,1,NULL,'http://www.borgerhoutsquirrels.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(4,2,2,NULL,'secretaris@borgerhoutsquirrels.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(5,3,1,NULL,'http://www.spartans.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(6,3,2,NULL,'info@spartans.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(7,4,1,NULL,'http://www.leuventwins.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(8,4,2,NULL,'info@leuventwins.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50');
+INSERT INTO `external_references` VALUES (1,1,1,NULL,'http://www.antwerpeagles.com',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(2,1,2,NULL,'secretariaat@antwerpeagles.com',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(3,2,1,NULL,'http://www.borgerhoutsquirrels.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(4,2,2,NULL,'secretaris@borgerhoutsquirrels.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(5,3,1,NULL,'http://www.spartans.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(6,3,2,NULL,'info@spartans.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(7,4,1,NULL,'http://www.leuventwins.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(8,4,2,NULL,'info@leuventwins.be',1,'2024-12-22 21:06:50','2024-12-22 21:06:50'),(9,1,13,NULL,'https://www.facebook.com/AntwerpEagles/?locale=nl_BE',1,'2025-01-03 00:16:30','2025-01-03 00:16:49'),(10,1,14,NULL,'https://www.instagram.com/antwerpeagles/',1,'2025-01-03 00:30:20','2025-01-03 00:30:20'),(11,1,15,NULL,'https://www.youtube.com/@vincentgeldof3286/streams',1,'2025-01-03 00:40:27','2025-01-03 00:40:27'),(12,2,13,NULL,'https://www.facebook.com/SquirrelsOfficial/?locale=nl_NL',1,'2025-01-03 23:10:46','2025-01-03 23:10:46'),(13,2,14,NULL,'https://www.instagram.com/squirrelsborgerhout7/',1,'2025-01-03 23:11:33','2025-01-03 23:11:33'),(14,3,14,NULL,'https://www.instagram.com/deurnespartans/',1,'2025-01-03 23:12:09','2025-01-03 23:12:09'),(15,3,13,NULL,'https://www.facebook.com/groups/DeurneSpartans/?locale=nl_BE',1,'2025-01-03 23:12:32','2025-01-03 23:12:32'),(16,3,15,NULL,'https://www.youtube.com/channel/UCYM6DfF_pjbGsau8r0S3a9Q',1,'2025-01-03 23:12:50','2025-01-03 23:12:50');
 /*!40000 ALTER TABLE `external_references` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,9 +222,9 @@ CREATE TABLE `matches` (
   `team_1_id` int NOT NULL,
   `team_2_id` int DEFAULT NULL,
   `team_2_name` varchar(45) DEFAULT NULL,
-  `team_1_score` int NOT NULL,
-  `team_2_score` int NOT NULL,
-  `date` date NOT NULL,
+  `team_1_score` int DEFAULT NULL,
+  `team_2_score` int DEFAULT NULL,
+  `date` datetime NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -234,7 +232,7 @@ CREATE TABLE `matches` (
   KEY `fk_matches_teams2_idx` (`team_2_id`),
   CONSTRAINT `fk_matches_teams1` FOREIGN KEY (`team_1_id`) REFERENCES `teams` (`id`),
   CONSTRAINT `fk_matches_teams2` FOREIGN KEY (`team_2_id`) REFERENCES `teams` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,6 +241,7 @@ CREATE TABLE `matches` (
 
 LOCK TABLES `matches` WRITE;
 /*!40000 ALTER TABLE `matches` DISABLE KEYS */;
+INSERT INTO `matches` VALUES (1,3,4,'Leuven Twins',NULL,NULL,'2025-04-12 00:00:00','2024-12-28 11:33:27','2024-12-28 16:48:08'),(2,3,2,'Borgerhout Squirrels',NULL,NULL,'2025-04-19 00:00:00','2024-12-28 11:41:21','2024-12-28 11:41:21'),(3,3,1,'Antwerp Eagles',NULL,NULL,'2025-04-26 00:00:00','2024-12-28 11:42:08','2024-12-28 11:42:08'),(4,3,4,'Leuven Twins',NULL,NULL,'2025-05-04 00:00:00','2024-12-28 11:46:55','2024-12-28 16:48:08'),(5,3,4,'Leuven Twins',8,15,'2024-07-06 00:00:00','2024-12-28 16:48:08','2024-12-28 16:48:08'),(6,3,2,'Borgerhout Squirrels',5,2,'2024-07-13 00:00:00','2024-12-28 16:48:08','2024-12-28 16:48:08'),(7,3,1,'Antwerp Eagles',12,7,'2024-07-20 00:00:00','2024-12-28 16:48:08','2024-12-28 16:48:08'),(8,3,4,'Leuven Twins',1,0,'2024-07-27 00:00:00','2024-12-28 16:48:08','2024-12-28 16:48:08'),(9,1,2,'Borgerhout Squirrels',NULL,NULL,'2025-05-04 00:00:00','2024-12-30 16:22:17','2024-12-30 16:31:52'),(10,1,3,'Deurne Spartans',NULL,NULL,'2025-05-11 00:00:00','2024-12-30 16:26:06','2024-12-30 16:31:52'),(11,1,4,'Leuven Twins',NULL,NULL,'2025-05-18 00:00:00','2024-12-30 16:32:52','2024-12-30 16:32:52'),(12,2,1,'Antwerp Eagles',NULL,NULL,'2025-06-06 00:00:00','2024-12-30 16:33:41','2024-12-30 16:33:41'),(13,2,3,'Deurne Spartans',NULL,NULL,'2025-06-13 00:00:00','2024-12-30 16:33:57','2024-12-30 16:33:57'),(14,2,4,'Leuven Twins',NULL,NULL,'2025-06-20 00:00:00','2024-12-30 16:34:11','2024-12-30 16:34:11'),(15,4,1,'Anwerp Eagles',NULL,NULL,'2025-07-04 00:00:00','2024-12-30 16:35:32','2024-12-30 16:35:32'),(16,4,2,'Borgerhout Squirrels',NULL,NULL,'2025-07-11 00:00:00','2024-12-30 16:35:32','2024-12-30 16:35:32'),(17,4,3,'Deurne Spartans',NULL,NULL,'2025-07-18 00:00:00','2024-12-30 16:35:32','2024-12-30 16:35:32');
 /*!40000 ALTER TABLE `matches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -411,4 +410,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-22 23:55:02
+-- Dump completed on 2025-01-05 20:50:04
