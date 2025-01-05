@@ -151,7 +151,7 @@ if($id > $maxID) {
 <meta property="og:description" content="extra info about <?= getClubInfo($id)['name']?>">
 <meta property="og:image" content="  <?= $sfeerfoto[0]['media_url']?>">
 
-<meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage">
+<meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
 <meta name="robots" content="index, follow">
 
 
