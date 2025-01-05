@@ -132,8 +132,7 @@ if($id > $maxID) {
 }
 
 // print '<pre>';
-// print_r(maxID());
-// var_dump(maxID());
+// print_r(getSfeerFoto($id)[0]['media_url']);
 // print '</pre>';
 // exit;
 
@@ -143,8 +142,22 @@ if($id > $maxID) {
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+
+    <!-- Facebook Meta Tags -->
+<meta property="og:url" content="https://local-ogp.firebaseapp.com/site/muqtgSwtWu9c2xTq1Lfs">
+<meta property="og:type" content="website">
+<meta property="og:title" content="detail-page about <?= getClubInfo($id)['name']?> ">
+<meta property="og:description" content="extra info about <?= getClubInfo($id)['name']?>">
+<meta property="og:image" content="  <?= $sfeerfoto[0]['media_url']?>">
+
+<meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage">
+<meta name="robots" content="index, follow">
+
+
+
+
+    <title><?= getClubInfo($id)['name']?>-detailpage</title>
     <link rel="stylesheet" href="/frontend/css/detail.css">
 </head>
 
@@ -164,7 +177,7 @@ if($id > $maxID) {
                 </div>
                 <div>
                     <?php foreach($sfeerfoto as $foto): ?>
-                        <img src="<?=$foto['media_url'] ?>" alt="sfeerfoto">
+                        <img src="<?=$foto['media_url'] ?>" alt="sfeerfoto <?= getClubInfo($id)['name']?>">
                     <?php endforeach ?>
                 </div>
                 <div>
@@ -264,7 +277,7 @@ if (!empty($socials)) {
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Visitors</th>
+                                    <th>Visiting team</th>
                                     <th>Hometeam</th>
                                 </tr>
                             </thead>

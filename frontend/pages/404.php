@@ -1,18 +1,9 @@
-<?php 
-function getClubInfo(int $id): array|bool
-{ 
-  
-    $sql = "SELECT * FROM clubs
-    WHERE clubs.id = :id;";
-
-    $stmt = connectToDatabase()->prepare($sql);
-    $stmt->execute([
-        ":id" => $id
-    ]);
-   
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-?>
+<style>
+    img{
+        width:100vw;
+        height:100vh;
+    }
+</style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +12,6 @@ function getClubInfo(int $id): array|bool
     <title>Document</title>
 </head>
 <body>
-    
+<img src="/public/frontend/images/404.jpg" alt="">
 </body>
 </html>

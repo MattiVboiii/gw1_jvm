@@ -9,10 +9,12 @@
         align-items: center;
         padding: 0 2vw;
         color: white;
-        background-color: purple;
+        background-color: #041e42;
+        min-height: 20vh;
 
         img {
-            width: 50px;
+            width: 100px;
+            height: 100px;
         }
 
         ul {
