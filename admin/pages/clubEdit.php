@@ -424,7 +424,10 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                                             <div class="form-floating">
                                                 <select class="form-select <?= $getValidationClass('roleIdMC') ?>" name="inputRoleIdMC" id="inputRoleIdMC">
                                                     <?php foreach ($managementRoles as $id => $name): ?>
-                                                        <option <?= $roleIdMC == $id ? 'selected' : '' ?> value="<?= $id ?>"><?= $name ?></option>
+                                                        <!-- Weird fix to avoid a vite build error: -->
+                                                        <!-- Unable to parse HTML; parse5 error code unexpected-character-in-attribute-name -->
+                                                        <?php $selected = $roleIdMC == $id ? 'selected' : '' ?>
+                                                        <?= "<option $selected value='$id'>$name</option>" ?>
                                                     <?php endforeach ?>
                                                 </select>
                                                 <label for="inputRoleIdMC">Role</label>
@@ -435,7 +438,11 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating">
-                                                <input type="text" <?= $roleIdMC != 7 ? 'disabled' : '' ?> class="form-control <?= $getValidationClass('roleDescriptionMC') ?>" name="inputRoleDescriptionMC" id="inputRoleDescriptionMC" placeholder="role..." value="<?= $roleDescriptionMC ?>">
+                                                <!-- Weird fix to avoid a vite build error: -->
+                                                <!-- Unable to parse HTML; parse5 error code unexpected-character-in-attribute-name -->
+                                                <?php $disabled = $roleIdMC != 7 ? 'disabled' : '' ?>
+                                                <?php $validation = $getValidationClass('roleDescriptionMC') ?>
+                                                <?= "<input type='text' $disabled class='form-control $validation' name='inputRoleDescriptionMC' id='inputRoleDescriptionMC' placeholder='role...' value='$roleDescriptionMC'>" ?>
                                                 <label for="inputRoleDescriptionMC" class="form-label">Role Description</label>
                                                 <div class="invalid-feedback">
                                                     <?= $errors['roleDescriptionMC'] ?>
@@ -480,7 +487,11 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input <?= $getValidationClass('showOnClubMC') ?>" type="checkbox" role="switch" name="inputShowOnClubMC" id="inputShowOnClubMC" <?= $showOnClubMC == 1 ? 'checked' : '' ?>>
+                                                <!-- Weird fix to avoid a vite build error: -->
+                                                <!-- Unable to parse HTML; parse5 error code unexpected-character-in-attribute-name -->
+                                                <?php $validation = $getValidationClass('showOnClubMC') ?>
+                                                <?php $checked = $showOnClubMC == 1 ? 'checked' : '' ?>
+                                                <?= "<input class='form-check-input $validation' type='checkbox' role='switch' name='inputShowOnClubMC' id='inputShowOnClubMC' $checked >" ?>
                                                 <label class="form-check-label" for="inputShowOnClubMC">Show role in club section</label>
                                                 <div class="invalid-feedback">
                                                     <?= $errors['showOnClubMC'] ?>
@@ -515,10 +526,17 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                                             <input type="hidden" name="inputIdM" value="<?= $position['id'] ?>">
                                             <div class="col-12">
                                                 <div class="form-floating">
-                                                    <select class="form-select <?= $getValidationClass('roleIdM') ?>" name="inputRoleIdM" id="inputRoleIdM<?= $position['id'] ?>">
-                                                        <?php foreach ($managementRoles as $id => $name): ?>
-                                                            <option <?= $showVal($roleIdM, $position['management_role_id']) == $id ? 'selected' : '' ?> value="<?= $id ?>"><?= $name ?></option>
-                                                        <?php endforeach ?>
+                                                    <!-- Weird fix to avoid a vite build error: -->
+                                                    <!-- Unable to parse HTML; parse5 error code unexpected-character-in-attribute-name -->
+                                                    <?php $validation = $getValidationClass('roleIdM') ?>
+                                                    <?php $positionId = $position['id'] ?>
+                                                    <?= "<select class='form-select $validation' name='inputRoleIdM' id='inputRoleIdM$positionId'>" ?>
+                                                    <?php foreach ($managementRoles as $id => $name): ?>
+                                                        <!-- Weird fix to avoid a vite build error: -->
+                                                        <!-- Unable to parse HTML; parse5 error code unexpected-character-in-attribute-name -->
+                                                        <?php $selected = $showVal($roleIdM, $position['management_role_id']) == $id ? 'selected' : '' ?>
+                                                        <?= "<option $selected value='$id'>$name</option>" ?>
+                                                    <?php endforeach ?>
                                                     </select>
                                                     <label for="inputRoleIdM">Role</label>
                                                     <div class="invalid-feedback">
@@ -528,7 +546,13 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating">
-                                                    <input type="text" <?= $showVal($roleIdM, $position['management_role_id']) != 7 ? 'disabled' : '' ?> class="form-control <?= $getValidationClass('roleDescriptionM') ?>" name="inputRoleDescriptionM" id="inputRoleDescriptionM<?= $position['id'] ?>" placeholder="role..." value="<?= $showVal($roleDescriptionM, $position['role_description']) ?>">
+                                                    <!-- Weird fix to avoid a vite build error: -->
+                                                    <!-- Unable to parse HTML; parse5 error code unexpected-character-in-attribute-name -->
+                                                    <?php $disabled = $showVal($roleIdM, $position['management_role_id']) != 7 ? 'disabled' : '' ?>
+                                                    <?php $validation = $getValidationClass('roleDescriptionM') ?>
+                                                    <?php $positionId = $position['id'] ?>
+                                                    <?php $value = $showVal($roleDescriptionM, $position['role_description']) ?>
+                                                    <?= "<input type='text' $disabled class='form-control $validation' name='inputRoleDescriptionM' id='inputRoleDescriptionM$positionId' placeholder='role...' value='$value'>" ?>
                                                     <label for="inputRoleDescriptionM" class="form-label">Role Description</label>
                                                     <div class="invalid-feedback">
                                                         <?= $errors['roleDescriptionM'] ?>
@@ -573,7 +597,12 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input <?= $getValidationClass('showOnClubM') ?>" type="checkbox" role="switch" name="inputShowOnClubM" id="inputShowOnClubM<?= $position['id'] ?>" <?= $showVal($showOnClubM, $position['show_on_club']) == 1 ? 'checked' : '' ?>>
+                                                    <!-- Weird fix to avoid a vite build error: -->
+                                                    <!-- Unable to parse HTML; parse5 error code unexpected-character-in-attribute-name -->
+                                                    <?php $validation = $getValidationClass('showOnClubM') ?>
+                                                    <?php $positionId = $position['id'] ?>
+                                                    <?php $checked = $showVal($showOnClubM, $position['show_on_club']) == 1 ? 'checked' : '' ?>
+                                                    <?= "<input class='form-check-input $validation' type='checkbox' role='switch' name='inputShowOnClubM' id='inputShowOnClubM$positionId' $checked >" ?>
                                                     <label class="form-check-label" for="inputShowOnClubM">Show role in club section</label>
                                                     <div class="invalid-feedback">
                                                         <?= $errors['showOnClubM'] ?>
