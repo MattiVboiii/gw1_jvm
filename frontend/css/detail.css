@@ -492,7 +492,7 @@ body {
   }
 }
 
-@media (min-width: 856px) {
+@media (max-width: 890px) {
   body {
     main {
       > .extrainfo {
