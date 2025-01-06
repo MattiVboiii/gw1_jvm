@@ -199,6 +199,11 @@ body {
               gap: 2rem;
               justify-content: center;
               align-items: center;
+              li {
+                a {
+                  color: var(--color-bg-primary);
+                }
+              }
             }
           }
 
@@ -208,7 +213,7 @@ body {
             text-align: center;
 
             a {
-              padding-top: 0.5rem;
+              /* padding-top: 5rem; */
               color: var(--color-bg-primary);
               text-decoration: none;
             }
