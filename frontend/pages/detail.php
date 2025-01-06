@@ -147,7 +147,7 @@ if($id > $maxID) {
     <!-- Facebook Meta Tags -->
 <meta property="og:url" content="https://local-ogp.firebaseapp.com/site/muqtgSwtWu9c2xTq1Lfs">
 <meta property="og:type" content="website">
-<meta property="og:title" content="detail-page about <?= getClubInfo($id)['name']?> ">
+<meta property="og:title" content="The Belgian Diamond - <?= getClubInfo($id)['name']?> ">
 <meta property="og:description" content="extra info about <?= getClubInfo($id)['name']?>">
 <meta property="og:image" content="  <?= $sfeerfoto[0]['media_url']?>">
 
