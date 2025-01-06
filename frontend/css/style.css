@@ -120,12 +120,48 @@ form {
   margin: 2rem auto;
   padding: 2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: var(--color-bg-primary);
+  color: white;
   border-radius: 10px;
   h2 {
     font-size: 2rem;
   }
   * {
     margin-bottom: 1rem;
+  }
+  select,
+  option,
+  input {
+    font-size: 1.6rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  select {
+    width: 100%;
+    appearance: none;
+    background-color: white;
+    cursor: pointer;
+  }
+
+  input {
+    width: calc(100% - 1rem);
+    box-sizing: border-box;
+  }
+
+  button {
+    font-size: 1.6rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--color-accent);
+    }
   }
 }
 

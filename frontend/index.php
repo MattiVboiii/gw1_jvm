@@ -52,20 +52,20 @@ function pagination($sections, $sectionPerPage, $page = 1)
         $sectionPerPage = (int) ($_GET['sectionPerPage'] ?? 4);
 
         $sortFields = ['name', 'city', 'province'];
-        $primarySortField = $_GET['primarySortField'] ?? 'name';
+        $sort = $_GET['sort'] ?? 'name';
         $sortDirection = $_GET['sortDirection'] ?? 'asc';
 
-        usort($sections, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$primarySortField], $b[$primarySortField]));
+        usort($sections, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sort], $b[$sort]));
 
         ['sectionsToShow' => $sectionsToShow, 'totalPages' => $totalPages] = pagination($sections, $sectionPerPage, $page);
         ?>
         <form action="/frontend/index.php" method="get">
             <h2>Search for clubs</h2>
             <input type="search" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-            <label for="primarySortField">Sort by:</label>
-            <select name="primarySortField" id="primarySortField">
+            <label for="sort">Sort by:</label>
+            <select name="sort" id="sort">
                 <?php foreach ($sortFields as $field): ?>
-                    <option value="<?= $field ?>" <?= $primarySortField === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
+                    <option value="<?= $field ?>" <?= $sort === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
                 <?php endforeach; ?>
             </select>
             <select name="sortDirection">
@@ -84,6 +84,7 @@ function pagination($sections, $sectionPerPage, $page = 1)
                             <h2><?= htmlspecialchars($club['name']) ?></h2>
                             <p><?= htmlspecialchars($club['zip']) ?> <?= htmlspecialchars($club['city']) ?>, <?= htmlspecialchars($club['province']) ?></p>
                             <p><?= htmlspecialchars($club['street']) ?> <?= htmlspecialchars($club['address']) ?> <?= htmlspecialchars($club['bus']) ?></p>
+                            <p><?= htmlspecialchars(substr($club['description'], 0, 100)) ?>...</p>
                         </div>
                     </section>
                 </a>
