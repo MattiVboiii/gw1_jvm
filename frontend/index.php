@@ -61,7 +61,7 @@ function pagination($sections, $sectionPerPage, $page = 1)
         ?>
         <form action="/frontend/index.php" method="get">
             <h2>Search for clubs</h2>
-            <input type="search" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+            <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>">
             <label for="sort">Sort by:</label>
             <select name="sort" id="sort">
                 <?php foreach ($sortFields as $field): ?>
@@ -80,12 +80,12 @@ function pagination($sections, $sectionPerPage, $page = 1)
             <?php foreach ($sectionsToShow as $club): ?>
                 <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
                     <section>
-                        <img src="<?= htmlspecialchars($club['logo_url']) ?>" alt="">
+                        <img src="<?= $club['logo_url'] ?>" alt="">
                         <div class="content">
-                            <h2><?= htmlspecialchars($club['name']) ?></h2>
-                            <p><?= htmlspecialchars($club['zip']) ?> <?= htmlspecialchars($club['city']) ?>, <?= htmlspecialchars($club['province']) ?></p>
-                            <p><?= htmlspecialchars($club['street']) ?> <?= htmlspecialchars($club['address']) ?> <?= htmlspecialchars($club['bus']) ?></p>
-                            <p><?= htmlspecialchars(mb_strimwidth($club['description'], 0, 300, '...')) ?></p>
+                            <h2><?= $club['name'] ?></h2>
+                            <p><?= $club['zip'] ?> <?= $club['city'] ?>, <?= $club['province'] ?></p>
+                            <p><?= $club['street'] ?> <?= $club['address'] ?> <?= $club['bus'] ?></p>
+                            <p><?= mb_strimwidth($club['description'], 0, 300, '...') ?></p>
                         </div>
                     </section>
                 </a>
