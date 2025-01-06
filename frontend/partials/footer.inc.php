@@ -31,7 +31,7 @@
 </style>
 
 <footer>
-    <p>FOOTER - Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+    <p>The Belgium Diamond - Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
     <ul>
         <li><a href="/frontend/index.php">Home</a></li>
         <li><a href="/admin/">Admin</a></li>

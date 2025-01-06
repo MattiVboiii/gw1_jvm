@@ -10,10 +10,14 @@
         font-family: "Inter", sans-serif;
         padding: 0 2vw;
         color: white;
-        background-color: purple;
+        background-color: #041e42;
 
         img {
             width: 50px;
+        }
+
+        h1 {
+            font-weight: bold;
         }
 
         ul {
@@ -62,6 +66,7 @@
 
 <nav>
     <img src="/frontend/images/logo.png" alt="">
+    <h1>The Belgium Diamond</h1>
     <ul>
         <li class="dropdown">
             <a href="#" class="dropbtn">Clubs</a>

@@ -79,12 +79,13 @@ function pagination($sections, $sectionPerPage, $page = 1)
         <div class="club-container">
             <?php foreach ($sectionsToShow as $club): ?>
                 <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
-                    <section style="background-image: url('<?= htmlspecialchars($club['logo_url']) ?>');">
+                    <section>
+                        <img src="<?= htmlspecialchars($club['logo_url']) ?>" alt="">
                         <div class="content">
                             <h2><?= htmlspecialchars($club['name']) ?></h2>
                             <p><?= htmlspecialchars($club['zip']) ?> <?= htmlspecialchars($club['city']) ?>, <?= htmlspecialchars($club['province']) ?></p>
                             <p><?= htmlspecialchars($club['street']) ?> <?= htmlspecialchars($club['address']) ?> <?= htmlspecialchars($club['bus']) ?></p>
-                            <p><?= htmlspecialchars(substr($club['description'], 0, 100)) ?>...</p>
+                            <p><?= htmlspecialchars(mb_strimwidth($club['description'], 0, 300, '...')) ?></p>
                         </div>
                     </section>
                 </a>
@@ -112,7 +113,7 @@ function pagination($sections, $sectionPerPage, $page = 1)
                 <?php endif; ?>
                 <?php if ($totalPages > 1): ?>
                     <!-- Text indicating which sections are shown -->
-                    <p>Showing <?= ($page - 1) * $sectionPerPage + 1 ?> to <?= min($page * $sectionPerPage, count($sections)) ?> of <?= count($sections) ?> clubs.</p>
+                    <p>Showing <?= ($page - 1) * $sectionPerPage + 1 ?> to <?= min($page * $sectionPerPage, count($sections)) ?> of <?= count($sections) ?> clubs</p>
                 <?php endif; ?>
             </div>
         </div>
