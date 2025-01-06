@@ -73,7 +73,7 @@ function pagination($sections, $sectionPerPage, $page = 1)
                 <option value="desc" <?= $sortDirection === 'desc' ? 'selected' : '' ?>>Descending</option>
             </select>
             <label for="sectionPerPage">Sections per page:</label>
-            <input type="number" name="sectionPerPage" value="<?= $sectionPerPage ?>" id="sectionPerPage">
+            <input type="number" name="sectionPerPage" value="<?= $sectionPerPage ?>" id="sectionPerPage" required>
             <button type="submit">Search</button>
         </form>
         <div class="club-container">
