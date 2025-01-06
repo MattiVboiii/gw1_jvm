@@ -1,6 +1,7 @@
 @import url("./reset.css");
 @import url("./icons.css");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap");
+
 :root {
   font-size: 62.5%;
   --soft-orange: hsl(35, 77%, 62%);
@@ -33,13 +34,78 @@
   --info-border-subtle: #9eeaf9;
   --info-text-emphasis: #055160;
 }
+
 * {
   box-sizing: border-box;
 }
+
 body {
-  background-color: green;
+  font-family: "Inter", sans-serif;
 }
-body * {
-  line-height: calc(2px + 2ex + 2px);
-  font-size: 5rem;
+
+p {
+  line-height: normal;
+}
+
+header,
+footer {
+  background-color: yellow;
+  padding: 20px;
+  p {
+    text-align: center;
+  }
+}
+
+.club-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 100px auto;
+  gap: 2rem;
+  justify-content: center;
+  align-content: center;
+  width: 50%;
+  section {
+    height: 30vh;
+    max-width: 25vw;
+    position: relative;
+    border: 3px solid black;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    h2 {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-weight: bold;
+      padding: 10px;
+      width: 100%;
+      position: absolute;
+      bottom: -100%;
+      transition: bottom 0.3s ease;
+    }
+    &:hover h2 {
+      bottom: 0;
+    }
+  }
+}
+
+.pagination {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  gap: 1rem;
+  a {
+    padding: 0.5rem 1rem;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    color: black;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    &.active {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
 }
