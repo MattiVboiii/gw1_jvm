@@ -4,24 +4,23 @@ include_once 'frontend/php_includes/func.inc.php';
 
 function getClubsOrSearch($searchQuery = null)
 {
-    // If a search query is provided, filter clubs by name
     if ($searchQuery) {
-        return array_filter(getClubs(), fn($c) => stripos($c['name'], $searchQuery) !== false);
+        return array_filter(
+            getClubs(),
+            fn($c) => stripos($c['name'], $searchQuery) !== false ||
+                stripos($c['city'], $searchQuery) !== false ||
+                stripos($c['province'], $searchQuery) !== false ||
+                stripos($c['description'], $searchQuery) !== false
+        );
     }
-    // Return all clubs if no search query is provided
     return getClubs();
 }
 
 function pagination($sections, $sectionPerPage, $page = 1)
 {
-    // Calculate total number of sections and pages
-    $totalSections = count($sections);
-    $totalPages = ceil($totalSections / $sectionPerPage);
-
-    // Get sections to display on the current page
+    $totalPages = ceil(count($sections) / $sectionPerPage);
     $sectionsToShow = array_slice($sections, ($page - 1) * $sectionPerPage, $sectionPerPage);
 
-    // Return the sections to show and the total number of pages
     return [
         'sectionsToShow' => $sectionsToShow,
         'totalPages' => $totalPages,
@@ -38,58 +37,80 @@ function pagination($sections, $sectionPerPage, $page = 1)
     <title>WEBSITE HOMEPAGE</title>
     <link rel="stylesheet" href="/frontend/css/style.css" />
     <script src="/frontend/js/script.js" defer type="module"></script>
+    <link rel="icon" type="image/png" href="/frontend/images/logo.png" />
 </head>
 
 <body>
     <?php include('frontend/partials/header.inc.php') ?>
     <main>
         <header>
-            <p>BANNER - Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis harum quibusdam, accusantium magnam sapiente mollitia quae dicta, dolore consequuntur incidunt modi excepturi quod expedita saepe ipsa autem repellat suscipit nisi!</p>
+            <p>BANNER - Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         </header>
-        <!-- sections -->
         <?php
         $sections = getClubsOrSearch($_GET['search'] ?? null);
         $page = (int) ($_GET['page'] ?? 1);
-        $sectionPerPage = 4;
-        list('sectionsToShow' => $sectionsToShow, 'totalPages' => $totalPages) = pagination($sections, $sectionPerPage, $page);
+        $sectionPerPage = (int) ($_GET['sectionPerPage'] ?? 4);
+
+        $sortFields = ['name', 'city', 'province'];
+        $primarySortField = $_GET['primarySortField'] ?? 'name';
+        $sortDirection = $_GET['sortDirection'] ?? 'asc';
+
+        usort($sections, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$primarySortField], $b[$primarySortField]));
+
+        ['sectionsToShow' => $sectionsToShow, 'totalPages' => $totalPages] = pagination($sections, $sectionPerPage, $page);
         ?>
         <form action="/frontend/index.php" method="get">
-            <input type="search" id="search" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+            <h2>Search for clubs</h2>
+            <input type="search" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+            <label for="primarySortField">Sort by:</label>
+            <select name="primarySortField" id="primarySortField">
+                <?php foreach ($sortFields as $field): ?>
+                    <option value="<?= $field ?>" <?= $primarySortField === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select name="sortDirection">
+                <option value="asc" <?= $sortDirection === 'asc' ? 'selected' : '' ?>>Ascending</option>
+                <option value="desc" <?= $sortDirection === 'desc' ? 'selected' : '' ?>>Descending</option>
+            </select>
+            <label for="sectionPerPage">Sections per page:</label>
+            <input type="number" name="sectionPerPage" value="<?= $sectionPerPage ?>" id="sectionPerPage">
             <button type="submit">Search</button>
         </form>
         <div class="club-container">
-            <?php foreach ($sectionsToShow as $club) : ?>
+            <?php foreach ($sectionsToShow as $club): ?>
                 <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
                     <section style="background-image: url('<?= htmlspecialchars($club['logo_url']) ?>');">
                         <div class="content">
                             <h2><?= htmlspecialchars($club['name']) ?></h2>
-                            <p><?= htmlspecialchars($club['description']) ?></p>
+                            <p><?= htmlspecialchars($club['zip']) ?> <?= htmlspecialchars($club['city']) ?>, <?= htmlspecialchars($club['province']) ?></p>
+                            <p><?= htmlspecialchars($club['street']) ?> <?= htmlspecialchars($club['address']) ?> <?= htmlspecialchars($club['bus']) ?></p>
                         </div>
                     </section>
                 </a>
             <?php endforeach; ?>
-            <!-- pagination -->
             <div class="pagination">
-                <!-- Link to the first page, disabled if the current page is the first -->
-                <a href="?page=1" class="first<?= $page <= 1 ? ' disabled' : '' ?>">|&lt;</a>
-
-                <!-- Link to the previous page, disabled if the current page is the first -->
-                <a href="?page=<?= max(1, $page - 1) ?>" class="prev<?= $page <= 1 ? ' disabled' : '' ?>">&lt;</a>
-
-                <!-- Page number links, show 3 pages around the current one -->
-                <?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++) : ?>
-                    <!-- Highlight the current page -->
-                    <a href="?page=<?= $i ?>" class="page-<?= $i ?><?= $i == $page ? ' active' : '' ?>"><?= $i ?></a>
+                <?php if ($page > 1): ?>
+                    <!-- Link to go to the first page -->
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => 1])) ?>">|&lt;</a>
+                <?php endif; ?>
+                <?php if ($page > 1): ?>
+                    <!-- Link to go to the previous page -->
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])) ?>">&lt;</a>
+                <?php endif; ?>
+                <?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++): ?>
+                    <!-- Link to go to a specific page -->
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>" class="page-<?= $i ?><?= $i == $page ? ' active' : '' ?>"><?= $i ?></a>
                 <?php endfor; ?>
-
-                <!-- Link to the next page, disabled if the current page is the last -->
-                <a href="?page=<?= min($totalPages, $page + 1) ?>" class="next<?= $page >= $totalPages ? ' disabled' : '' ?>">&gt;</a>
-
-                <!-- Link to the last page, disabled if the current page is the last -->
-                <a href="?page=<?= $totalPages ?>" class="last<?= $page >= $totalPages ? ' disabled' : '' ?>">&gt;|</a>
-
-                <!-- Display the range of clubs currently shown and the total number of clubs -->
-                <?php if ($totalPages > 1) : ?>
+                <?php if ($page < $totalPages): ?>
+                    <!-- Link to go to the next page -->
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])) ?>">&gt;</a>
+                <?php endif; ?>
+                <?php if ($page < $totalPages): ?>
+                    <!-- Link to go to the last page -->
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $totalPages])) ?>">&gt;|</a>
+                <?php endif; ?>
+                <?php if ($totalPages > 1): ?>
+                    <!-- Text indicating which sections are shown -->
                     <p>Showing <?= ($page - 1) * $sectionPerPage + 1 ?> to <?= min($page * $sectionPerPage, count($sections)) ?> of <?= count($sections) ?> clubs.</p>
                 <?php endif; ?>
             </div>

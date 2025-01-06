@@ -112,6 +112,23 @@ header {
   }
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  h2 {
+    font-size: 2rem;
+  }
+  * {
+    margin-bottom: 1rem;
+  }
+}
+
 .pagination {
   grid-column: 1 / -1;
   display: flex;
@@ -136,5 +153,24 @@ header {
     padding: 0.5rem 1rem;
     border: 1px solid black;
     border-radius: 0.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .club-container {
+    grid-template-columns: 1fr;
+    section {
+      max-width: 100%;
+    }
+  }
+}
+
+@media (min-width: 1100px) {
+  .club-container {
+    grid-template-columns: repeat(4, 1fr);
+    width: 90%;
+    section {
+      height: 50vh;
+    }
   }
 }
