@@ -145,10 +145,10 @@ if($id > $maxID) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes">
 
     <!-- Facebook Meta Tags -->
-<meta property="og:url" content="https://local-ogp.firebaseapp.com/site/muqtgSwtWu9c2xTq1Lfs">
+<meta property="og:url" content="http://localhost:5173/frontend/pages/detail.php?id=<?=$id?>">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Belgian Diamond - <?= getClubInfo($id)['name']?> ">
-<meta property="og:description" content="extra info about <?= getClubInfo($id)['name']?>">
+<meta property="og:title" content="The Belgian Diamond - <?= $clubinfo['name']?> ">
+<meta property="og:description" content="extra info about <?= $clubinfo['name']?> you can find them in <?= $clubinfo['city']?>">
 <meta property="og:image" content="  <?= $sfeerfoto[0]['media_url']?>">
 
 <meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
