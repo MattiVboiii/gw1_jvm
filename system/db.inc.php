@@ -89,10 +89,10 @@ function deleteClub(int $id): int|false
 {
     $sql = 'DELETE FROM clubs WHERE id = :id';
     $stmt = connectToDatabase()->prepare($sql);
-    //$success = $stmt->execute([':id' => $id]);
+    $success = $stmt->execute([':id' => $id]);
     $success = true;
     return $success
-        ? 0 //$stmt->rowCount()
+        ? $stmt->rowCount()
         : false;
 }
 
@@ -179,10 +179,10 @@ function deleteManagement(int $id): int|false
 {
     $sql = 'DELETE FROM management WHERE id = :id';
     $stmt = connectToDatabase()->prepare($sql);
-    //$success = $stmt->execute([':id' => $id]);
+    $success = $stmt->execute([':id' => $id]);
     $success = true;
     return $success
-        ? 2 //$stmt->rowCount()
+        ? $stmt->rowCount()
         : false;
 }
 
