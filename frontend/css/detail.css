@@ -199,7 +199,6 @@ body {
               gap: 2rem;
               justify-content: center;
               align-items: center;
-              /* background-color: blue; */
             }
           }
 
@@ -254,20 +253,20 @@ body {
         }
 
         > p::-webkit-scrollbar-track {
-          background: transparent; /* Invisible track */
+          background: transparent;
         }
         > p::-webkit-scrollbar-thumb {
-          background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent thumb */
-          border-radius: 4px; /* Rounded corners for the thumb */
+          background-color: rgba(0, 0, 0, 0.2);
+          border-radius: 4px;
         }
         > p::-webkit-scrollbar-thumb:hover {
-          background-color: rgba(0, 0, 0, 0.4); /* Darker thumb on hover */
+          background-color: rgba(0, 0, 0, 0.4);
         }
 
         /* For Firefox  */
         > p {
-          scrollbar-width: thin; /* Thin scrollbar */
-          scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* Thumb color and track color */
+          scrollbar-width: thin;
+          scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
         }
       }
     }
@@ -336,11 +335,6 @@ body {
           overflow: scroll;
           grid-column: 1/-1;
           grid-row: 2/3;
-          /* display: flex; */
-          /* flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 1rem; */
           max-width: 90%;
           padding: 1rem;
           > h2 {
@@ -357,7 +351,6 @@ body {
             max-width: 100%;
             thead tr th,
             tbody tr td {
-              /*geen display block doen fucked alles op net zoals trance muziek ineens in mijn koptelefoon knalt*/
               border: solid 1px black;
               padding: 1rem;
               color: var(--color-text-body);
@@ -373,21 +366,21 @@ body {
           height: 8px;
         }
         .games::-webkit-scrollbar-track {
-          background: transparent; /* Invisible track */
+          background: transparent;
         }
 
         .games::-webkit-scrollbar-thumb {
-          background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent thumb */
-          border-radius: 4px; /* Rounded corners for the thumb */
+          background-color: rgba(0, 0, 0, 0.2);
+          border-radius: 4px;
         }
         .games::-webkit-scrollbar-thumb:hover {
-          background-color: rgba(0, 0, 0, 0.4); /* Darker thumb on hover */
+          background-color: rgba(0, 0, 0, 0.4);
         }
 
         /* For Firefox  */
         .games {
-          scrollbar-width: thin; /* Thin scrollbar */
-          scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* Thumb color and track color */
+          scrollbar-width: thin;
+          scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
         }
       }
 
@@ -467,7 +460,6 @@ body {
           .bestuur {
             h2 {
               padding-bottom: 1.4rem;
-              /* background-color: blue; */
             }
           }
         }
@@ -484,7 +476,6 @@ body {
           .bestuur {
             h2 {
               padding-bottom: 3.7rem;
-              /* background-color: blue; */
             }
           }
         }
@@ -541,7 +532,6 @@ body {
         > div {
           :nth-child(2) {
             height: 100%;
-            /* width: 90%; */
             overflow: hidden;
             display: block;
             object-position: center;

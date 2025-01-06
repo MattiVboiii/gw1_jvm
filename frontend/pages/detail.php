@@ -141,7 +141,7 @@ if($id > $maxID) {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes">
 
     <!-- Facebook Meta Tags -->
@@ -189,7 +189,7 @@ if (!empty($socials)) {
     echo '<ul>';
     foreach ($socials as $social) {
         
-        $socialLink = $social['sociallink']; // Escape special characters for security
+        $socialLink = $social['sociallink']; 
         $linkName = strtolower($social['linkname']); // Convert link name to lowercase
 
         
