@@ -157,7 +157,7 @@ if($id > $maxID) {
 
 
 
-    <title><?= getClubInfo($id)['name']?>-detailpage</title>
+    <title>Belgian Diamond - <?= getClubInfo($id)['name']?></title>
     <link rel="stylesheet" href="/frontend/css/detail.css">
 </head>
 
