@@ -60,6 +60,57 @@ header {
   text-align: center;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+  background-color: var(--color-bg-primary);
+  color: var(--color-emphasis-primary);
+  border-radius: 10px;
+  h2 {
+    font-size: 2rem;
+  }
+  * {
+    margin-bottom: 1rem;
+  }
+  select,
+  option,
+  input {
+    font-size: 1.6rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+  }
+  select {
+    width: 100%;
+    appearance: none;
+    background-color: var(--color-emphasis-primary);
+    cursor: pointer;
+  }
+  input {
+    width: calc(100% - 1rem);
+    box-sizing: border-box;
+  }
+  button {
+    font-size: 1.6rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    &:hover {
+      color: var(--color-emphasis-primary);
+      background-color: var(--color-accent);
+    }
+  }
+}
+
 .club-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -70,13 +121,14 @@ header {
   width: 50%;
   section {
     height: 50vh;
-    max-width: 25vw;
+    max-width: 100%;
     position: relative;
     overflow: hidden;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
     border: 5px solid #fff;
     border-radius: 2rem;
     transition: transform 0.2s ease-in-out;
@@ -117,63 +169,6 @@ header {
   }
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 500px;
-  margin: 2rem auto;
-  padding: 2rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: var(--color-bg-primary);
-  color: var(--color-emphasis-primary);
-  border-radius: 10px;
-  h2 {
-    font-size: 2rem;
-  }
-  * {
-    margin-bottom: 1rem;
-  }
-  .sort-controls {
-    display: flex;
-    width: 100%;
-    height: auto;
-    gap: 1rem;
-  }
-  select,
-  option,
-  input {
-    font-size: 1.6rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
-    margin-bottom: 1rem;
-  }
-  select {
-    width: 100%;
-    appearance: none;
-    background-color: var(--color-emphasis-primary);
-    cursor: pointer;
-  }
-  input {
-    width: calc(100% - 1rem);
-    box-sizing: border-box;
-  }
-  button {
-    font-size: 1.6rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: var(--color-bg-secondary);
-    color: var(--color-text-secondary);
-    border-radius: 0.25rem;
-    cursor: pointer;
-    &:hover {
-      color: var(--color-emphasis-primary);
-      background-color: var(--color-accent);
-    }
-  }
-}
-
 .pagination {
   grid-column: 1 / -1;
   display: flex;
@@ -202,12 +197,15 @@ form {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 680px) {
   .club-container {
     grid-template-columns: 1fr;
     section {
       max-width: 100%;
     }
+  }
+  form {
+    max-width: 90%;
   }
 }
 
@@ -215,8 +213,5 @@ form {
   .club-container {
     grid-template-columns: repeat(4, 1fr);
     width: 90%;
-    section {
-      /* height: 50vh; */
-    }
   }
 }

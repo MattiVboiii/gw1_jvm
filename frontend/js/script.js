@@ -1,5 +1,6 @@
 console.log("javascript works on frontend.......");
 
+// Toggle sort direction
 function toggleSortDirection(event) {
   const currentDirection = document.querySelector(
     'input[name="sortDirection"]'
@@ -13,3 +14,11 @@ function toggleSortDirection(event) {
 document
   .querySelector(".toggleSortDirection")
   .addEventListener("click", toggleSortDirection);
+
+// Update text on slider input change
+document
+  .querySelector(".clubsPerPageSlider")
+  .addEventListener("input", (event) => {
+    document.getElementById("clubsPerPageValue").textContent =
+      event.target.value;
+  });

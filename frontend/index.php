@@ -38,25 +38,25 @@ include_once 'frontend/php_includes/func.inc.php';
             <h2>Search for clubs</h2>
             <label for="search">Name/City/Province:</label>
             <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>" minlength="3">
-            <label for="sort">Sort by:</label>
-            <select name="sort" id="sort">
-                <?php foreach ($sortFields as $field): ?>
-                    <option value="<?= $field ?>" <?= $sort === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
-                <?php endforeach; ?>
-            </select>
-            <input type="hidden" name="sortDirection" value="<?= $sortDirection ?>">
-            <button type="button" class="toggleSortDirection">
-                <?= $sortDirection === 'asc' ? '↑ Ascending' : '↓ Descending' ?>
-            </button>
-            <button type="submit">Search</button>
             <?php if (!empty($clubsToShow) && $totalPages > 1): ?>
-                <label for="clubsPerPage">Clubs per page: (max: <?= count($clubs) ?>)</label>
-                <input type="number" name="clubsPerPage" value="<?= $clubsPerPage ?>" id="clubsPerPage" min="1" max="<?= count($clubs) ?>" required>
+                <label for="sort">Sort by:</label>
+                <select name="sort">
+                    <?php foreach ($sortFields as $field): ?>
+                        <option value="<?= $field ?>" <?= $sort === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <input type="hidden" name="sortDirection" value="<?= $sortDirection ?>">
+                <button type="button" class="toggleSortDirection">
+                    <?= $sortDirection === 'asc' ? '↑ Ascending' : '↓ Descending' ?>
+                </button>
+                <label for="clubsPerPage">Clubs per page:</label>
+                <input type="range" name="clubsPerPage" class="clubsPerPageSlider" value="<?= $clubsPerPage ?>" min="1" max="<?= count($clubs) ?>">
+                <span id="clubsPerPageValue"><?= $clubsPerPage ?></span>
             <?php endif; ?>
+            <button type="submit">Search</button>
             <?php if (empty($clubsToShow)): ?>
                 <p class="error">No clubs found, please try again with different search terms.</p>
             <?php endif; ?>
-
         </form>
         <div class="club-container">
             <?php foreach ($clubsToShow as $club): ?>
@@ -83,7 +83,7 @@ include_once 'frontend/php_includes/func.inc.php';
                 <?php endif; ?>
                 <?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++): ?>
                     <!-- Link to go to a specific page -->
-                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>" class="page-<?= $i ?><?= $i == $page ? ' active' : '' ?>"><?= $i ?></a>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"><?= $i ?></a>
                 <?php endfor; ?>
                 <?php if ($page < $totalPages): ?>
                     <!-- Link to go to the next page -->
