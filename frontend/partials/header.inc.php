@@ -11,7 +11,7 @@
         padding: 0 2vw;
         color: white;
         background-color: #041e42;
-        min-height: 20vh;
+        
 
         img {
             width: 100px;
