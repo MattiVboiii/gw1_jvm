@@ -46,3 +46,11 @@ body {
   );
   background-size: cover;
 }
+
+input,
+select,
+textarea,
+label::after,
+.input-group .btn:not(:hover) {
+  background-color: var(--bs-light-bg-subtle) !important;
+}
