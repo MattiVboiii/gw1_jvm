@@ -1,0 +1,78 @@
+@import url("./theme-switcher.css");
+
+:root {
+  --nav-width: 200px;
+  --nav-height: 100vh;
+}
+
+body {
+  margin-left: var(--nav-width);
+  nav {
+    width: var(--nav-width);
+    height: var(--nav-height);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    isolation: isolate;
+    .navbar-toggler {
+      display: none;
+    }
+    .nav-header {
+      padding: 16px 0 16px 0;
+      background-color: inherit;
+    }
+  }
+  .alert {
+    min-height: 58px;
+  }
+}
+
+@media (max-width: 992px) and (min-width: 577px) {
+  :root {
+    --nav-width: 80px;
+  }
+  nav {
+    text-align: center;
+    > div span,
+    li a span {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  :root {
+    --nav-width: 100%;
+    --nav-height: 60px;
+  }
+  body {
+    margin-left: 0;
+    margin-top: var(--nav-height);
+    nav {
+      .nav-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px 0 16px;
+        height: 100%;
+        z-index: 1;
+        .navbar-toggler {
+          display: block;
+        }
+      }
+      hr,
+      .nav-body {
+        display: none !important;
+      }
+      #offcanvasNavbar,
+      .offcanvas-backdrop {
+        top: var(--nav-height);
+        z-index: 0;
+      }
+      .offcanvas-backdrop {
+        z-index: -1;
+      }
+    }
+  }
+}
