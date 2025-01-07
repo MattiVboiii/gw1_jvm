@@ -31,9 +31,10 @@ function renderHeader(NAV $activePage)
 {
 ?>
     <header class="sticky-top">
-        <nav class="d-flex flex-column flex-shrink-0 px-lg-3 bg-body-secondary">
+        <nav class="d-flex flex-column flex-shrink-0 px-lg-3">
+            <div class="nav-bg bg-gradient-primary"></div>
             <div class="nav-header fs-4">
-                <div class="align-items-center link-body-emphasis pe-none">
+                <div class="align-items-center text-white pe-none">
                     <i class="fa-solid fa-baseball-bat-ball me-3 ms-2"></i>
                     <span>Admin</span>
                 </div>
@@ -64,14 +65,14 @@ function renderNavBodyContents(NAV $activePage)
     <ul class="nav nav-pills flex-column mb-auto">
         <?php foreach (NAV::cases() as $navItem): ?>
             <li class="nav-item">
-                <a href="<?= $navItem->ref() ?>" class="p-3 nav-link <?= $activePage === $navItem ? 'active' : 'link-body-emphasis' ?>">
+                <a href="<?= $navItem->ref() ?>" class="p-3 nav-link <?= $activePage === $navItem ? ' text-white' : 'text-white-50' ?>">
                     <i class="<?= $navItem->icon() ?> me-2"></i>
                     <span><?= ucwords(strtolower($navItem->name)) ?></span>
                 </a>
             </li>
         <?php endforeach ?>
     </ul>
-    <div class="d-flex justify-content-center mt-4 mb-3">
+    <div class="d-flex justify-content-center mt-4 pb-3">
         <?php include 'admin/partials/theme-switcher.inc.php' ?>
     </div>
 <?php
