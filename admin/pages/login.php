@@ -2,6 +2,11 @@
 require_once 'system/db.inc.php';
 
 
+$email = $_POST['inputEmail'] ?? '';
+$pass = $_POST['inputPassword'] ?? '';
+
+if (isset($_POST['submit'])) {
+}
 
 
 ?>
@@ -22,17 +27,17 @@ require_once 'system/db.inc.php';
                 <h1 class="fs-4">Sign in</h1>
             </div>
             <div class="card-body py-5 px-4">
-                <form method="post">
+                <form method="post" novalidate>
                     <fieldset>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="inputEmail" placeholder="Email...">
+                            <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="Email..." value="<?= $email ?>">
                             <label for="inputEmail">Email address</label>
                             <div class="invalid-feedback">
                                 wrong!
                             </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="inputPassword" placeholder="Password...">
+                            <input type="password" class="form-control" name="inputPassword" id="inputPassword" placeholder="Password...">
                             <label for="inputPassword">Password</label>
                             <div class="invalid-feedback">
                                 wrong!
