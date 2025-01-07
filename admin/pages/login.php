@@ -46,8 +46,7 @@ require_once 'system/db.inc.php';
                 </form>
             </div>
             <div class="card-footer p-4">
-                <p class="text-secondary">Lost? <a href="">Go back home.</a></p>
-
+                <p class="text-secondary">Lost? <a href="/frontend/">Go back home.</a></p>
             </div>
         </div>
     </main>
