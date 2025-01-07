@@ -1,5 +1,4 @@
 <?php
-include 'admin/partials/header.inc.php';
 require_once 'system/db.inc.php';
 
 
