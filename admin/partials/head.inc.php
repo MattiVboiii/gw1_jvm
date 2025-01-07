@@ -7,3 +7,4 @@
     crossorigin="anonymous">
 </script>
 <link rel="stylesheet" crossorigin href="/admin/css/style.css">
+<script type="module" src="/admin/js/resize-anim-stopper.js"></script>

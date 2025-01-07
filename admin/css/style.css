@@ -21,6 +21,13 @@ body {
   .container {
     margin-top: 20px;
   }
+
+  &.resize-animation-stopper *,
+  &.resize-animation-stopper *::before,
+  &.resize-animation-stopper *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 .card {
