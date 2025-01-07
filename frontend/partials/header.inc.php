@@ -7,6 +7,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        font-family: "Inter", sans-serif;
         padding: 0 2vw;
         color: white;
         background-color: #041e42;
@@ -25,12 +26,6 @@
                 color: white;
                 text-decoration: none;
                 padding: 10px;
-
-                &:hover {
-                    background-color: yellow;
-                    color: blue;
-                    text-decoration: underline;
-                }
             }
         }
     }
@@ -46,6 +41,7 @@
         right: 0;
         background-color: lightgrey;
         min-width: 160px;
+        z-index: 5;
     }
 
     .dropdown-content a {
