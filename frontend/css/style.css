@@ -69,7 +69,7 @@ header {
   align-content: center;
   width: 50%;
   section {
-    height: 30vh;
+    height: 50vh;
     max-width: 25vw;
     position: relative;
     overflow: hidden;
@@ -97,6 +97,9 @@ header {
       position: absolute;
       bottom: 0;
       overflow-y: auto;
+      p {
+        height: fit-content;
+      }
       &::-webkit-scrollbar {
         width: 5px;
         background-color: rgba(0, 0, 0, 0.2);
@@ -130,6 +133,12 @@ form {
   }
   * {
     margin-bottom: 1rem;
+  }
+  .sort-controls {
+    display: flex;
+    width: 100%;
+    height: auto;
+    gap: 1rem;
   }
   select,
   option,
@@ -168,7 +177,8 @@ form {
 .pagination {
   grid-column: 1 / -1;
   display: flex;
-  justify-content: center;
+  place-content: center;
+  align-items: center;
   margin: 2rem 0;
   gap: 1rem;
   a,
@@ -206,7 +216,7 @@ form {
     grid-template-columns: repeat(4, 1fr);
     width: 90%;
     section {
-      height: 50vh;
+      /* height: 50vh; */
     }
   }
 }

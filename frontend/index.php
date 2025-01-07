@@ -1,31 +1,6 @@
 <?php
 require_once 'system/db.inc.php';
 include_once 'frontend/php_includes/func.inc.php';
-
-function getClubsOrSearch($searchQuery = null)
-{
-    if ($searchQuery) {
-        return array_filter(
-            getClubs(),
-            fn($c) => stripos($c['name'], $searchQuery) !== false ||
-                stripos($c['city'], $searchQuery) !== false ||
-                stripos($c['province'], $searchQuery) !== false ||
-                stripos($c['description'], $searchQuery) !== false
-        );
-    }
-    return getClubs();
-}
-
-function pagination($sections, $sectionPerPage, $page = 1)
-{
-    $totalPages = ceil(count($sections) / $sectionPerPage);
-    $sectionsToShow = array_slice($sections, ($page - 1) * $sectionPerPage, $sectionPerPage);
-
-    return [
-        'sectionsToShow' => $sectionsToShow,
-        'totalPages' => $totalPages,
-    ];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,37 +22,44 @@ function pagination($sections, $sectionPerPage, $page = 1)
             <p>BANNER - Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         </header>
         <?php
-        $sections = getClubsOrSearch($_GET['search'] ?? null);
+        $clubs = getClubsOrSearch(isset($_GET['search']) ? $_GET['search'] : null);
         $page = (int) ($_GET['page'] ?? 1);
-        $sectionPerPage = (int) ($_GET['sectionPerPage'] ?? 4);
+        $clubsPerPage = (int) ($_GET['clubsPerPage'] ?? 4);
 
         $sortFields = ['name', 'city', 'province'];
         $sort = $_GET['sort'] ?? 'name';
         $sortDirection = $_GET['sortDirection'] ?? 'asc';
 
-        usort($sections, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sort], $b[$sort]));
+        usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sort], $b[$sort]));
 
-        ['sectionsToShow' => $sectionsToShow, 'totalPages' => $totalPages] = pagination($sections, $sectionPerPage, $page);
+        ['clubsToShow' => $clubsToShow, 'totalPages' => $totalPages] = pagination($clubs, $clubsPerPage, $page);
         ?>
         <form action="/frontend/index.php" method="get">
             <h2>Search for clubs</h2>
-            <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>">
+            <label for="search">Name/City/Province:</label>
+            <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>" minlength="3">
             <label for="sort">Sort by:</label>
             <select name="sort" id="sort">
                 <?php foreach ($sortFields as $field): ?>
                     <option value="<?= $field ?>" <?= $sort === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
                 <?php endforeach; ?>
             </select>
-            <select name="sortDirection">
-                <option value="asc" <?= $sortDirection === 'asc' ? 'selected' : '' ?>>Ascending</option>
-                <option value="desc" <?= $sortDirection === 'desc' ? 'selected' : '' ?>>Descending</option>
-            </select>
-            <label for="sectionPerPage">Sections per page:</label>
-            <input type="number" name="sectionPerPage" value="<?= $sectionPerPage ?>" id="sectionPerPage" required>
+            <input type="hidden" name="sortDirection" value="<?= $sortDirection ?>">
+            <button type="button" class="toggleSortDirection">
+                <?= $sortDirection === 'asc' ? '↑ Ascending' : '↓ Descending' ?>
+            </button>
             <button type="submit">Search</button>
+            <?php if (!empty($clubsToShow) && $totalPages > 1): ?>
+                <label for="clubsPerPage">Clubs per page: (max: <?= count($clubs) ?>)</label>
+                <input type="number" name="clubsPerPage" value="<?= $clubsPerPage ?>" id="clubsPerPage" min="1" max="<?= count($clubs) ?>" required>
+            <?php endif; ?>
+            <?php if (empty($clubsToShow)): ?>
+                <p class="error">No clubs found, please try again with different search terms.</p>
+            <?php endif; ?>
+
         </form>
         <div class="club-container">
-            <?php foreach ($sectionsToShow as $club): ?>
+            <?php foreach ($clubsToShow as $club): ?>
                 <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
                     <section>
                         <img src="<?= $club['logo_url'] ?>" alt="">
@@ -112,8 +94,8 @@ function pagination($sections, $sectionPerPage, $page = 1)
                     <a href="?<?= http_build_query(array_merge($_GET, ['page' => $totalPages])) ?>">&gt;|</a>
                 <?php endif; ?>
                 <?php if ($totalPages > 1): ?>
-                    <!-- Text indicating which sections are shown -->
-                    <p>Showing <?= ($page - 1) * $sectionPerPage + 1 ?> to <?= min($page * $sectionPerPage, count($sections)) ?> of <?= count($sections) ?> clubs</p>
+                    <!-- Text indicating which clubs are shown -->
+                    <p>Showing <?= ($page - 1) * $clubsPerPage + 1 ?> to <?= min($page * $clubsPerPage, count($clubs)) ?> of <?= count($clubs) ?> clubs</p>
                 <?php endif; ?>
             </div>
         </div>
