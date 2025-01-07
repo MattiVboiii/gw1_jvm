@@ -118,7 +118,7 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
 
 <head>
     <?php require 'admin/partials/head.inc.php' ?>
-    <title>Admin - Clubs</title>
+    <title>Admin - Clubs: create</title>
     <link rel="stylesheet" href="/admin/css/clubForm.css">
     <script defer type="module" src="/admin/js/clubForm.js"></script>
     <script defer type="module" src="/admin/js/clubEdit-modal.js"></script>
