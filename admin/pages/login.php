@@ -22,7 +22,7 @@ require_once 'system/db.inc.php';
                 <h1 class="fs-4">Sign in</h1>
             </div>
             <div class="card-body py-5 px-4">
-                <form action="post">
+                <form method="post">
                     <fieldset>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="inputEmail" placeholder="Email...">
