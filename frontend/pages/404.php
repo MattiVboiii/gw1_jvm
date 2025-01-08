@@ -12,6 +12,6 @@
     <title>Document</title>
 </head>
 <body>
-<img src="/public/frontend/images/404.jpg" alt="">
+    <img src="/public/frontend/images/404.jpg" alt="">
 </body>
 </html>

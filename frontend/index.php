@@ -37,14 +37,14 @@ function pagination($sections, $sectionPerPage, $page = 1)
     <title>WEBSITE HOMEPAGE</title>
 
     <!-- Facebook Meta Tags -->
-<meta property="og:url" content="http://localhost:5173/frontend/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="The Belgian Diamond">
-<meta property="og:description" content="a list of all the Belgian baseball clubs from Belgium">
-<meta property="og:image" content="../frontend/public/images/logo.png">
+    <meta property="og:url" content="http://localhost:5173/frontend/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Belgian Diamond">
+    <meta property="og:description" content="a list of all the Belgian baseball clubs from Belgium">
+    <meta property="og:image" content="../frontend/public/images/logo.png">
 
-<meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
-<meta name="robots" content="index, follow">
+    <meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
+    <meta name="robots" content="index, follow">
 
     <link rel="stylesheet" href="/frontend/css/style.css" />
     <script src="/frontend/js/script.js" defer type="module"></script>
