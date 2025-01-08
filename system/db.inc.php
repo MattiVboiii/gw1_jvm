@@ -1,5 +1,8 @@
 <?php
 require_once 'system/load_env.inc.php';
+require_once 'system/Site/User.php';
+
+use Site\User;
 
 function connectToDatabase($forceReConnect = false): PDO
 {
@@ -219,4 +222,15 @@ function getTeams(): array
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getUser(string $email): User|false
+{
+    $sql = 'SELECT id, username, password, email FROM users WHERE email = :email';
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row
+        ? new User(...$row)
+        : false;
 }
