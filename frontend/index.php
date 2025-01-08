@@ -37,14 +37,14 @@ function pagination($sections, $sectionPerPage, $page = 1)
     <title>WEBSITE HOMEPAGE</title>
 
     <!-- Facebook Meta Tags -->
-<meta property="og:url" content="http://localhost:5173/frontend/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="The Belgian Diamond">
-<meta property="og:description" content="a list of all the Belgian baseball clubs from Belgium">
-<meta property="og:image" content="../frontend/public/images/logo.png">
+    <meta property="og:url" content="http://localhost:5173/frontend/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Belgian Diamond">
+    <meta property="og:description" content="a list of all the Belgian baseball clubs from Belgium">
+    <meta property="og:image" content="../frontend/public/images/logo.png">
 
-<meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
-<meta name="robots" content="index, follow">
+    <meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
+    <meta name="robots" content="index, follow">
 
     <link rel="stylesheet" href="/frontend/css/style.css" />
     <script src="/frontend/js/script.js" defer type="module"></script>
@@ -76,12 +76,16 @@ function pagination($sections, $sectionPerPage, $page = 1)
             <label for="sort">Sort by:</label>
             <select name="sort" id="sort">
                 <?php foreach ($sortFields as $field): ?>
-                    <option value="<?= $field ?>" <?= $sort === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
+                    <?php $selected = $sort === $field ? 'selected' : '' ?>
+                    <?php $ucfirstField = ucfirst($field) ?>
+                    <?= "<option value='$field' $selected> $ucfirstField </option>" ?>
                 <?php endforeach; ?>
             </select>
             <select name="sortDirection">
-                <option value="asc" <?= $sortDirection === 'asc' ? 'selected' : '' ?>>Ascending</option>
-                <option value="desc" <?= $sortDirection === 'desc' ? 'selected' : '' ?>>Descending</option>
+                <?php $ascSelected = $sortDirection === 'asc' ? 'selected' : '' ?>
+                <?php $descSelected = $sortDirection === 'desc' ? 'selected' : '' ?>
+                <?= "<option value='asc' $ascSelected>Ascending</option>" ?>
+                <?= "<option value='desc' $descSelected>Descending</option>" ?>
             </select>
             <label for="sectionPerPage">Sections per page:</label>
             <input type="number" name="sectionPerPage" value="<?= $sectionPerPage ?>" id="sectionPerPage" required>
