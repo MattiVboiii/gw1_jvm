@@ -1,6 +1,7 @@
 <?php
 require_once 'system/db.inc.php';
 
+if (session_status() === PHP_SESSION_NONE) session_start();
 
 $email = $_POST['inputEmail'] ?? '';
 $pass = $_POST['inputPassword'] ?? '';

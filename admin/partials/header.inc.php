@@ -1,6 +1,8 @@
 <?php
 include 'admin/php_includes/alerts.inc.php';
 
+if (session_status() === PHP_SESSION_NONE) session_start();
+
 enum NAV
 {
     case HOME;
