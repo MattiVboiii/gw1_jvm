@@ -41,7 +41,7 @@ function getClubs(): array
 
 function getClub(int $id): array|false
 {
-    $sql = 'SELECT * FROM clubs WHERE id = :id';
+    $sql = 'SELECT * FROM clubs WHERE id = :id LIMIT 1';
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute([':id' => $id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -49,7 +49,7 @@ function getClub(int $id): array|false
 
 function isUniqClubName(string $name): bool
 {
-    $sql = 'SELECT 1 FROM clubs WHERE name LIKE :name LIMIT 1';
+    $sql = 'SELECT 1 FROM clubs WHERE name = :name LIMIT 1';
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute([':name' => $name]);
     return $stmt->rowCount() < 1;
@@ -226,7 +226,7 @@ function getTeams(): array
 
 function getUser(string $email): User|false
 {
-    $sql = 'SELECT id, username, password, email FROM users WHERE email = :email';
+    $sql = 'SELECT id, username, password, email FROM users WHERE email = :email LIMIT 1';
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute([':email' => $email]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
