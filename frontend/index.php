@@ -76,12 +76,16 @@ function pagination($sections, $sectionPerPage, $page = 1)
             <label for="sort">Sort by:</label>
             <select name="sort" id="sort">
                 <?php foreach ($sortFields as $field): ?>
-                    <option value="<?= $field ?>" <?= $sort === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
+                    <?php $selected = $sort === $field ? 'selected' : '' ?>
+                    <?php $ucfirstField = ucfirst($field) ?>
+                    <?= "<option value='$field' $selected> $ucfirstField </option>" ?>
                 <?php endforeach; ?>
             </select>
             <select name="sortDirection">
-                <option value="asc" <?= $sortDirection === 'asc' ? 'selected' : '' ?>>Ascending</option>
-                <option value="desc" <?= $sortDirection === 'desc' ? 'selected' : '' ?>>Descending</option>
+                <?php $ascSelected = $sortDirection === 'asc' ? 'selected' : '' ?>
+                <?php $descSelected = $sortDirection === 'desc' ? 'selected' : '' ?>
+                <?= "<option value='asc' $ascSelected>Ascending</option>" ?>
+                <?= "<option value='desc' $descSelected>Descending</option>" ?>
             </select>
             <label for="sectionPerPage">Sections per page:</label>
             <input type="number" name="sectionPerPage" value="<?= $sectionPerPage ?>" id="sectionPerPage" required>
