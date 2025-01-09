@@ -1,14 +1,49 @@
 <?php
-require_once 'system/db.inc.php';
+require_once 'system/Site/User.php';
+require_once 'admin/php_includes/alerts.inc.php';
+
+use Site\User;
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 $email = $_POST['inputEmail'] ?? '';
 $pass = $_POST['inputPassword'] ?? '';
+$errors = [];
 
 if (isset($_POST['submit'])) {
+    $invalidPass = fn($input) => !preg_match('/^(?=.{8,}$)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).*$/', $input);
+    //                                          \__________/\_________/\_________/\_________/\______________/
+    //                                             length      upper      lower      digit        symbol
+
+    if (!$email) $errors['email'] = 'Email is required.';
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = 'Email is not valid.';
+
+    if (!$pass) $errors['pass'] = 'Password is required.';
+    elseif ($invalidPass($pass)) $errors['pass'] = 'Password must have at least:<ul><li>8 characters</li><li>1 capital letter</li><li>1 lowercase letter</li><li>1 digit</li><li>1 special character (!@#$%^&*)</li></ul>';
+
+    if (!$errors) {
+        $user = User::fetch($email);
+
+        if ($user?->verifyPass($pass)) {
+            $user->login();
+            redirectWithSuccessAlert('/admin/', "Welcome back $user->username.");
+        } else {
+            $errors['login'] = "Invalid login.";
+        }
+    }
+} elseif (isset($_POST['logoutSubmit'])) {
+    User::getLoggedInUser()?->logout();
 }
 
+$makeGetValidationClass = function ($isSubmitted) use ($errors) {
+    return function (string $errorKey) use ($errors, $isSubmitted) {
+        if (!$isSubmitted) return;
+        return isset($errors[$errorKey])
+            ? 'is-invalid'
+            : '';
+    };
+};
+$getValidationClass = $makeGetValidationClass(isset($_POST['submit']))
 
 ?>
 <!DOCTYPE html>
@@ -31,17 +66,18 @@ if (isset($_POST['submit'])) {
                 <form method="post" novalidate>
                     <fieldset>
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="Email..." value="<?= $email ?>">
+                            <input type="email" class="form-control <?= $getValidationClass('email') ?> <?= $getValidationClass('login') ?>" name="inputEmail" id="inputEmail" placeholder="Email..." value="<?= $email ?>">
                             <label for="inputEmail">Email address</label>
                             <div class="invalid-feedback">
-                                wrong!
+                                <?= $errors['email'] ?? '' ?>
                             </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" name="inputPassword" id="inputPassword" placeholder="Password...">
+                            <input type="password" class="form-control <?= $getValidationClass('pass') ?> <?= $getValidationClass('login') ?>" name="inputPassword" id="inputPassword" placeholder="Password...">
                             <label for="inputPassword">Password</label>
                             <div class="invalid-feedback">
-                                wrong!
+                                <?= $errors['pass'] ?? '' ?>
+                                <?= $errors['login'] ?? '' ?>
                             </div>
                         </div>
                     </fieldset>
