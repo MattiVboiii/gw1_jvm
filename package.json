@@ -14,8 +14,15 @@
   "author": "Joppe, Vincent, Mattias",
   "license": "ISC",
   "devDependencies": {
+    "nodemon": "^3.1.9",
     "vite": "^6.0.5",
     "vite-plugin-php": "^1.0.67",
     "vite-plugin-static-copy": "^2.2.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "knex": "^3.1.0",
+    "mysql2": "^3.12.0"
   }
 }

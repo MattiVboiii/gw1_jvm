@@ -83,7 +83,8 @@ function getSfeerFoto($id){
 left join media on clubs.id = media.club_id
 where show_on_club = 1
 and club_id = :id
-limit 1"; //weg te halen later
+limit 1;";
+
         
             $stmt = connectToDatabase()->prepare($sql);
             $stmt->execute([
@@ -132,7 +133,7 @@ if($id > $maxID) {
 }
 
 // print '<pre>';
-// print_r(getSfeerFoto($id)[0]['media_url']);
+// print_r(getSfeerFoto($id));
 // print '</pre>';
 // exit;
 
@@ -159,6 +160,7 @@ if($id > $maxID) {
 
     <title>Belgian Diamond - <?= getClubInfo($id)['name']?></title>
     <link rel="stylesheet" href="/frontend/css/detail.css">
+    <script src="/frontend/js/slider.js"  type="module" defer></script>
 </head>
 
 <body>
@@ -175,10 +177,20 @@ if($id > $maxID) {
                     </div>
                     <h1><?= getClubInfo($id)['name']?></h1>
                 </div>
-                <div>
-                    <?php foreach($sfeerfoto as $foto): ?>
+                <div class="slider">
+                    <ul>
+                    <li>
+                        <?php foreach($sfeerfoto as $foto): ?>
                         <img src="<?=$foto['media_url'] ?>" alt="sfeerfoto <?= getClubInfo($id)['name']?>">
                     <?php endforeach ?>
+                        </li>
+                        <li>
+                        <?php foreach($sfeerfoto as $foto): ?>
+                        <img src="<?=$foto['media_url'] ?>" alt="sfeerfoto <?= getClubInfo($id)['name']?>">
+                    <?php endforeach ?>
+                        </li>
+                    </ul>
+                   
                 </div>
                 <div>
                     <h3>check out our socials</h3>
