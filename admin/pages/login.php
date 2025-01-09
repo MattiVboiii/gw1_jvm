@@ -24,11 +24,13 @@ if (isset($_POST['submit'])) {
     if (!$errors) {
         $user = User::fetch($email);
 
-        if ($user?->verifyPass($pass)) {
-            $user->login();
-            redirectWithSuccessAlert('/admin/', "Welcome back $user->username.");
-        } else {
+        if (!$user?->verifyPass($pass)) {
             $errors['login'] = "Invalid login.";
+        } elseif (!in_array($user->permissionRole, ['club admin', 'super admin'])) {
+            $errors['perms'] = "You do not have admin permissions.";
+        } else {
+            $user->login();
+            redirectWithSuccessAlert('/admin/', "Welcome back $user->firstname.");
         }
     }
 } elseif (isset($_POST['logoutSubmit'])) {
@@ -77,7 +79,13 @@ $getValidationClass = $makeGetValidationClass(isset($_POST['submit']))
                             <label for="inputPassword">Password</label>
                             <div class="invalid-feedback">
                                 <?= $errors['pass'] ?? '' ?>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="hidden" class="<?= $getValidationClass('login') ?> <?= $getValidationClass('perms') ?>">
+                            <div class="invalid-feedback">
                                 <?= $errors['login'] ?? '' ?>
+                                <?= $errors['perms'] ?? '' ?>
                             </div>
                         </div>
                     </fieldset>

@@ -16,6 +16,8 @@ class User
         private readonly string $passwordHash,
         public readonly string $email,
         public readonly string $permissionRole,
+        public readonly string $firstname,
+        public readonly string $lastname,
     ) {}
 
     public function verifyPass(#[\SensitiveParameter] string $password): bool
@@ -78,5 +80,15 @@ class User
     public function refetch(): User|null
     {
         return getUser($this->email) ?: null;
+    }
+
+    public function getFullName()
+    {
+        return "$this->firstname $this->lastname";
+    }
+
+    public function printPermRole()
+    {
+        return ucwords($this->permissionRole);
     }
 }

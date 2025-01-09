@@ -102,7 +102,7 @@ function renderNavUserMenu(string $direction = 'right', string $id = null)
                 </div>
                 <div class="vstack">
                     <h4><?= mb_strimwidth($user->username, 0, 8, '…') ?></h4>
-                    <p class="text-subtle-light"><?= mb_strimwidth($user->permissionRole, 0, 9, '…') ?></p>
+                    <p class="text-subtle-light"><?= mb_strimwidth($user->printPermRole(), 0, 11, '…') ?></p>
                 </div>
             </div>
         </button>
@@ -114,7 +114,7 @@ function renderNavUserMenu(string $direction = 'right', string $id = null)
                             <img src="/admin/images/default-avatar.png" alt="">
                         </div>
                         <div>
-                            <h4><?= $user->username; ?></h4>
+                            <h4><?= $user->getFullName(); ?></h4>
                             <p class="text-subtle"><?= $user->email; ?></p>
                         </div>
                     </div>
