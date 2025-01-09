@@ -226,11 +226,11 @@ function getTeams(): array
 
 function getUser(string $email): User|false
 {
-    $sql = 'SELECT id, username, password, email FROM users WHERE email = :email LIMIT 1';
+    $sql = 'SELECT id, username, password as passwordHash, email FROM users WHERE email = :email LIMIT 1';
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute([':email' => $email]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch(PDO::FETCH_NUM);
     return $row
-        ? new User(...$row)
+        ? new User(...[...$row, 'permissionRole' => 'Admin'])
         : false;
 }
