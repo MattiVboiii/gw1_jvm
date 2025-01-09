@@ -159,6 +159,7 @@ if($id > $maxID) {
 
     <title>Belgian Diamond - <?= getClubInfo($id)['name']?></title>
     <link rel="stylesheet" href="/frontend/css/detail.css">
+    <script src="/frontend/js/script.js" defer type="module"></script>
 </head>
 
 <body>
@@ -225,13 +226,17 @@ if (!empty($socials)) {
             </div>
         </div>
         <?php if(!empty(getClubInfo($id)['description'])): ?>
+            
         <div class="container description">
 
         
             <div>
+            
             <h2>Who we are!</h2>
+            <input type="checkbox" id="readmore" name="readmore" class="readmore">
             
             <p><?= getClubInfo($id)['description'] ?></p>
+            <label for="readmore">Read more</label>
         </div>
         <?php endif ?>
        
