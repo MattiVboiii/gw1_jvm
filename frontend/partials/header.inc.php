@@ -1,16 +1,22 @@
 <?php
-
 ?>
 
 <style>
     nav {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
         font-family: "Inter", sans-serif;
         padding: 0 2vw;
         color: white;
         background-color: #041e42;
+        font-size: 1.2rem;
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
         img {
             width: 50px;
@@ -65,8 +71,10 @@
 </style>
 
 <nav>
-    <img src="/frontend/images/logo.png" alt="">
-    <h1>The Belgium Diamond</h1>
+    <div class="logo">
+        <img src="/frontend/images/logo.png" alt="">
+        <h1>The Belgium Diamond</h1>
+    </div>
     <ul>
         <li class="dropdown">
             <a href="#" class="dropbtn">Clubs</a>

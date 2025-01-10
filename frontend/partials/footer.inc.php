@@ -9,6 +9,9 @@
         padding: 20px 30px;
         display: flex;
         justify-content: space-between;
+        position: relative;
+        bottom: 0;
+        width: 100%;
 
         ul {
             display: flex;
@@ -19,13 +22,12 @@
         }
 
         li {
-            margin-right: 20px;
+            margin-left: 20px;
         }
 
         a {
             color: white;
             text-decoration: none;
-            padding: 10px;
         }
     }
 </style>

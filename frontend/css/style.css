@@ -1,6 +1,6 @@
-@import url("./reset.css");
-@import url("./icons.css");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap");
+@import url('./reset.css');
+@import url('./icons.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
 :root {
   font-size: 62.5%;
@@ -40,7 +40,7 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: var(--color-bg-body);
   color: var(--color-text-body);
 }
@@ -52,6 +52,11 @@ p {
 header,
 footer {
   padding: 20px;
+}
+
+main {
+  max-width: 1320px;
+  margin: 0 auto;
 }
 
 header {
@@ -150,7 +155,14 @@ form {
       bottom: 0;
       overflow-y: auto;
       p {
+        font-size: 1.2rem;
         height: fit-content;
+        &:nth-child(2) {
+          font-style: italic;
+        }
+        &:nth-child(3) {
+          margin-top: 1rem;
+        }
       }
       &::-webkit-scrollbar {
         width: 5px;
@@ -184,15 +196,12 @@ form {
     text-decoration: none;
     color: var(--color-emphasis-primary);
     background-color: var(--color-bg-primary);
-    border: 2px solid transparent;
   }
   a:hover,
   a.active {
-    border: 2px solid var(--color-bg-primary);
     background-color: var(--color-accent);
   }
   a.active:hover {
-    border: 2px solid var(--color-accent);
     background-color: var(--color-bg-primary);
   }
 }

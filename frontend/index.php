@@ -65,9 +65,8 @@ include_once 'frontend/php_includes/func.inc.php';
                         <img src="<?= $club['logo_url'] ?>" alt="">
                         <div class="content">
                             <h2><?= $club['name'] ?></h2>
-                            <p><?= $club['zip'] ?> <?= $club['city'] ?>, <?= $club['province'] ?></p>
-                            <p><?= $club['street'] ?> <?= $club['address'] ?> <?= $club['bus'] ?></p>
-                            <p><?= mb_strimwidth($club['description'], 0, 300, '...') ?></p>
+                            <p><?= $club['city'] ?>, <?= $club['province'] ?></p>
+                            <p><?= mb_strimwidth($club['description'], 0, 150, '...') ?></p>
                         </div>
                     </section>
                 </a>
@@ -83,7 +82,7 @@ include_once 'frontend/php_includes/func.inc.php';
                 <?php endif; ?>
                 <?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++): ?>
                     <!-- Link to go to a specific page -->
-                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"><?= $i ?></a>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>" class="page-<?= $i ?><?= $i == $page ? ' active' : '' ?>"><?= $i ?></a>
                 <?php endfor; ?>
                 <?php if ($page < $totalPages): ?>
                     <!-- Link to go to the next page -->
