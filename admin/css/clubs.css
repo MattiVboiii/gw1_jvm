@@ -1,6 +1,13 @@
-table img {
-  max-width: 50px;
-  vertical-align: middle;
+table {
+  img {
+    max-width: 50px;
+    vertical-align: middle;
+  }
+  td.fit,
+  th.fit {
+    white-space: nowrap;
+    width: 1%;
+  }
 }
 
 .btn.badge {

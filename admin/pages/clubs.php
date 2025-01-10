@@ -47,7 +47,7 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table class="table table-striped table-hover ">
+                                <table class="table table-striped table-hover">
                                     <thead>
                                         <tr class="fw-bold fs-5">
                                             <th scope="col"><span class="text-subtle">#</span></th>
@@ -56,7 +56,7 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
                                             <th scope="col" class="d-none d-lg-table-cell">Province</th>
                                             <th scope="col" class="d-none d-sm-table-cell">Address</th>
                                             <th scope="col" class="d-none d-md-table-cell">Description</th>
-                                            <th scope="col" class="no-wrap"><span class="d-none d-md-inline">Actions</span></th>
+                                            <th scope="col" class="fit"><span class="d-none d-md-inline">Actions</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -84,7 +84,7 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
                                                         data-club-name="<?= $club['name'] ?>">・・・</span>
                                                     <p hidden><?= $club['description'] ?></p>
                                                 </td>
-                                                <td class="actions">
+                                                <td class="actions fit">
                                                     <div class="no-wrap d-none d-md-block">
                                                         <a href="/frontend/pages/detail.php?id=<?= $club['id'] ?>" target="_blank" class="btn btn-outline-secondary bg-secondary-subtle btn-sm">
                                                             <i class="fa-solid fa-eye"></i>
