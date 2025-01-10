@@ -12,3 +12,12 @@ table img {
     color: var(--bs-border-color) !important;
   }
 }
+
+.actions {
+  .dropdown-item i {
+    min-width: 24px;
+  }
+  .dropdown-toggle::before {
+    display: none;
+  }
+}

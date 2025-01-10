@@ -50,49 +50,85 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
                                 <table class="table table-striped table-hover ">
                                     <thead>
                                         <tr class="fw-bold fs-5">
-                                            <th scope="col">#</th>
+                                            <th scope="col"><span class="text-subtle">#</span></th>
                                             <th scope="col">Logo</th>
                                             <th scope="col">Name</th>
-                                            <th scope="col">Province</th>
-                                            <th scope="col">Address</th>
-                                            <th scope="col">Description</th>
-                                            <th scope="col">Actions</th>
+                                            <th scope="col" class="d-none d-lg-table-cell">Province</th>
+                                            <th scope="col" class="d-none d-sm-table-cell">Address</th>
+                                            <th scope="col" class="d-none d-md-table-cell">Description</th>
+                                            <th scope="col" class="no-wrap"><span class="d-none d-md-inline">Actions</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($clubs as $club): ?>
                                             <tr>
-                                                <th class="fw-bold" scope="row"><?= $club['id'] ?></th>
+                                                <th class="fw-bold" scope="row"><span class="text-subtle"><?= $club['id'] ?></span></th>
                                                 <td>
                                                     <img src="<?= $club['logo_url'] ?>" alt="logo <?= $club['name'] ?>">
                                                 </td>
-                                                <td><?= $club['name'] ?></td>
-                                                <td><?= $club['province'] ?></td>
                                                 <td>
+                                                    <?= $club['name'] ?>
+                                                </td>
+                                                <td class="d-none d-lg-table-cell">
+                                                    <?= $club['province'] ?>
+                                                </td>
+                                                <td class="d-none d-sm-table-cell">
+                                                    <span class="d-lg-none"><?= $club['province'] ?></span><br class="d-lg-none">
                                                     <?= $club['zip'] . ' ' . $club['city'] ?><br>
                                                     <?= $club['street'] . ' ' . $club['address'] ?>
                                                 </td>
-                                                <td>
+                                                <td class="d-none d-md-table-cell">
                                                     <span type="button" class="btn badge rounded-pill"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modal-club-description"
                                                         data-club-name="<?= $club['name'] ?>">・・・</span>
                                                     <p hidden><?= $club['description'] ?></p>
                                                 </td>
-                                                <td>
-                                                    <a href="/frontend/pages/detail.php?id=<?= $club['id'] ?>" target="_blank" class="btn btn-secondary btn-sm">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                    </a>
-                                                    <a href="/admin/pages/clubEdit.php?id=<?= $club['id'] ?>" class="btn btn-primary btn-sm">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                    </a>
-                                                    <button class="btn btn-danger btn-sm"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modal-club-deletion"
-                                                        data-club-id="<?= $club['id'] ?>"
-                                                        data-club-name="<?= $club['name'] ?>">
-                                                        <i class="fa-regular fa-trash-can"></i>
-                                                    </button>
+                                                <td class="actions">
+                                                    <div class="no-wrap d-none d-md-block">
+                                                        <a href="/frontend/pages/detail.php?id=<?= $club['id'] ?>" target="_blank" class="btn btn-outline-secondary bg-secondary-subtle btn-sm">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </a>
+                                                        <a href="/admin/pages/clubEdit.php?id=<?= $club['id'] ?>" class="btn btn-outline-primary bg-primary-subtle btn-sm">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </a>
+                                                        <button class="btn btn-outline-danger bg-danger-subtle btn-sm"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#modal-club-deletion"
+                                                            data-club-id="<?= $club['id'] ?>"
+                                                            data-club-name="<?= $club['name'] ?>">
+                                                            <i class="fa-regular fa-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="btn-group dropstart d-md-none">
+                                                        <span type="button" class="dropdown-toggle fs-4 pe-1 ps-2 text-subtle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                        </span>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a class="dropdown-item" href="/frontend/pages/detail.php?id=<?= $club['id'] ?>" target="_blank">
+                                                                    <i class="fa-solid fa-eye text-subtle"></i>
+                                                                    Preview
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="/admin/pages/clubEdit.php?id=<?= $club['id'] ?>">
+                                                                    <i class="fa-solid fa-pen-to-square text-primary"></i>
+                                                                    Edit
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <span class="dropdown-item"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modal-club-deletion"
+                                                                    data-club-id="<?= $club['id'] ?>"
+                                                                    data-club-name="<?= $club['name'] ?>">
+                                                                    <i class="fa-regular fa-trash-can text-danger"></i>
+                                                                    Delete
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         <?php endforeach ?>

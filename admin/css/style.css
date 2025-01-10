@@ -74,3 +74,7 @@ label::after,
 .text-subtle-light {
   color: var(--text-color-subtle-light);
 }
+
+.no-wrap {
+  white-space: nowrap;
+}
