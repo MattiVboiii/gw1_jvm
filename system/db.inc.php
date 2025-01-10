@@ -52,6 +52,14 @@ function isUniqClubName(string $name): bool
     return $stmt->rowCount() < 1;
 }
 
+function isUniqClubLogo(string $logo_url): bool
+{
+    $sql = 'SELECT 1 FROM clubs WHERE logo_url = :logo_url LIMIT 1';
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute([':logo_url' => $logo_url]);
+    return $stmt->rowCount() < 1;
+}
+
 function updateClub(
     int $id,
     string $name,
