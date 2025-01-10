@@ -89,7 +89,7 @@ function pagination($sections, $sectionPerPage, $page = 1)
         </form>
         <div class="club-container">
             <?php foreach ($sectionsToShow as $club): ?>
-                <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
+                <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>" target="_blank">
                     <section style="background-image: url('<?= htmlspecialchars($club['logo_url']) ?>');">
                         <div class="content">
                             <h2><?= htmlspecialchars($club['name']) ?></h2>
