@@ -46,7 +46,7 @@ function getClub(int $id): array|false
 
 function isUniqClubName(string $name): bool
 {
-    $sql = 'SELECT 1 FROM clubs WHERE name LIKE :name LIMIT 1';
+    $sql = 'SELECT 1 FROM clubs WHERE name = :name LIMIT 1';
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute([':name' => $name]);
     return $stmt->rowCount() < 1;
