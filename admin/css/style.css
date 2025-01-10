@@ -59,7 +59,7 @@ body {
   background-size: cover;
 }
 
-input,
+input:not(.form-check-input),
 select,
 textarea,
 label::after,
