@@ -22,6 +22,7 @@ $isTel = fn($input) => preg_match('/^[0-9\+]+$/i', $input);
 if (isset($_POST['submit'])) {
     if (!$logoURL) $errors['logoURL'] = 'Logo URL is required';
     elseif (strlen($logoURL) > 255) $errors['logoURL'] = 'Logo URL has a maximum length of 255 characters';
+    elseif (!isUniqClubLogo($logoURL)) $errors['logoURL'] = 'logo URL is already used by another club.';
 
     if (!$name) $errors['name'] = 'Name is required';
     elseif (strlen($name) > 255) $errors['name'] = 'Name has a maximum length of 255 characters';
