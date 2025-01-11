@@ -47,23 +47,6 @@ include_once 'frontend/php_includes/func.inc.php';
         ?>
         <form action="/frontend/index.php" method="get">
             <h2>Search for clubs</h2>
-            <input type="search" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-            <label for="sort">Sort by:</label>
-            <select name="sort" id="sort">
-                <?php foreach ($sortFields as $field): ?>
-                    <?php $selected = $sort === $field ? 'selected' : '' ?>
-                    <?php $ucfirstField = ucfirst($field) ?>
-                    <?= "<option value='$field' $selected> $ucfirstField </option>" ?>
-                <?php endforeach; ?>
-            </select>
-            <select name="sortDirection">
-                <?php $ascSelected = $sortDirection === 'asc' ? 'selected' : '' ?>
-                <?php $descSelected = $sortDirection === 'desc' ? 'selected' : '' ?>
-                <?= "<option value='asc' $ascSelected>Ascending</option>" ?>
-                <?= "<option value='desc' $descSelected>Descending</option>" ?>
-            </select>
-            <label for="sectionPerPage">Sections per page:</label>
-            <input type="number" name="sectionPerPage" value="<?= $sectionPerPage ?>" id="sectionPerPage" required>
             <label for="search">Name/City/Province:</label>
             <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>" minlength="3">
             <div style="visibility: <?= empty($clubsToShow) ? 'hidden' : 'visible' ?>; position: <?= (empty($clubsToShow) ? 'absolute' : 'relative') ?>;">
