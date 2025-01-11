@@ -1,6 +1,18 @@
 <?php
 require_once 'system/db.inc.php';
 include_once 'frontend/php_includes/func.inc.php';
+
+$clubs = getClubsOrSearch(isset($_GET['search']) ? $_GET['search'] : null);
+$page = (int) ($_GET['page'] ?? 1);
+$clubsPerPage = (int) ($_GET['clubsPerPage'] ?? 4);
+
+$sortFields = ['name', 'city', 'province'];
+$sort = $_GET['sort'] ?? 'name';
+$sortDirection = $_GET['sortDirection'] ?? 'asc';
+
+usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sort], $b[$sort]));
+
+['clubsToShow' => $clubsToShow, 'totalPages' => $totalPages] = pagination($clubs, $clubsPerPage, $page);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +36,15 @@ include_once 'frontend/php_includes/func.inc.php';
     <link rel="stylesheet" href="/frontend/css/style.css" />
     <script src="/frontend/js/script.js" defer type="module"></script>
     <link rel="icon" type="image/png" href="/frontend/images/logo.png" />
+    <?php if (empty($clubsToShow)): ?>
+        <style>
+            #advanced-search {
+                visibility: hidden;
+                position: absolute;
+                display: block;
+            }
+        </style>
+    <?php endif ?>
 </head>
 
 <body>
@@ -32,24 +53,11 @@ include_once 'frontend/php_includes/func.inc.php';
         <header>
             <p>BANNER - Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         </header>
-        <?php
-        $clubs = getClubsOrSearch(isset($_GET['search']) ? $_GET['search'] : null);
-        $page = (int) ($_GET['page'] ?? 1);
-        $clubsPerPage = (int) ($_GET['clubsPerPage'] ?? 4);
-
-        $sortFields = ['name', 'city', 'province'];
-        $sort = $_GET['sort'] ?? 'name';
-        $sortDirection = $_GET['sortDirection'] ?? 'asc';
-
-        usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sort], $b[$sort]));
-
-        ['clubsToShow' => $clubsToShow, 'totalPages' => $totalPages] = pagination($clubs, $clubsPerPage, $page);
-        ?>
         <form action="/frontend/index.php" method="get">
             <h2>Search for clubs</h2>
             <label for="search">Name/City/Province:</label>
             <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>" minlength="3">
-            <div style="visibility: <?= empty($clubsToShow) ? 'hidden' : 'visible' ?>; position: <?= (empty($clubsToShow) ? 'absolute' : 'relative') ?>;">
+            <div id="advanced-search">
                 <label for="sort">Sort by:</label>
                 <select name="sort">
                     <?php foreach ($sortFields as $field): ?>

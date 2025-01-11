@@ -1,8 +1,8 @@
-@import url('./reset.css');
-@import url('./icons.css');
-@import url('./header.css');
-@import url('./footer.css');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+@import url("./reset.css");
+@import url("./icons.css");
+@import url("./header.css");
+@import url("./footer.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap");
 
 :root {
   font-size: 62.5%;
@@ -51,7 +51,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: var(--color-bg-body);
   color: var(--color-text-body);
   gap: 2rem;
