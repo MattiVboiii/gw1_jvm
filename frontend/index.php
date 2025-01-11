@@ -8,8 +8,19 @@ include_once 'frontend/php_includes/func.inc.php';
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes">
     <title>WEBSITE HOMEPAGE</title>
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="http://localhost:5173/frontend/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Belgian Diamond">
+    <meta property="og:description" content="a list of all the Belgian baseball clubs from Belgium">
+    <meta property="og:image" content="../frontend/public/images/logo.png">
+
+    <meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
+    <meta name="robots" content="index, follow">
+
     <link rel="stylesheet" href="/frontend/css/style.css" />
     <script src="/frontend/js/script.js" defer type="module"></script>
     <link rel="icon" type="image/png" href="/frontend/images/logo.png" />
@@ -36,6 +47,23 @@ include_once 'frontend/php_includes/func.inc.php';
         ?>
         <form action="/frontend/index.php" method="get">
             <h2>Search for clubs</h2>
+            <input type="search" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+            <label for="sort">Sort by:</label>
+            <select name="sort" id="sort">
+                <?php foreach ($sortFields as $field): ?>
+                    <?php $selected = $sort === $field ? 'selected' : '' ?>
+                    <?php $ucfirstField = ucfirst($field) ?>
+                    <?= "<option value='$field' $selected> $ucfirstField </option>" ?>
+                <?php endforeach; ?>
+            </select>
+            <select name="sortDirection">
+                <?php $ascSelected = $sortDirection === 'asc' ? 'selected' : '' ?>
+                <?php $descSelected = $sortDirection === 'desc' ? 'selected' : '' ?>
+                <?= "<option value='asc' $ascSelected>Ascending</option>" ?>
+                <?= "<option value='desc' $descSelected>Descending</option>" ?>
+            </select>
+            <label for="sectionPerPage">Sections per page:</label>
+            <input type="number" name="sectionPerPage" value="<?= $sectionPerPage ?>" id="sectionPerPage" required>
             <label for="search">Name/City/Province:</label>
             <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>" minlength="3">
             <div style="visibility: <?= empty($clubsToShow) ? 'hidden' : 'visible' ?>; position: <?= (empty($clubsToShow) ? 'absolute' : 'relative') ?>;">
@@ -61,7 +89,7 @@ include_once 'frontend/php_includes/func.inc.php';
         <div class="club-container">
             <div>
                 <?php foreach ($clubsToShow as $club): ?>
-                    <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
+                    <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>" target="_blank">
                         <article>
                             <div>
                                 <img src="<?= $club['logo_url'] ?>" alt="<?= $club['name'] ?> logo">

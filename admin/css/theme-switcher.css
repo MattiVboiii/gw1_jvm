@@ -7,7 +7,7 @@
   grid-template-columns: repeat(3, 1fr);
   overflow: hidden;
   box-shadow: 0 0 0px 1px rgba(255, 255, 255, 0.5);
-  transition: all 3s;
+  margin: 1px;
   button {
     outline: none;
     background: transparent;
@@ -36,5 +36,31 @@
   }
   &.light {
     --overlay-left: 83%;
+  }
+}
+
+@media (max-width: 992px) and (min-width: 577px) {
+  .ts-responsive .theme-switcher {
+    --overlay-top: 50%;
+    grid-template-columns: 1fr;
+    &::before {
+      width: 100%;
+      height: 200%;
+      top: var(--overlay-top);
+      left: 0;
+      translate: 0 -50%;
+    }
+    &.dark {
+      --overlay-top: 83%;
+    }
+    &.light {
+      --overlay-top: 16%;
+    }
+    button:last-child {
+      order: -1;
+    }
+    button:first-child {
+      order: 2;
+    }
   }
 }

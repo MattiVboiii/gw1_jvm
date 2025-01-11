@@ -5,6 +5,9 @@
   "main": "vite.config.js",
   "type": "module",
   "scripts": {
+    "install:npm": "npm install",
+    "install:php": "composer install",
+    "install": "npm run install:npm && npm run install:php",
     "start": "npm run dev",
     "dev": "vite --open frontend/ --host --config vite.config-with-php.js",
     "dev:admin": "vite --open admin/ --host --config vite.config-with-php.js",
