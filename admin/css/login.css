@@ -1,0 +1,13 @@
+:root {
+  --nav-width: 0;
+}
+
+body {
+  place-content: center;
+  .card {
+    .card-header,
+    .card-footer {
+      background-color: var(--bs-body-bg);
+    }
+  }
+}

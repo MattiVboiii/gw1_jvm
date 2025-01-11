@@ -1,6 +1,13 @@
-table img {
-  max-width: 50px;
-  vertical-align: middle;
+table {
+  img {
+    max-width: 50px;
+    vertical-align: middle;
+  }
+  td.fit,
+  th.fit {
+    white-space: nowrap;
+    width: 1%;
+  }
 }
 
 .btn.badge {
@@ -10,5 +17,14 @@ table img {
   &:hover {
     background-color: var(--bs-secondary-color) !important;
     color: var(--bs-border-color) !important;
+  }
+}
+
+.actions {
+  .dropdown-item i {
+    min-width: 24px;
+  }
+  .dropdown-toggle::before {
+    display: none;
   }
 }

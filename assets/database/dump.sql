@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
--- Host: localhost    Database: baseball
+-- Host: 127.0.0.1    Database: baseball
 -- ------------------------------------------------------
--- Server version	8.4.3
+-- Server version	8.0.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -455,13 +455,17 @@ CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(254) NOT NULL,
+  `permissionRole` enum('user','club admin','super admin') NOT NULL DEFAULT 'user',
+  `firstname` varchar(45) NOT NULL,
+  `lastname` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `enabled` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -470,6 +474,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (5,'Markie','$2y$10$eARUbq/Kmc2eNXZym0pVPOlh1KGo2mMaE00OnebZrJqRmZg3vv1kW','mark@user.com','user','Mark','De Haan','2025-01-09 10:18:39','2025-01-09 10:18:39',1),(7,'Vinnie','$2y$10$bNehce9Svv1I3GeKsugJHua1jtD4RMIXAaYabSvOKmf0BZE4lGQri','vincent@superadmin.com','super admin','Vincent','Diamond','2025-01-09 10:20:44','2025-01-09 10:20:44',1),(8,'xXKristofXx','$2y$10$.8ZdToFNo9Bwq1FSCVc8pOeYGe2ehPa7KhpK8kGo4Fg1PkaWxJOeK','kristof@admin.com','club admin','Kristof','Raaf','2025-01-09 10:21:52','2025-01-09 10:21:52',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -482,4 +487,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-06 22:29:45
+-- Dump completed on 2025-01-09 11:23:07
