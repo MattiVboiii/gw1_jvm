@@ -616,7 +616,7 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                                                     data-idM="<?= $position['id'] ?>"
                                                     data-role="<?= $managementRoles[$position['management_role_id']] ?>"
                                                     data-firstNameM="<?= $position['firstname'] ?>"
-                                                    data-lastNameM="<?= $position['lastname'] ?>">Delete</button>
+                                                    data-lastNameM="<?= $position['lastname'] ?>"><i class="fa-regular fa-trash-can"></i></button>
                                                 <button type="submit" name="submitM" class="btn btn-primary">Update</button>
                                             </div>
                                         </fieldset>

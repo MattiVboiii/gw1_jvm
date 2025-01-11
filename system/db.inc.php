@@ -1,5 +1,8 @@
 <?php
 require_once 'system/load_env.inc.php';
+require_once 'system/Site/User.php';
+
+use Site\User;
 
 function connectToDatabase($forceReConnect = false): PDO
 {
@@ -38,7 +41,7 @@ function getClubs(): array
 
 function getClub(int $id): array|false
 {
-    $sql = 'SELECT * FROM clubs WHERE id = :id';
+    $sql = 'SELECT * FROM clubs WHERE id = :id LIMIT 1';
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute([':id' => $id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -46,9 +49,17 @@ function getClub(int $id): array|false
 
 function isUniqClubName(string $name): bool
 {
-    $sql = 'SELECT 1 FROM clubs WHERE name LIKE :name LIMIT 1';
+    $sql = 'SELECT 1 FROM clubs WHERE name = :name LIMIT 1';
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute([':name' => $name]);
+    return $stmt->rowCount() < 1;
+}
+
+function isUniqClubLogo(string $logo_url): bool
+{
+    $sql = 'SELECT 1 FROM clubs WHERE logo_url = :logo_url LIMIT 1';
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute([':logo_url' => $logo_url]);
     return $stmt->rowCount() < 1;
 }
 
@@ -219,4 +230,23 @@ function getTeams(): array
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getUser(string $email): User|false
+{
+    $sql = 'SELECT 
+        id, 
+        username, 
+        password as passwordHash, 
+        email,
+        permissionRole,
+        firstname,
+        lastname
+        FROM users WHERE email = :email LIMIT 1';
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute([':email' => $email]);
+    $row = $stmt->fetch(PDO::FETCH_NUM);
+    return $row
+        ? new User(...$row)
+        : false;
 }

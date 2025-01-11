@@ -5,6 +5,22 @@
 
 @import url("./header.css");
 
+:root {
+  --text-color-subtle: rgba(var(--bs-body-color-rgb), 0.65);
+  --text-color-subtle-light: rgba(var(--color-body-light-rgb), 0.65);
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    rgba(var(--color-secondary-rgb), 0.8) 100%
+  );
+  --color-primary: rgb(0, 97, 242);
+  --color-secondary: rgb(105, 0, 199);
+  --color-primary-rgb: 0, 97, 242;
+  --color-secondary-rgb: 105, 0, 199;
+  --color-body-light: rgb(222, 226, 230);
+  --color-body-light-rgb: 222, 226, 230;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -13,12 +29,52 @@ a {
 }
 
 body {
-  background-color: var(--bs-body-bg);
-
+  background-color: var(--bs-tertiary-bg);
+  min-height: 100vh;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
 
   .container {
-    margin-top: 20px;
+    padding-top: 20px;
   }
+
+  &.resize-animation-stopper *,
+  &.resize-animation-stopper *::before,
+  &.resize-animation-stopper *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.card {
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(0, 0, 0, 0.15);
+  .card-header {
+    background-color: var(--bs-tertiary-bg);
+  }
+}
+
+.bg-gradient-primary {
+  background-color: #212529;
+  background-image: var(--gradient-primary);
+  background-size: cover;
+}
+
+input:not(.form-check-input),
+select,
+textarea,
+label::after,
+.input-group .btn:not(:hover) {
+  background-color: var(--bs-light-bg-subtle) !important;
+}
+
+.text-subtle {
+  color: var(--text-color-subtle);
+}
+
+.text-subtle-light {
+  color: var(--text-color-subtle-light);
+}
+
+.no-wrap {
+  white-space: nowrap;
 }

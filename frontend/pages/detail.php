@@ -159,6 +159,7 @@ if($id > $maxID) {
 
     <title>Belgian Diamond - <?= getClubInfo($id)['name']?></title>
     <link rel="stylesheet" href="/frontend/css/detail.css">
+    <link rel="icon" type="image/png" href="/frontend/images/logo.png" />
     <script src="/frontend/js/script.js" defer type="module"></script>
 </head>
 
