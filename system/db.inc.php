@@ -232,6 +232,14 @@ function getTeams(): array
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getProvinces(): array
+{
+    $sql = 'SELECT province FROM clubs GROUP BY province';
+    $stmt = connectToDatabase()->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getUser(string $email): User|false
 {
     $sql = 'SELECT 
