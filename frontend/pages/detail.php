@@ -231,16 +231,29 @@ if (!empty($socials)) {
 
         
             <div>
-            
-            <h2>Who we are!</h2>
-            <input type="checkbox" id="readmore" name="readmore" class="readmore">
-            
-            <p><?= getClubInfo($id)['description'] ?></p>
-            <label for="readmore">Read more</label>
-        </div>
-        <?php endif ?>
+                
+                <h2>Who we are!</h2>
+                    
+                <div class="readmore-container">
+                    <input type="checkbox" id="readmore" name="readmore" class="readmore">
+                    <div class="readmore-body">
+                        <p>
+                            <span class="first">
+                                <?= substr(getClubInfo($id)['description'], 0, 160) ?>
+                            </span>
+                            <span class = "temp">...</span>
+                            <span class="second" style=" display:none">
+                                <?= substr(getClubInfo($id)['description'], 160) ?>
+                            </span>
+                            <label for="readmore" class="readmore-label">Read more</label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+      
        
         </div>
+        <?php endif ?>
         <div class="container extrainfo">
             <div>
                 <div class="bestuur">

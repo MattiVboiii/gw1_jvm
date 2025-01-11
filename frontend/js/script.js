@@ -1,37 +1,43 @@
 console.log("javascript works on frontend.......");
 
 document.addEventListener("DOMContentLoaded", () => {
-  const p = document.querySelector(".description p");
+  const readMoreBody = document.querySelector(".readmore-body");
+  const firstPart = readMoreBody.querySelector(".first");
+  const secondPart = readMoreBody.querySelector(".second");
   const checkbox = document.querySelector("#readmore");
   const label = document.querySelector('label[for="readmore"]');
+  const collapsedHeight = parseFloat(
+    window.getComputedStyle(readMoreBody).height
+  );
+  readMoreBody.style.maxHeight = `${collapsedHeight}px`;
+  const transition =
+    window.getComputedStyle(readMoreBody).transitionDuration.split("s")[0] *
+    1000;
+  const temp = readMoreBody.querySelector(".temp");
 
-  // lijnhoogte opvragen
-  const lineHeight = parseFloat(window.getComputedStyle(p).lineHeight);
+  console.log("collapsed height", collapsedHeight);
+  console.log("readMoreBody.scrollH", readMoreBody.scrollHeight);
+  console.log("maxHeight", readMoreBody.style.maxHeight);
+  console.log(
+    "transition",
+    window.getComputedStyle(readMoreBody).transitionDuration.split("s")[0] *
+      1000
+  );
 
-  // de maximum hoogte bepalen door lijnhoogte en maximum aantal zichtbare lijnen
-  const maxVisibleLines = 5;
-  const maxHeight = lineHeight * maxVisibleLines;
-
-  // checken of de p de max hoogte heeft gehaald
-  if (p.scrollHeight > maxHeight) {
-    // overflow verbergen
-    p.style.maxHeight = `${maxHeight}px`;
-    p.style.overflow = "hidden";
-    p.style.transition = "max-height 0.3s ease";
-
-    // event zetten voor change van de checkbox
-    checkbox.addEventListener("change", () => {
-      if (checkbox.checked) {
-        p.style.maxHeight = `${p.scrollHeight}px`; // Expand
-        label.textContent = "Collapse";
-      } else {
-        p.style.maxHeight = `${maxHeight}px`; // Collapse
-        label.textContent = "Read more";
-      }
-    });
-  } else {
-    // al p minder dan de max hoogte is checkbox en label verbergen
-    checkbox.style.display = "none";
-    label.style.display = "none";
-  }
+  checkbox.addEventListener("change", () => {
+    console.log("collapsed height", collapsedHeight);
+    if (checkbox.checked) {
+      secondPart.style.display = "inline";
+      readMoreBody.style.maxHeight = `${readMoreBody.scrollHeight}px`; // Expand
+      label.textContent = "Collapse";
+      temp.style.display = "none";
+    } else {
+      readMoreBody.style.maxHeight = `${collapsedHeight}px`; // Collapse
+      label.textContent = "Read more";
+      setTimeout(() => {
+        secondPart.style.display = "none";
+        temp.style.display = "inline";
+      }, transition);
+    }
+  });
 });
