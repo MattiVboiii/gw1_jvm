@@ -38,7 +38,7 @@ include_once 'frontend/php_includes/func.inc.php';
             <h2>Search for clubs</h2>
             <label for="search">Name/City/Province:</label>
             <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>" minlength="3">
-            <?php if (!empty($clubsToShow) && $totalPages > 1): ?>
+            <div style="visibility: <?= empty($clubsToShow) ? 'hidden' : 'visible' ?>; position: <?= (empty($clubsToShow) ? 'absolute' : 'relative') ?>;">
                 <label for="sort">Sort by:</label>
                 <select name="sort">
                     <?php foreach ($sortFields as $field): ?>
@@ -50,27 +50,31 @@ include_once 'frontend/php_includes/func.inc.php';
                     <?= $sortDirection === 'asc' ? '↑ Ascending' : '↓ Descending' ?>
                 </button>
                 <label for="clubsPerPage">Clubs per page:</label>
-                <input type="range" name="clubsPerPage" class="clubsPerPageSlider" value="<?= $clubsPerPage ?>" min="1" max="<?= count($clubs) ?>">
+                <input type="range" name="clubsPerPage" class="clubsPerPageSlider" value="<?= $clubsPerPage ?>" min="1" max="<?= max($clubsPerPage, count($clubs)) ?>">
                 <span id="clubsPerPageValue"><?= $clubsPerPage ?></span>
-            <?php endif; ?>
+            </div>
             <button type="submit">Search</button>
             <?php if (empty($clubsToShow)): ?>
                 <p class="error">No clubs found, please try again with different search terms.</p>
             <?php endif; ?>
         </form>
         <div class="club-container">
-            <?php foreach ($clubsToShow as $club): ?>
-                <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
-                    <section>
-                        <img src="<?= $club['logo_url'] ?>" alt="">
-                        <div class="content">
-                            <h2><?= $club['name'] ?></h2>
-                            <p><?= $club['city'] ?>, <?= $club['province'] ?></p>
-                            <p><?= mb_strimwidth($club['description'], 0, 150, '...') ?></p>
-                        </div>
-                    </section>
-                </a>
-            <?php endforeach; ?>
+            <div>
+                <?php foreach ($clubsToShow as $club): ?>
+                    <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
+                        <article>
+                            <div>
+                                <img src="<?= $club['logo_url'] ?>" alt="<?= $club['name'] ?> logo">
+                            </div>
+                            <div class="content">
+                                <h2><?= $club['name'] ?></h2>
+                                <p><?= $club['city'] ?>, <?= $club['province'] ?></p>
+                                <p><?= mb_strimwidth($club['description'], 0, 150, '...') ?></p>
+                            </div>
+                        </article>
+                    </a>
+                <?php endforeach; ?>
+            </div>
             <div class="pagination">
                 <?php if ($page > 1): ?>
                     <!-- Link to go to the first page -->

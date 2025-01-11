@@ -36,9 +36,9 @@ function getClubs(): array
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getTeams(): array
+function getProvinces(): array
 {
-    $sql = 'SELECT * FROM teams';
+    $sql = 'SELECT province FROM clubs GROUP BY province';
     $stmt = connectToDatabase()->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
