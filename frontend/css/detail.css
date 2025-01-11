@@ -398,13 +398,6 @@ body {
   }
 }
 
-footer {
-  div {
-    height: 150px;
-    background-color: var(--color-bg-footer);
-  }
-}
-
 @media (min-width: 1103px) {
   body {
     main {
