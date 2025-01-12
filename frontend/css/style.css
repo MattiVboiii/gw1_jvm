@@ -52,6 +52,10 @@ html {
   height: 100%;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   font-family: "Inter", sans-serif;
   background-color: var(--color-bg-body);
