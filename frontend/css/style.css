@@ -42,14 +42,11 @@
   --headings-fontsize: 2rem;
   --fontsize-large-heading: 3rem;
   --footer-height: 50px;
+  --header-height: 80px;
 }
 
 * {
   box-sizing: border-box;
-}
-
-html {
-  height: 100%;
 }
 
 body {
@@ -57,7 +54,9 @@ body {
   background-color: var(--color-bg-body);
   color: var(--color-text-body);
   min-height: 100vh;
+  height: 100%;
   position: relative;
+  padding-top: var(--header-height);
   padding-bottom: var(--footer-height);
   font-size: var(--main-fontsize);
   .container {
