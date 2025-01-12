@@ -17,11 +17,12 @@ $errors = [];
 
 $isAlphaNumeric = fn($input) => preg_match('/^[A-Z0-9 ]+$/i', $input);
 $isAlpha = fn($input) => preg_match('/^[A-Z \-]+$/i', $input);
-$isTel = fn($input) => preg_match('/^[0-9\+]+$/i', $input);
+$isTel = fn($input) => preg_match('/^\\+?[1-9][0-9]{7,14}$/', $input);
 
 if (isset($_POST['submit'])) {
     if (!$logoURL) $errors['logoURL'] = 'Logo URL is required';
     elseif (strlen($logoURL) > 255) $errors['logoURL'] = 'Logo URL has a maximum length of 255 characters';
+    elseif (!filter_var($logoURL, FILTER_VALIDATE_URL)) $errors['logoURL'] = 'Invalid URL.';
     elseif (!isUniqClubLogo($logoURL)) $errors['logoURL'] = 'logo URL is already used by another club.';
 
     if (!$name) $errors['name'] = 'Name is required';
