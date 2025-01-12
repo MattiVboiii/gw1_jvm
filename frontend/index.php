@@ -34,7 +34,7 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
     <meta name="robots" content="index, follow">
 
     <link rel="stylesheet" href="/frontend/css/style.css" />
-    <script src="/frontend/js/script.js" defer type="module"></script>
+    <script src="/frontend/js/index.js" defer type="module"></script>
     <link rel="icon" type="image/png" href="/frontend/images/logo.png" />
     <?php if (empty($clubsToShow)): ?>
         <style>
