@@ -262,8 +262,9 @@ if($id > $maxID) {
                     </div>
                             
                     <div class="adress">
+                        <h2>The Best place to play ball!</h2>
                         <ul>
-                            <h2>The Best place to play ball!</h2>
+                            
                             <li>
                                 <h3>Provincie</h3>
                                 <p><?= getClubInfo($id)['province']?></p>
@@ -278,27 +279,25 @@ if($id > $maxID) {
                             </li>
                         </ul>
                     </div>
-                    <div class="games">
-                        <h2>we want you to support our teams!</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Visiting team</th>
-                                    <th>Hometeam</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($matches as $match): ?>
-                                    <tr>
-                                        <td><?= $match['date']?></td>
-                                        <td><?= $match['opponent']?></td>
-                                        <td><?= getClubInfo($id)['name']?></td>
-                                    </tr>
-                            <?php endforeach ?>
-                            </tbody>
-                        </table>
-                    </div>
+                </div>
+                <div class="games">
+                    <h2>we want you to support our teams!</h2>
+                 <ul>
+                    <?php foreach($matches as $match): ?>
+                        <?php [$date, $time] = explode(" ", $match['date']);?>
+                        <li>
+                            <div><span><span>v</span>s</span></div>
+                            <h3><?=$match['opponent']?></h3>
+                            <div class="date-time">
+                                <h4>Date</h4>
+                                <p><?=$date?></p>
+                                <h4>Time</h4>
+                                <p><?=$time?></p>
+                            </div>
+                            
+                        </li>
+                    <?php endforeach ?>
+                 </ul>
                 </div>
                 <div class="gmap">
                     <iframe 
