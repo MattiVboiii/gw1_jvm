@@ -1,0 +1,23 @@
+@import url("./style.css");
+
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 0;
+  nav {
+  }
+  main {
+    grid-row: 2/3;
+    .error404 {
+      overflow: hidden;
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  footer {
+    grid-row: 3/-1;
+  }
+}
