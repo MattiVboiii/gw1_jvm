@@ -11,7 +11,7 @@ form {
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
   background-color: var(--color-bg-primary);
   color: var(--color-emphasis-primary);
-  border-radius: 10px;
+  border-radius: 2rem;
   > div {
     display: contents;
   }
@@ -33,16 +33,16 @@ form {
     border: 1px solid #ccc;
     border-radius: 1rem;
     margin-bottom: 2rem;
+    width: 100%;
+    background-color: var(--color-emphasis-primary);
+    text-align: center;
   }
   select {
-    width: 100%;
     appearance: none;
-    background-color: var(--color-emphasis-primary);
     cursor: pointer;
   }
-  input {
-    width: calc(100% - 1rem);
-    box-sizing: border-box;
+  input[type="range"] {
+    cursor: pointer;
   }
   button {
     font-size: 1.6rem;
@@ -159,9 +159,4 @@ form {
   form {
     max-width: 90%;
   }
-}
-
-body nav,
-body footer {
-  display: none;
 }
