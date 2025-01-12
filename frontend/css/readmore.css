@@ -1,0 +1,25 @@
+/*feature readmore ipv scrollbar*/
+.readmore-container {
+  padding: 1rem;
+  input {
+    display: none;
+  }
+  .readmore-body {
+    overflow: hidden;
+    transition: max-height 2s ease;
+    height: 100%;
+    .readmore-label {
+      display: inline;
+      color: var(--color-bg-primary);
+      font-weight: 600;
+      background-color: transparent;
+      cursor: pointer;
+      display: inline-block;
+      z-index: 2;
+      &:hover {
+        color: var(--color-accent);
+        text-decoration: underline;
+      }
+    }
+  }
+}

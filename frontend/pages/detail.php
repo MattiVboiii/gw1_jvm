@@ -141,21 +141,18 @@ if($id > $maxID) {
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes">
 
     <!-- Facebook Meta Tags -->
-<meta property="og:url" content="http://localhost:5173/frontend/pages/detail.php?id=<?=$id?>">
-<meta property="og:type" content="website">
-<meta property="og:title" content="The Belgian Diamond - <?= $clubinfo['name']?> ">
-<meta property="og:description" content="extra info about <?= $clubinfo['name']?> you can find them in <?= $clubinfo['city']?>">
-<meta property="og:image" content="  <?= $sfeerfoto[0]['media_url']?>">
+    <meta property="og:url" content="http://localhost:5173/frontend/pages/detail.php?id=<?=$id?>">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Belgian Diamond - <?= $clubinfo['name']?> ">
+    <meta property="og:description" content="extra info about <?= $clubinfo['name']?> you can find them in <?= $clubinfo['city']?>">
+    <meta property="og:image" content="  <?= $sfeerfoto[0]['media_url']?>">
 
-<meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
-<meta name="robots" content="index, follow">
-
-
-
+    <meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
+    <meta name="robots" content="index, follow">
 
     <title>Belgian Diamond - <?= getClubInfo($id)['name']?></title>
     <link rel="stylesheet" href="/frontend/css/detail.css">
@@ -165,15 +162,12 @@ if($id > $maxID) {
 
 <body>
     <?php include('frontend/partials/header.inc.php') ?>
-   
-
-   
     <main>
         <div class="container basic">
-            <div>
+            <div class="content">
                 <div>
                     <div>
-                    <img src="<?= getClubInfo($id)['logo_url']?>">
+                        <img src="<?= getClubInfo($id)['logo_url']?>">
                     </div>
                     <h1><?= getClubInfo($id)['name']?></h1>
                 </div>
@@ -186,97 +180,91 @@ if($id > $maxID) {
                     <h3>check out our socials</h3>
                     <div>
                     <?php
+                        if (!empty($socials)) {
+                            echo '<ul>';
+                            foreach ($socials as $social) {
+                                
+                                $socialLink = $social['sociallink']; 
+                                $linkName = strtolower($social['linkname']); // Convert link name to lowercase
 
-if (!empty($socials)) {
-    echo '<ul>';
-    foreach ($socials as $social) {
-        
-        $socialLink = $social['sociallink']; 
-        $linkName = strtolower($social['linkname']); // Convert link name to lowercase
-
-        
-        $iconClass = '';
-        switch ($linkName) {
-            case 'instagram':
-                $iconClass = 'fa-brands fa-instagram';
-                break;
-            case 'facebook':
-                $iconClass = 'fa-brands fa-facebook';
-                break;
-            case 'youtube':
-                $iconClass = 'fa-brands fa-youtube';
-                break;
-        }
-        echo '<li>';
-        echo '<a href="' . $socialLink . '" target="_blank">';
-        echo '<i class="' . $iconClass . '"></i>';
-        echo '</a>';
-        echo '</li>';
-    }
-    echo '</ul>';
-} else {
-    echo "<p>The club-owner didn't share any socials.</p>";
-}
-?>
+                                
+                                $iconClass = '';
+                                switch ($linkName) {
+                                    case 'instagram':
+                                        $iconClass = 'fa-brands fa-instagram';
+                                        break;
+                                    case 'facebook':
+                                        $iconClass = 'fa-brands fa-facebook';
+                                        break;
+                                    case 'youtube':
+                                        $iconClass = 'fa-brands fa-youtube';
+                                        break;
+                                }
+                                echo '<li>';
+                                echo '<a href="' . $socialLink . '" target="_blank">';
+                                echo '<i class="' . $iconClass . '"></i>';
+                                echo '</a>';
+                                echo '</li>';
+                            }
+                            echo '</ul>';
+                        } else {
+                            echo "<p>The club-owner didn't share any socials.</p>";
+                        }
+                    ?>
                     </div>
                     <div>
-                    <h3>Clubwebsite</h3>
+                        <h3>Clubwebsite</h3>
                         <p><a href="<?= getClubUrl($id)['reference']?>"><?= explode("www.",getClubUrl($id)['reference'])[1] ?></a></p>
                     </div>
                 </div>
             </div>
         </div>
         <?php if(!empty(getClubInfo($id)['description'])): ?>
-            
-        <div class="container description">
-
-        
-            <div>
-                
-                <h2>Who we are!</h2>
-                    
-                <div class="readmore-container">
-                    <input type="checkbox" id="readmore" name="readmore" class="readmore">
-                    <div class="readmore-body">
-                        <p>
-                            <span class="first">
-                                <?= substr(getClubInfo($id)['description'], 0, 160) ?>
-                            </span>
-                            <span class = "temp">...</span>
-                            <span class="second" style=" display:none">
-                                <?= substr(getClubInfo($id)['description'], 160) ?>
-                            </span>
-                            <label for="readmore" class="readmore-label">Read more</label>
-                        </p>
+            <div class="container description">
+                <div class="content">
+                    <h2>Who we are!</h2>
+                        
+                    <div class="readmore-container">
+                        <input type="checkbox" id="readmore" name="readmore" class="readmore">
+                        <div class="readmore-body">
+                            <p>
+                                <span class="first">
+                                    <?= substr(getClubInfo($id)['description'], 0, 160) ?>
+                                </span>
+                                <span class = "temp">...</span>
+                                <span class="second" style=" display:none">
+                                    <?= substr(getClubInfo($id)['description'], 160) ?>
+                                </span>
+                                <label for="readmore" class="readmore-label">Read more</label>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-      
-       
-        </div>
         <?php endif ?>
         <div class="container extrainfo">
-            <div>
-                <div class="bestuur">
-                    <h2>The pillars of our club</h2>
-                    <ul>
+            <div class="content">
+                <div>
+                    <div class="bestuur">
+                        <h2>The pillars of our club</h2>
+                        <ul>
 
-                    <?php foreach($bestuur as $lid): ?>
+                        <?php foreach($bestuur as $lid): ?>
 
-                        <li>
-                            <h3><?=$lid['role']?></h3>
-                            <p><?=$lid['fullname']?></p>
-                        </li>
-                            
-                    <?php endforeach ?>
-                    
-                    </ul>
-                </div>
+                            <li>
+                                <h3><?=$lid['role']?></h3>
+                                <p><?=$lid['fullname']?></p>
+                            </li>
+                                
+                        <?php endforeach ?>
                         
-                <div class="adress">
-                <ul>
-                    <h2>The Best place to play ball!</h2>
-                    <li>
+                        </ul>
+                    </div>
+                            
+                    <div class="adress">
+                        <ul>
+                            <h2>The Best place to play ball!</h2>
+                            <li>
                                 <h3>Provincie</h3>
                                 <p><?= getClubInfo($id)['province']?></p>
                             </li>
@@ -288,11 +276,11 @@ if (!empty($socials)) {
                                 <h3>Adres </h3>
                                 <p><?= getClubInfo($id)['street']?> <?= getClubInfo($id)['address']?><?= getClubInfo($id)['bus']?></p>
                             </li>
-                </ul>
-                </div>
-                <div class="games">
-                    <h2>we want you to support our teams!</h2>
-                    <table>
+                        </ul>
+                    </div>
+                    <div class="games">
+                        <h2>we want you to support our teams!</h2>
+                        <table>
                             <thead>
                                 <tr>
                                     <th>Date</th>
@@ -301,38 +289,30 @@ if (!empty($socials)) {
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php foreach($matches as $match): ?>
-                            <tr>
-                                <td><?= $match['date']?></td>
-                                <td><?= $match['opponent']?></td>
-                                <td><?= getClubInfo($id)['name']?></td>
-                            </tr>
+                                <?php foreach($matches as $match): ?>
+                                    <tr>
+                                        <td><?= $match['date']?></td>
+                                        <td><?= $match['opponent']?></td>
+                                        <td><?= getClubInfo($id)['name']?></td>
+                                    </tr>
                             <?php endforeach ?>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="gmap">
+                    <iframe 
+                        src="https://www.google.com/maps?q=<?=$latitude?>,<?=$longitude?>&hl=en&z=14&output=embed" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
                 </div>
             </div>
-            <div class="gmap">
-    <iframe 
-        src="https://www.google.com/maps?q=<?=$latitude?>,<?=$longitude?>&hl=en&z=14&output=embed" 
-        style="border:0;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-</div>
         </div>
-        </div>
-    <div>
-</div>
     </main>
-    <div>
-    <ul>
-    
-</ul>
-    </div>
-    <footer>
-        <div></div>
-    </footer>
+    <?php include('frontend/partials/footer.inc.php') ?>
 </body>
 </html>
+

@@ -1,108 +1,16 @@
-@import url("./reset.css");
-@import url("./icons.css");
+@import url("./style.css");
+@import url("./readmore.css");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-:root {
-  font-size: 62.5%;
-  --soft-orange: hsl(35, 77%, 62%);
-  --color-bg-body: #f4f5f6;
-  --color-text-body: #070a0d;
-  --color-bg-primary: #041e42;
-  --color-text-primary: #cdd2d9;
-  --color-emphasis-primary: #ffffff;
-  --color-bg-footer: #333333;
-  --color-text-footer: #ffffff;
-  --color-bg-secondary: #ffffff;
-  --color-emphasis-secondary: #070a0d;
-  --color-text-secondary: #474c4c;
-  --color-accent: #057aff;
-
-  --success: #198754;
-  --success-bg-subtle: #d1e7dd;
-  --success-border-subtle: #a3cfbb;
-  --success-text-emphasis: #0a3622;
-  --danger: #dc3545;
-  --danger-bg-subtle: #f8d7da;
-  --danger-border-subtle: #f8d7da;
-  --danger-text-emphasis: #58151c;
-  --warning: #ffc107;
-  --warning-bg-subtle: #fff3cd;
-  --warning-border-subtle: #ffe69c;
-  --warning-text-emphasis: #664d03;
-  --info: #0dcaf0;
-  --info-bg-subtle: #cff4fc;
-  --info-border-subtle: #9eeaf9;
-  --info-text-emphasis: #055160;
-}
-* {
-  font-family: Roboto, sans-serif;
-  box-sizing: border-box;
-}
-body {
-  background-color: var(--color-bg-body);
-}
-body * {
-  line-height: calc(2px + 2ex + 2px);
-  font-size: 2rem;
-}
-:root {
-  font-size: 62.5%;
-  --soft-orange: hsl(35, 77%, 62%);
-  --color-bg-body: #f4f5f6;
-  --color-text-body: #070a0d;
-  --color-bg-primary: #041e42;
-  --color-text-primary: #cdd2d9;
-  --color-emphasis-primary: #ffffff;
-  --color-bg-footer: #333333;
-  --color-text-footer: #ffffff;
-  --color-bg-secondary: #ffffff;
-  --color-emphasis-secondary: #070a0d;
-  --color-text-secondary: #474c4c;
-  --color-accent: #057aff;
-
-  --success: #198754;
-  --success-bg-subtle: #d1e7dd;
-  --success-border-subtle: #a3cfbb;
-  --success-text-emphasis: #0a3622;
-  --danger: #dc3545;
-  --danger-bg-subtle: #f8d7da;
-  --danger-border-subtle: #f8d7da;
-  --danger-text-emphasis: #58151c;
-  --warning: #ffc107;
-  --warning-bg-subtle: #fff3cd;
-  --warning-border-subtle: #ffe69c;
-  --warning-text-emphasis: #664d03;
-  --info: #0dcaf0;
-  --info-bg-subtle: #cff4fc;
-  --info-border-subtle: #9eeaf9;
-  --info-text-emphasis: #055160;
-}
-
-* {
-  font-family: Roboto, sans-serif;
-  box-sizing: border-box;
-}
 
 body {
-  background-color: var(--color-bg-body);
-}
-
-body * {
-  line-height: calc(2px + 2ex + 2px);
-  font-size: 2rem;
-}
-
-body {
-  .container {
-    width: 90vw;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: var(--color-bg-secondary);
-    max-width: 1440px;
+  .content {
     background: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     border: 5px solid #fff;
+    border-radius: 2rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -122,26 +30,20 @@ body {
     grid-template-rows: auto;
     gap: 2rem;
 
-    > :nth-child(1) {
+    > .basic {
       /*container*/
-      border-radius: 2rem;
-      padding-left: 1rem;
-
       > :nth-child(1) {
         /*div containing pictures*/
         display: grid;
         grid-template-columns: minmax(auto, 0.4fr) 1fr;
         grid-template-rows: auto auto;
-
         > :nth-child(1) {
           /*div rond foto en clubnaam*/
           place-self: center;
           overflow: hidden;
-
           > :nth-child(1) {
             /* div logo*/
             height: 20%;
-
             img {
               display: block;
               width: 100%;
@@ -149,7 +51,6 @@ body {
               background-color: transparent;
             }
           }
-
           > h1 {
             /*clubnaam*/
             padding-top: 3rem;
@@ -159,7 +60,6 @@ body {
             grid-column: 1/2;
           }
         }
-
         > :nth-child(2) {
           /* div foto*/
           grid-column: 2/-1;
@@ -230,471 +130,131 @@ body {
     }
 
     > .description {
-      margin-top: 1rem;
-      border-radius: 2rem;
-
-      > div {
-        padding-bottom: 2rem;
-        transition: max-height 0.3s ease;
-
+      > .content {
         > h2 {
           padding: 1rem 0;
-          font-size: 3rem;
+          font-size: var(--fontsize-large-heading);
           text-align: center;
         }
-        > .readmore-container {
-          position: relative;
-          margin-left: auto;
-          margin-right: auto;
-          padding: 1rem;
+        .readmore-container {
           width: 70%;
-          > .readmore-body {
-            overflow: hidden;
-            transition: max-height 2s ease;
-            height: 100%;
-            width: 100%;
-          }
+          margin: 0 auto;
         }
       }
     }
 
     > .extrainfo {
-      /*container gegevens club + adress + games + kaart*/
-      border-radius: 2rem;
-      display: flex;
-      justify-content: space-around;
-      gap: 2rem;
-      margin-top: 2rem;
-      padding-bottom: 2rem;
-      padding-top: 2rem;
-      height: fit-content;
+      .content {
+        /*container gegevens club + adress + games + kaart*/
+        display: flex;
+        justify-content: space-around;
+        gap: 2rem;
+        /* height: fit-content; */
 
-      > :nth-child(1) {
-        flex-shrink: 10;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-        gap: 1rem;
-
-        .bestuur {
-          padding-left: 1rem;
-          grid-column: 1/2;
-          grid-row: 1/2;
-
-          h2 {
-            font-style: oblique;
-            font-size: 2.2rem;
-          }
-
-          h3 {
-            font-size: 2.2rem;
-            font-weight: 600;
-          }
-
-          p {
-            padding-bottom: 1rem;
-            font-size: 2rem;
-          }
-        }
-
-        .adress {
-          grid-column: 2/3;
-          grid-row: 1/2;
-
-          h2 {
-            font-style: oblique;
-            font-size: 2.2rem;
-            padding-bottom: 1rem;
-          }
-
-          h3 {
-            font-size: 2.2rem;
-            font-weight: 600;
-          }
-
-          p {
-            padding-bottom: 1rem;
-          }
-        }
-
-        .games {
-          grid-column: 1/-1;
-          grid-row: 2/3;
-          max-width: 90%;
-          padding: 1rem;
-          margin-left: 1rem;
-          > h2 {
-            font-style: oblique;
-            font-size: 2.5rem;
-            text-align: center;
-            padding-bottom: 1rem;
-          }
-
-          > table {
-            margin: 0 auto;
-            border: double 10px black;
-            width: 100%;
-            max-width: 100%;
-            thead tr th,
-            tbody tr td {
-              border: solid 1px black;
-              padding: 1rem;
-              color: var(--color-text-body);
-              font-size: 2rem;
-            }
-            > thead > tr {
-              font-weight: 600;
-            }
-          }
-        }
-      }
-
-      > .gmap {
-        align-self: center;
-        position: relative;
-        padding-right: 1rem;
-        flex-grow: 3;
-        min-width: 40%;
-        min-height: 20vh;
-        max-width: 50%;
-        max-height: 40%;
-        aspect-ratio: 1/1;
-        border-radius: 50%;
-        overflow: hidden;
-        background: white;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        border: 5px solid #fff;
-
-        > iframe {
-          position: absolute;
-          min-width: 150px;
-          min-height: 150px;
-          width: 100%;
-          height: 100%;
-          border: none;
-          z-index: 1;
-        }
-      }
-    }
-  }
-}
-/*feature readmore ipv scrollbar*/
-.description > div > div > input {
-  display: none;
-}
-.description > div > .readmore-container .readmore-body .readmore-label {
-  display: inline;
-  color: var(--color-bg-primary);
-  font-weight: 600;
-  background-color: transparent;
-  cursor: pointer;
-  display: inline-block;
-  /* text-decoration: underline; */
-  z-index: 2;
-  /* filter: brightness(1.5); */
-  &:hover {
-    color: var(--color-accent);
-    text-decoration: underline;
-  }
-}
-
-footer {
-  div {
-    height: 150px;
-    background-color: var(--color-bg-footer);
-  }
-}
-
-@media (min-width: 1103px) {
-  body {
-    main {
-      .extrainfo {
         > :nth-child(1) {
+          flex-shrink: 10;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto;
+          gap: 1rem;
+
           .bestuur {
-            h2 {
-              padding-bottom: 1.5rem;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 1102px) {
-  body {
-    main {
-      .extrainfo {
-        > :nth-child(1) {
-          .bestuur {
-            h2 {
-              padding-bottom: 3.5rem;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 985px) {
-  body {
-    main {
-      .extrainfo {
-        > :nth-child(1) {
-          .bestuur {
-            h2 {
-              padding-bottom: 1.5rem;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (min-width: 949px) and (max-width: 984px) {
-  body {
-    main {
-      .extrainfo {
-        > :nth-child(1) {
-          .bestuur {
-            h2 {
-              padding-bottom: 3.5rem;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 890px) {
-  body {
-    main {
-      > .extrainfo {
-        > :nth-child(1) {
-          .bestuur {
-            h2 {
-              padding-bottom: 1rem;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 850px) {
-  body {
-    main {
-      .extrainfo {
-        display: grid;
-        justify-items: center;
-        align-items: center;
-        > :nth-child(1) {
-          > .bestuur {
-            > h2 {
-              padding-bottom: 1rem;
-            }
-          }
-        }
-        .games {
-          margin-left: auto;
-          margin-right: auto;
-        }
-        .gmap {
-          max-width: none;
-          max-height: none;
-          width: 85%;
-          height: 50vw;
-          border-radius: 0;
-          height: fit-content;
-          margin: 0 auto;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 780px) {
-  body {
-    main {
-      .basic {
-        > div {
-          :nth-child(2) {
-            height: 100%;
-            overflow: hidden;
-            display: block;
-            object-position: center;
-            object-fit: scale-down;
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 680px) {
-  body {
-    main {
-      .basic {
-        > :nth-child(1) {
-          > :nth-child(1) {
+            padding-left: 1rem;
             grid-column: 1/2;
             grid-row: 1/2;
-            /* display: flex;
-            flex-direction: column-reverse; */
-            > h1 {
-              padding-top: 1rem;
+
+            h2 {
+              font-style: oblique;
+              font-size: 2.2rem;
+            }
+
+            h3 {
+              font-size: 2.2rem;
+              font-weight: 600;
+            }
+
+            p {
+              padding-bottom: 1rem;
+              font-size: 2rem;
             }
           }
-          > :nth-child(2) {
-            padding: 1rem;
-            grid-row: 2/3;
-            grid-column: 1/3;
-            aspect-ratio: 16/9;
-            width: 100%;
-            height: 100%;
-            > img {
-              object-fit: cover;
-              width: 100%;
-              height: 100%;
-            }
-          }
-          > :nth-child(3) {
-            place-self: center;
+
+          .adress {
             grid-column: 2/3;
             grid-row: 1/2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-          }
-        }
-      }
-      .description {
-        > div {
-          width: 95%;
-          margin: 0 auto;
-          > p {
-            max-width: 95%;
-            padding: 0 1rem 1rem 1rem;
-          }
-        }
-      }
-    }
-  }
-}
 
-@media (max-width: 590px) {
-  body {
-    main {
-      > .extrainfo {
-        > :nth-child(1) {
-          .bestuur {
             h2 {
-              padding-bottom: 3.5rem;
+              font-style: oblique;
+              font-size: 2.2rem;
+              padding-bottom: 1rem;
             }
-          }
-        }
-      }
-    }
-  }
-}
 
-@media (max-width: 504px) {
-  body {
-    main {
-      > .extrainfo {
-        > :nth-child(1) {
-          .bestuur {
-            h2 {
+            h3 {
+              font-size: 2.2rem;
+              font-weight: 600;
+            }
+
+            p {
               padding-bottom: 1rem;
             }
           }
-        }
-      }
-    }
-  }
-}
 
-@media (max-width: 440px) {
-  body {
-    main {
-      .basic {
-        > :nth-child(1) {
-          display: flex;
-          flex-direction: column;
-        }
-      }
-      .extrainfo {
-        > :nth-child(1) {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          .bestuur {
-            width: 70%;
-            > ul {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-            }
-          }
-          .adress {
-            width: 70%;
-            > ul {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              li {
-                width: 50%;
-              }
-            }
-          }
           .games {
-            > table {
-              width: auto-fit;
-              > thead {
-                tr {
-                  th {
-                    font-size: 1.5rem;
-                  }
-                }
-              }
-              tbody {
-                tr {
-                  td {
-                    font-size: 1.5rem;
-                  }
-                }
-              }
+            grid-column: 1/-1;
+            grid-row: 2/3;
+            max-width: 90%;
+            padding: 1rem;
+            margin-left: 1rem;
+            > h2 {
+              font-style: oblique;
+              font-size: 2.5rem;
+              text-align: center;
+              padding-bottom: 1rem;
             }
-          }
-        }
-        .gmap {
-          height: 40vw;
-          width: 85%;
-          border-radius: 0;
-        }
-      }
-    }
-  }
-}
-@media (max-width: 390px) {
-  body {
-    main {
-      .extrainfo {
-        > :nth-child(1) {
-          .games {
+
             > table {
+              margin: 0 auto;
+              border: double 10px black;
+              width: 100%;
+              max-width: 100%;
               thead tr th,
               tbody tr td {
-                padding: 0.5rem;
-                font-size: 1rem;
+                border: solid 1px black;
+                padding: 1rem;
+                color: var(--color-text-body);
+                font-size: 2rem;
+              }
+              > thead > tr {
+                font-weight: 600;
               }
             }
+          }
+        }
+
+        > .gmap {
+          align-self: center;
+          position: relative;
+          padding-right: 1rem;
+          flex-grow: 3;
+          min-width: 40%;
+          min-height: 20vh;
+          max-width: 50%;
+          max-height: 40%;
+          aspect-ratio: 1/1;
+          border-radius: 50%;
+          overflow: hidden;
+          background: white;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+          border: 5px solid #fff;
+
+          > iframe {
+            position: absolute;
+            min-width: 150px;
+            min-height: 150px;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
           }
         }
       }

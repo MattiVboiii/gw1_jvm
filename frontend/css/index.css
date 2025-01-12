@@ -1,0 +1,155 @@
+@import url("./style.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap");
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 5rem auto;
+  padding: 2rem;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+  background-color: var(--color-bg-primary);
+  color: var(--color-emphasis-primary);
+  border-radius: 10px;
+  > div {
+    display: contents;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  * {
+    margin-bottom: 1rem;
+  }
+  label {
+    filter: brightness(var(--secondary-brightness));
+    font-size: var(--secondary-fontsize);
+  }
+  select,
+  option,
+  input {
+    font-size: 1.6rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+  }
+  select {
+    width: 100%;
+    appearance: none;
+    background-color: var(--color-emphasis-primary);
+    cursor: pointer;
+  }
+  input {
+    width: calc(100% - 1rem);
+    box-sizing: border-box;
+  }
+  button {
+    font-size: 1.6rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    border-radius: 1rem;
+    cursor: pointer;
+    &:hover {
+      color: var(--color-emphasis-primary);
+      background-color: var(--color-accent);
+    }
+  }
+}
+
+.club-container {
+  margin: 5rem auto;
+  > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    article {
+      display: grid;
+      grid-template-rows: 2fr 1fr;
+      min-height: 500px;
+      position: relative;
+      overflow: hidden;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+      background-color: #fff;
+      border: 5px solid #fff;
+      border-radius: 2rem;
+      transition: transform 0.2s ease-in-out;
+      &:hover {
+        transform: scale(1.05);
+      }
+      div:has(img) {
+        aspect-ratio: 1 / 1;
+        img {
+          height: 100%;
+          width: 100%;
+          display: block;
+          object-fit: contain;
+          object-position: center;
+        }
+      }
+      .content {
+        background-color: var(--color-bg-primary);
+        color: var(--color-emphasis-primary);
+        padding: 10px;
+        width: 100%;
+        height: 100%;
+        h2 {
+          font-weight: bold;
+          font-size: var(--headings-fontsize);
+          margin-bottom: 1rem;
+        }
+        p {
+          font-size: var(--secondary-fontsize);
+          height: fit-content;
+          &:nth-child(2) {
+            font-style: italic;
+            filter: brightness(var(--secondary-brightness));
+          }
+          &:nth-child(3) {
+            margin-top: 1rem;
+          }
+        }
+      }
+    }
+  }
+  .pagination {
+    grid-column: 1 / -1;
+    display: flex;
+    place-content: center;
+    align-items: center;
+    margin: 5rem 0;
+    gap: 1rem;
+    a,
+    p {
+      text-align: center;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      text-decoration: none;
+      color: var(--color-emphasis-primary);
+      background-color: var(--color-bg-primary);
+    }
+    a:hover,
+    a.active {
+      background-color: var(--color-accent);
+    }
+    a.active:hover {
+      background-color: var(--color-bg-primary);
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  .club-container {
+    section {
+      max-width: 100%;
+    }
+  }
+  form {
+    max-width: 90%;
+  }
+}

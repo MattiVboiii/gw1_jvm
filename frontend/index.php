@@ -33,7 +33,7 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
     <meta name="keywords" content="Baseball, Belgian baseballClubs, master-detailpage,belgische baseballclubs, honkbal">
     <meta name="robots" content="index, follow">
 
-    <link rel="stylesheet" href="/frontend/css/style.css" />
+    <link rel="stylesheet" href="/frontend/css/index.css" />
     <script src="/frontend/js/index.js" defer type="module"></script>
     <link rel="icon" type="image/png" href="/frontend/images/logo.png" />
     <?php if (empty($clubsToShow)): ?>
@@ -50,9 +50,6 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
 <body>
     <?php include('frontend/partials/header.inc.php') ?>
     <main>
-        <header>
-            <p>BANNER - Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        </header>
         <form action="/frontend/index.php" method="get">
             <h2>Search for clubs</h2>
             <label for="search">Name/City/Province:</label>
