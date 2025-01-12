@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once 'system/db.inc.php';
 ?>
 <!DOCTYPE html>
@@ -22,4 +22,5 @@ require_once 'system/db.inc.php';
     </main>
     <?php include('frontend/partials/footer.inc.php') ?>
 </body>
+
 </html>
