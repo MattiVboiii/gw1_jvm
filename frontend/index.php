@@ -36,23 +36,26 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
     <link rel="stylesheet" href="/frontend/css/index.css" />
     <script src="/frontend/js/index.js" defer type="module"></script>
     <link rel="icon" type="image/png" href="/frontend/images/logo.png" />
-    <?php if (empty($clubsToShow)): ?>
-        <style>
-            #advanced-search {
-                visibility: hidden;
-                position: absolute;
-                display: block;
-            }
-        </style>
-    <?php endif ?>
+    <style>
+        .club-container {
+            max-width: <?= count($clubsToShow) * (300 + 40) ?>px;
+        }
+
+        <?php if (empty($clubsToShow)):
+        ?>#advanced-search {
+            visibility: hidden;
+            position: absolute;
+            display: block;
+        }
+
+        <?php endif ?>
+    </style>
 </head>
 
 <body>
     <?php include('frontend/partials/header.inc.php') ?>
     <main>
         <div class="container">
-
-
             <form action="/frontend/index.php" method="get">
                 <h2>Search for clubs</h2>
                 <label for="search">Name/City/Province:</label>

@@ -60,20 +60,22 @@ form {
 }
 
 .club-container {
-  margin: 5rem auto;
+  margin: 0 auto;
+
   > div {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
     gap: 2rem;
+    grid-auto-rows: 1fr;
+    a:has(article) {
+      display: block;
+    }
     article {
       display: grid;
-      grid-template-rows: 2fr 1fr;
-      min-height: 500px;
+      grid-template-rows: auto 1fr;
+      height: 100%;
       position: relative;
       overflow: hidden;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
       box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
       background-color: #fff;
       border: 5px solid #fff;
@@ -84,6 +86,9 @@ form {
       }
       div:has(img) {
         aspect-ratio: 1 / 1;
+        overflow: hidden;
+        padding: 2rem;
+        margin: auto 0;
         img {
           height: 100%;
           width: 100%;
@@ -98,6 +103,7 @@ form {
         padding: 10px;
         width: 100%;
         height: 100%;
+        min-height: 200px;
         h2 {
           font-weight: bold;
           font-size: var(--headings-fontsize);
@@ -120,6 +126,7 @@ form {
   .pagination {
     grid-column: 1 / -1;
     display: flex;
+    flex-wrap: wrap;
     place-content: center;
     align-items: center;
     margin: 5rem 0;
@@ -152,4 +159,9 @@ form {
   form {
     max-width: 90%;
   }
+}
+
+body nav,
+body footer {
+  display: none;
 }
