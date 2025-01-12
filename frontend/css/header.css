@@ -1,3 +1,4 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");
 header {
   background-color: #041e42;
   box-shadow: 0 0 20px var(--color-text-body);
@@ -12,6 +13,7 @@ header {
     height: 100%;
     nav {
       display: flex;
+      gap: 2rem;
       align-items: center;
       justify-content: space-between;
       color: white;
@@ -52,6 +54,9 @@ header {
           padding: 10px;
         }
       }
+      .mobile-menu {
+        display: none;
+      }
     }
 
     .dropdown {
@@ -63,7 +68,7 @@ header {
       position: absolute;
       top: 20px;
       right: 0;
-      background-color: lightgrey;
+      background-color: var(--color-text-primary);
       min-width: 160px;
       z-index: 5;
     }
@@ -75,14 +80,86 @@ header {
       display: block;
     }
 
-    .dropdown-content a:hover,
     .dropdown:hover .dropbtn {
-      background-color: grey;
+      /* background-color: var(--color-text-primary); */
+      background-color: var(--color-text-primary);
+      color: black;
+      border-radius: 1rem 1rem 0 1rem;
+      position: relative;
+    }
+    .dropdown:hover .dropbtn::before,
+    .dropdown:hover .dropbtn::after {
+      --border-radius: 1rem;
+      content: "";
+      position: absolute;
+      width: var(--border-radius);
+      height: var(--border-radius);
+      bottom: 0;
+      left: 0;
+      background-color: var(--color-bg-primary);
+      /* background-color: blueviolet; */
+      border-radius: 100vw;
+    }
+
+    .dropdown:hover .dropbtn::before {
+      bottom: calc(var(--border-radius) * 0.8);
+      left: calc(var(--border-radius) * -1);
+      border-radius: 0 0 50% 0;
+      box-shadow: 10px 12px 0px 5px var(--color-text-primary);
+      /* box-shadow: 5px 5px 0px 5px blue; */
+    }
+
+    .dropdown:hover .dropbtn::after {
+      bottom: calc(var(--border-radius) * 1);
+      left: calc(var(--border-radius) * -1);
+    }
+
+    .dropdown-content a:hover {
+      background-color: #bf0d3e;
       color: white;
     }
 
     .dropdown:hover .dropdown-content {
       display: block;
+      border-radius: 1rem 0 1rem 1rem;
+    }
+  }
+}
+
+@media (max-width: 806px) {
+  header {
+    .container {
+      nav {
+        ul {
+          display: none;
+        }
+        .mobile-menu {
+          display: block;
+          color: white;
+          height: 50px;
+          width: 50px;
+          > i {
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: white;
+            font-size: 4rem;
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 400px) {
+  header {
+    .container {
+      nav {
+        .site-title {
+          h1 {
+            display: none;
+          }
+        }
+      }
     }
   }
 }

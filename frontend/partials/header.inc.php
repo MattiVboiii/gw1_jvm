@@ -29,6 +29,7 @@
                     </ul>
                 </li>
             </ul>
+            <div class="mobile-menu"> <i class="fa-solid fa-bars"></i></div>
         </nav>
     </div>
 </header>
