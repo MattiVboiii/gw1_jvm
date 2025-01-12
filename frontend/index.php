@@ -35,7 +35,7 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
 
     <link rel="stylesheet" href="/frontend/css/index.css" />
     <script src="/frontend/js/index.js" defer type="module"></script>
-    <link rel="icon" type="image/png" href="/frontend/images/logo.png" />
+    <link rel="icon" type="image/png" href="/frontend/images/logo_trimmed.png" />
     <?php if (empty($clubsToShow)): ?>
         <style>
             #advanced-search {
