@@ -6,7 +6,7 @@
   }
   .readmore-body {
     overflow: hidden;
-    transition: max-height 2s ease;
+    transition: max-height 1s ease;
     height: 100%;
     .readmore-label {
       display: inline;
