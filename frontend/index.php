@@ -36,23 +36,26 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
     <link rel="stylesheet" href="/frontend/css/index.css" />
     <script src="/frontend/js/index.js" defer type="module"></script>
     <link rel="icon" type="image/png" href="/frontend/images/logo_trimmed.png" />
-    <?php if (empty($clubsToShow)): ?>
-        <style>
-            #advanced-search {
-                visibility: hidden;
-                position: absolute;
-                display: block;
-            }
-        </style>
-    <?php endif ?>
+    <style>
+        .club-container {
+            max-width: <?= count($clubsToShow) * (300 + 40) ?>px;
+        }
+
+        <?php if (empty($clubsToShow)):
+        ?>#advanced-search {
+            visibility: hidden;
+            position: absolute;
+            display: block;
+        }
+
+        <?php endif ?>
+    </style>
 </head>
 
 <body>
     <?php include('frontend/partials/header.inc.php') ?>
     <main>
         <div class="container">
-
-
             <form action="/frontend/index.php" method="get">
                 <h2>Search for clubs</h2>
                 <label for="search">Name/City/Province:</label>
@@ -61,7 +64,9 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
                     <label for="sort">Sort by:</label>
                     <select name="sort">
                         <?php foreach ($sortFields as $field): ?>
-                            <option value="<?= $field ?>" <?= $sort === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
+                            <?php $sortSelected = $sort === $field ? 'selected' : ''  ?>
+                            <?php $fieldName = ucfirst($field) ?>
+                            <?= "<option value='$field' $sort > $fieldName </option>" ?>
                         <?php endforeach; ?>
                     </select>
                     <input type="hidden" name="sortDirection" value="<?= $sortDirection ?>">
