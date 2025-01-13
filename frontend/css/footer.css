@@ -26,3 +26,14 @@ footer {
     text-decoration: none;
   }
 }
+
+@media (max-width: 400px) {
+  body {
+    footer {
+      flex-direction: column;
+      height: fit-content;
+      gap: 1rem;
+      padding: 2rem;
+    }
+  }
+}
