@@ -105,4 +105,9 @@ class Upload
     {
         return $this->finalDest ?? '';
     }
+
+    public function getAllowedTypes()
+    {
+        return $this->allowedTypes;
+    }
 }
