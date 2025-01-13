@@ -7,7 +7,7 @@
             <div class="site-title">
                 
                 <div class="logo">
-                    <a href="frontend/index.php">
+                <a href="/frontend/index.php">
                     <img src="/frontend/images/logo_trimmed.png" alt="">
                     </a>
                 </div>
