@@ -71,6 +71,19 @@ header {
       background-color: var(--color-text-primary);
       min-width: 160px;
       z-index: 5;
+      overflow: hidden;
+      max-height: 30rem;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        width: 5px;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #bf0d3e;
+        border-radius: 10px;
+      }
     }
 
     .dropdown-content a {
@@ -122,6 +135,9 @@ header {
     .dropdown:hover .dropdown-content {
       display: block;
       border-radius: 1rem 0 1rem 1rem;
+    }
+    .dropdown-content ul {
+      overflow: hidden;
     }
   }
 }
