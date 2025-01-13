@@ -64,7 +64,9 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
                     <label for="sort">Sort by:</label>
                     <select name="sort">
                         <?php foreach ($sortFields as $field): ?>
-                            <option value="<?= $field ?>" <?= $sort === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
+                            <?php $sortSelected = $sort === $field ? 'selected' : ''  ?>
+                            <?php $fieldName = ucfirst($field) ?>
+                            <?= "<option value='$field' $sort > $fieldName </option>" ?>
                         <?php endforeach; ?>
                     </select>
                     <input type="hidden" name="sortDirection" value="<?= $sortDirection ?>">
