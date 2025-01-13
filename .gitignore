@@ -3,5 +3,14 @@
 node_modules
 vendor
 dist
+
+# ignore vite-plugin-php's temporary folder
 .php-tmp
+
+# ignore affinity photo lock files
 *.afphoto~lock~
+
+# ignore uploaded files
+uploads/*
+# except this file to ensure the folder exists in version control
+!uploads/.upload
