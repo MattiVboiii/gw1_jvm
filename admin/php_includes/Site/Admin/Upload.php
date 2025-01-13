@@ -18,7 +18,7 @@ class Upload
 
     public function hasFile()
     {
-        return isset($_FILES[$this->name]);
+        return !empty($_FILES[$this->name]['name']);
     }
 
     public function filePath()

@@ -24,6 +24,7 @@ $bus = $_POST['inputBus'] ?? null;
 $longitude = new TryToFloat($_POST['inputLongitude'] ?? '');
 $latitude = new TryToFloat($_POST['inputLatitude'] ?? '');
 $errors = [];
+$showUploadNotification = false;
 
 $isAlphaNumeric = fn($input) => preg_match('/^[A-Z0-9 ]+$/i', $input);
 $isAlpha = fn($input) => preg_match('/^[A-Z \-]+$/i', $input);
@@ -78,12 +79,17 @@ if (isset($_POST['submit'])) {
             try {
                 $uploadedFilePath = $logoUpload->move('/uploads');
                 if (!$uploadedFilePath) $errors['logoUpload'] = 'Something went wrong with the file upload.';
-                else $logoURL = $uploadedFilePath;
+                else {
+                    $logoURL = $uploadedFilePath;
+                    $showUploadNotification = true;
+                }
             } catch (\Exception $e) {
                 $errors['logoUpload'] = $e;
             }
         }
     }
+
+    if (!$logoURL && empty($errors['logoUpload'])) $errors['logoUpload'] = 'Logo is required';
 
     if ($errors) {
         addDangerAlert('Some club fields are incorrect.');
@@ -107,6 +113,8 @@ if (isset($_POST['submit'])) {
             addDangerAlert('Something went critically wrong, no club was created.');
         }
     }
+
+    if ($showUploadNotification) addSuccessAlert('Successfully Uploaded your image.');
 }
 
 class TryToFloat
@@ -163,15 +171,16 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                                     onerror="this.onerror=null;this.src='/admin/images/default-logo.png'">
                             </div>
                             <legend class="mb-3">Club info</legend>
-                            <input type="hidden" name="inputLogoUrl" value="<?= $logoURL ?>">
                             <div class="mb-3">
+                                <?php $logoInputValue = 'Upload logo... (' . implode(', ', array_map(fn($t) => $t->name(), $logoUpload->getAllowedTypes())) . ')' ?>
                                 <label for="inputLogoUpload" class="form-label visually-hidden">Upload logo... (.png/.jpeg/.webp) </label>
-                                <?php $logoInputValue = $_FILES['inputLogoUpload']['name'] ?? 'Upload logo... (' . implode(', ', array_map(fn($t) => $t->name(), $logoUpload->getAllowedTypes())) . ')' ?>
-                                <input class="form-control <?= $makeGetValidationClass($logoUpload->hasFile())('logoUpload') ?>" type="file" id="inputLogoUpload" name="inputLogoUpload" onchange="setfilename(this.value);" value="<?= $logoInputValue ?>">
+                                <div id="logoUploadHelp" class="form-text mb-1"><?= $logoInputValue ?></div>
+                                <input class="form-control <?= $makeGetValidationClass(isset($errors['logoUpload']))('logoUpload') ?>" type="file" id="inputLogoUpload" name="inputLogoUpload" aria-describedby="logoUploadHelp" onchange="setfilename(this.value);">
                                 <div class="invalid-feedback">
                                     <?= $errors['logoUpload'] ?>
                                 </div>
                             </div>
+                            <input type="hidden" name="inputLogoUrl" value="<?= $logoURL ?>">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control <?= $getValidationClass('name') ?>" name="inputName" id="inputName" placeholder="name..." value="<?= $name ?>">
                                 <label for="inputName" class="form-label">Name</label>
