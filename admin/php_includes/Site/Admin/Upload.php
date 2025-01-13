@@ -12,6 +12,7 @@ class Upload
     private readonly string $p_filePath;
     private MimeType|string $p_type;
     private array $allowedTypes = [];
+    private string $finalDest;
 
     public function __construct(public readonly string $name, public readonly int $maxSize = 2097152 /* 2MB */) {}
 
@@ -94,8 +95,14 @@ class Upload
     {
         $filename ??= $this->getRandFileName();
         $filePath = "$directory/$filename";
-        $success = move_uploaded_file($this->filePath(), $filePath);
+        $success = move_uploaded_file($this->filePath(), $_SERVER['DOCUMENT_ROOT'] . $filePath);
         if (!$success) return false;
-        return $filePath;
+        $this->finalDest = $filePath;
+        return $this->getFinalDest();
+    }
+
+    public function getFinalDest()
+    {
+        return $this->finalDest ?? '';
     }
 }

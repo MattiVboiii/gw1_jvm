@@ -24,6 +24,8 @@ export default {
         { src: "frontend/php_includes", dest: "frontend/" },
         // admin
         { src: "admin/php_includes", dest: "admin/" },
+        // uploads folder
+        { src: "uploads/.upload", dest: "uploads/" },
       ],
     }),
   ],

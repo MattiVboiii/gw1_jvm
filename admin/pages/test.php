@@ -6,6 +6,10 @@ use \Site\Admin\Upload;
 use \Site\Admin\MimeType;
 
 print '<pre>';
+print_r($_SERVER);
+print '</pre>';
+
+print '<pre>';
 print_r($_FILES);
 print '</pre>';
 
@@ -19,7 +23,7 @@ if ($upload->hasFile()) {
         print $upload->getErrorMsg();
     } else {
         print 'File Upload...';
-        var_dump($upload->move('uploads'));
+        var_dump($upload->move('/uploads'));
     }
 }
 
@@ -48,6 +52,7 @@ print '</pre>';
             <button type="submit" name="submit">Upload</button>
         </div>
     </form>
+    <img src="<?= $upload->getFinalDest() ?>" alt="">
 </body>
 
 </html>
