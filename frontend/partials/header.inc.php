@@ -5,8 +5,11 @@
     <div class="container">
         <nav>
             <div class="site-title">
+                
                 <div class="logo">
+                    <a href="frontend/index.php">
                     <img src="/frontend/images/logo_trimmed.png" alt="">
+                    </a>
                 </div>
                 <h1>The Belgium Diamond</h1>
             </div>
