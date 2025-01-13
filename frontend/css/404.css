@@ -1,0 +1,17 @@
+@import url("./style.css");
+
+body {
+  main {
+    height: calc(100vh - var(--header-height) - var(--footer-height));
+    .error404 {
+      overflow: hidden;
+      height: 100%;
+      img {
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

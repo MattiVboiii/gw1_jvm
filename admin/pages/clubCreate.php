@@ -1,7 +1,17 @@
 <?php
+
+use Site\Admin\MimeType;
+use Site\Admin\Upload;
+
 include 'admin/partials/header.inc.php';
 require_once 'system/db.inc.php';
+require_once 'admin/php_includes/upload.inc.php';
 
+
+$logoUpload = (new Upload('inputLogoUpload'))
+    ->setAllowedType(MimeType::IMAGE_PNG)
+    ->setAllowedType(MimeType::IMAGE_JPEG)
+    ->setAllowedType(MimeType::IMAGE_WEBP);
 $logoURL = $_POST['inputLogoUrl'] ?? null;
 $name = $_POST['inputName'] ?? null;
 $description = $_POST['inputDescription'] ?? null;
@@ -14,17 +24,13 @@ $bus = $_POST['inputBus'] ?? null;
 $longitude = new TryToFloat($_POST['inputLongitude'] ?? '');
 $latitude = new TryToFloat($_POST['inputLatitude'] ?? '');
 $errors = [];
+$showUploadNotification = false;
 
 $isAlphaNumeric = fn($input) => preg_match('/^[A-Z0-9 ]+$/i', $input);
 $isAlpha = fn($input) => preg_match('/^[A-Z \-]+$/i', $input);
 $isTel = fn($input) => preg_match('/^\\+?[1-9][0-9]{7,14}$/', $input);
 
 if (isset($_POST['submit'])) {
-    if (!$logoURL) $errors['logoURL'] = 'Logo URL is required';
-    elseif (strlen($logoURL) > 255) $errors['logoURL'] = 'Logo URL has a maximum length of 255 characters';
-    elseif (!filter_var($logoURL, FILTER_VALIDATE_URL)) $errors['logoURL'] = 'Invalid URL.';
-    elseif (!isUniqClubLogo($logoURL)) $errors['logoURL'] = 'logo URL is already used by another club.';
-
     if (!$name) $errors['name'] = 'Name is required';
     elseif (strlen($name) > 255) $errors['name'] = 'Name has a maximum length of 255 characters';
     elseif (!$isAlpha($name)) $errors['name'] = 'Name can not contain numbers or special characters (except -)';
@@ -66,6 +72,25 @@ if (isset($_POST['submit'])) {
     elseif (!$longitude->isNum) $errors['longitude'] = 'Longitude must be a number';
     if (abs($longitude->val) > 180) $errors['longitude'] = 'Longitude must be between -180° en 180°.';
 
+    if ($logoUpload->hasFile()) {
+        if ($logoUpload->hasError()) {
+            $errors['logoUpload'] = $logoUpload->getErrorMsg();
+        } else {
+            try {
+                $uploadedFilePath = $logoUpload->move('/uploads');
+                if (!$uploadedFilePath) $errors['logoUpload'] = 'Something went wrong with the file upload.';
+                else {
+                    $logoURL = $uploadedFilePath;
+                    $showUploadNotification = true;
+                }
+            } catch (\Exception $e) {
+                $errors['logoUpload'] = $e;
+            }
+        }
+    }
+
+    if (!$logoURL && empty($errors['logoUpload'])) $errors['logoUpload'] = 'Logo is required';
+
     if ($errors) {
         addDangerAlert('Some club fields are incorrect.');
     } else {
@@ -88,6 +113,8 @@ if (isset($_POST['submit'])) {
             addDangerAlert('Something went critically wrong, no club was created.');
         }
     }
+
+    if ($showUploadNotification) addSuccessAlert('Successfully Uploaded your image.');
 }
 
 class TryToFloat
@@ -122,7 +149,6 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
     <?php require 'admin/partials/head.inc.php' ?>
     <title>Admin - Clubs: create</title>
     <link rel="stylesheet" href="/admin/css/clubForm.css">
-    <script defer type="module" src="/admin/js/clubForm.js"></script>
     <script defer type="module" src="/admin/js/clubEdit-modal.js"></script>
     <script type="module" src="/admin/js/clubEdit-roleCreate.js"></script>
 </head>
@@ -137,7 +163,7 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                 </div>
                 <div class="card-body">
 
-                    <form method="post" class="container-fluid">
+                    <form method="post" enctype="multipart/form-data" class="container-fluid">
                         <?php $getValidationClass = $makeGetValidationClass(isset($_POST['submit'])) ?>
                         <fieldset class="mb-3">
                             <div class="img-container img-thumbnail m-auto mb-3">
@@ -145,16 +171,16 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                                     onerror="this.onerror=null;this.src='/admin/images/default-logo.png'">
                             </div>
                             <legend class="mb-3">Club info</legend>
-                            <div class="input-group mb-3 has-validation">
-                                <div class="form-floating <?= $getValidationClass('logoURL') ?>">
-                                    <input type="url" class="form-control <?= $getValidationClass('logoURL') ?>" name="inputLogoUrl" id="inputLogoUrl" placeholder="https://..." value="<?= $logoURL ?>">
-                                    <label for="inputLogoUrl" class="form-label">Logo URL</label>
-                                </div>
-                                <button class="btn btn-outline-secondary" type="button" id="btn-logo-preview">Preview</button>
+                            <div class="mb-3">
+                                <?php $logoInputValue = 'Upload logo... (' . implode(', ', array_map(fn($t) => $t->name(), $logoUpload->getAllowedTypes())) . ')' ?>
+                                <label for="inputLogoUpload" class="form-label visually-hidden">Upload logo... (.png/.jpeg/.webp) </label>
+                                <div id="logoUploadHelp" class="form-text mb-1"><?= $logoInputValue ?></div>
+                                <input class="form-control <?= $makeGetValidationClass(isset($errors['logoUpload']))('logoUpload') ?>" type="file" id="inputLogoUpload" name="inputLogoUpload" aria-describedby="logoUploadHelp" onchange="setfilename(this.value);">
                                 <div class="invalid-feedback">
-                                    <?= $errors['logoURL'] ?>
+                                    <?= $errors['logoUpload'] ?>
                                 </div>
                             </div>
+                            <input type="hidden" name="inputLogoUrl" value="<?= $logoURL ?>">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control <?= $getValidationClass('name') ?>" name="inputName" id="inputName" placeholder="name..." value="<?= $name ?>">
                                 <label for="inputName" class="form-label">Name</label>

@@ -35,7 +35,7 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
 
     <link rel="stylesheet" href="/frontend/css/index.css" />
     <script src="/frontend/js/index.js" defer type="module"></script>
-    <link rel="icon" type="image/png" href="/frontend/images/logo.png" />
+    <link rel="icon" type="image/png" href="/frontend/images/logo_trimmed.png" />
     <style>
         .club-container {
             max-width: <?= count($clubsToShow) * (300 + 40) ?>px;
@@ -64,7 +64,9 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
                     <label for="sort">Sort by:</label>
                     <select name="sort">
                         <?php foreach ($sortFields as $field): ?>
-                            <option value="<?= $field ?>" <?= $sort === $field ? 'selected' : '' ?>><?= ucfirst($field) ?></option>
+                            <?php $sortSelected = $sort === $field ? 'selected' : ''  ?>
+                            <?php $fieldName = ucfirst($field) ?>
+                            <?= "<option value='$field' $sort > $fieldName </option>" ?>
                         <?php endforeach; ?>
                     </select>
                     <input type="hidden" name="sortDirection" value="<?= $sortDirection ?>">
