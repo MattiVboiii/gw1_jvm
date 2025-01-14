@@ -86,10 +86,10 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
                                                 </td>
                                                 <td class="actions fit">
                                                     <div class="no-wrap d-none d-md-block">
-                                                        <a href="/detail?id=<?= $club['id'] ?>" target="_blank" class="btn btn-outline-secondary bg-secondary-subtle btn-sm">
+                                                        <a href="/club/<?= $club['id'] ?>" target="_blank" class="btn btn-outline-secondary bg-secondary-subtle btn-sm">
                                                             <i class="fa-solid fa-eye"></i>
                                                         </a>
-                                                        <a href="/admin/clubs/edit?id=<?= $club['id'] ?>" class="btn btn-outline-primary bg-primary-subtle btn-sm">
+                                                        <a href="/admin/clubs/edit/<?= $club['id'] ?>" class="btn btn-outline-primary bg-primary-subtle btn-sm">
                                                             <i class="fa-solid fa-pen-to-square"></i>
                                                         </a>
                                                         <button class="btn btn-outline-danger bg-danger-subtle btn-sm"
@@ -106,13 +106,13 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
                                                         </span>
                                                         <ul class="dropdown-menu">
                                                             <li>
-                                                                <a class="dropdown-item" href="/detail?id=<?= $club['id'] ?>" target="_blank">
+                                                                <a class="dropdown-item" href="/club/<?= $club['id'] ?>" target="_blank">
                                                                     <i class="fa-solid fa-eye text-subtle"></i>
                                                                     Preview
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a class="dropdown-item" href="/admin/club/edit?id=<?= $club['id'] ?>">
+                                                                <a class="dropdown-item" href="/admin/club/edit/<?= $club['id'] ?>">
                                                                     <i class="fa-solid fa-pen-to-square text-primary"></i>
                                                                     Edit
                                                                 </a>

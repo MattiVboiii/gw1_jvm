@@ -198,7 +198,7 @@ if ($submitM) {
             (int)$showOnClubM
         );
         if ($success) {
-            redirectWithSuccessAlert("/admin/clubs/edit?id=$id", "Updated role #$idM : {$managementRoles[$roleIdM]} - $firstNameM $lastNameM");
+            redirectWithSuccessAlert("/admin/clubs/edit/$id", "Updated role #$idM : {$managementRoles[$roleIdM]} - $firstNameM $lastNameM");
         } elseif ($success === 0) {
             addWarningAlert('No updates were made.<br> - Role might already be updated. (most likely)<br> - Role might no longer exist.');
         } else {
@@ -256,7 +256,7 @@ if ($submitMC) {
             (int)$showOnClubMC
         );
         if ($success) {
-            redirectWithSuccessAlert("/admin/clubs/edit?id=$id", "created role #$idMC : {$managementRoles[$roleIdMC]} - $firstNameMC $lastNameMC");
+            redirectWithSuccessAlert("/admin/clubs/edit/$id", "created role #$idMC : {$managementRoles[$roleIdMC]} - $firstNameMC $lastNameMC");
         } else {
             addDangerAlert('Something went critically wrong, no new role was created.');
         }
@@ -275,13 +275,13 @@ if (isset($_POST['submitRoleDeletion'], $_POST['inputRoleDeletionId'])) {
 
     // every option redirect because this form is too dangerous to risk re-submission;
     if ($deletionCount > 1) {
-        redirectWithDangerAlert("/admin/clubs/edit?id=$id", "Multiple deletions were made.<br> - This should never have happened.<br> - Please contact support.<br> - $deletionCount deletions were made.");
+        redirectWithDangerAlert("/admin/clubs/edit/$id", "Multiple deletions were made.<br> - This should never have happened.<br> - Please contact support.<br> - $deletionCount deletions were made.");
     } elseif ($success) {
-        redirectWithSuccessAlert("/admin/clubs/edit?id=$id", "Deleted role $fullName");
+        redirectWithSuccessAlert("/admin/clubs/edit/$id", "Deleted role $fullName");
     } elseif ($deletionCount === 0) {
-        redirectWithWarningAlert("/admin/clubs/edit?id=$id", 'No deletions were made.<br> - Role might already be deleted.');
+        redirectWithWarningAlert("/admin/clubs/edit/$id", 'No deletions were made.<br> - Role might already be deleted.');
     } else {
-        redirectWithDangerAlert("/admin/clubs/edit?id=$id", "Something went critically wrong.<br>$fullName<br>was not deleted.");
+        redirectWithDangerAlert("/admin/clubs/edit/$id", "Something went critically wrong.<br>$fullName<br>was not deleted.");
     }
 }
 

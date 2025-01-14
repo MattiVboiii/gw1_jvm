@@ -19,7 +19,7 @@
                     <a href="#" class="dropbtn">Clubs</a>
                     <ul class="dropdown-content">
                         <?php foreach (getClubs() as $club) : ?>
-                            <li><a href="/detail?id=<?= (int) $club['id'] ?>"><?= $club['name'] ?></a></li>
+                            <li><a href="/club/<?= (int) $club['id'] ?>"><?= $club['name'] ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </li>

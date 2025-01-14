@@ -86,7 +86,7 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
             <div class="club-container">
                 <div>
                     <?php foreach ($clubsToShow as $club): ?>
-                        <a href="/detail?id=<?= (int) $club['id'] ?>">
+                        <a href="/club/<?= (int) $club['id'] ?>">
                             <article>
                                 <div>
                                     <img src="<?= $club['logo_url'] ?>" alt="<?= $club['name'] ?> logo">
