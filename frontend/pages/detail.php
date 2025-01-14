@@ -149,7 +149,7 @@ if (!$clubinfo) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes">
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="http://thebelgiandiamond.infinityfreeapp.com/club/<?= $id ?>">
+    <meta property="og:url" content="https://thebelgiandiamond.infinityfreeapp.com/club/<?= $id ?>">
     <meta property="og:type" content="website">
     <meta property="og:title" content="The Belgian Diamond - <?= $clubinfo['name'] ?> ">
     <meta property="og:description" content="extra info about <?= $clubinfo['name'] ?> you can find them in <?= $clubinfo['city'] ?>">
