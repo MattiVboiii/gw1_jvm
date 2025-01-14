@@ -1,6 +1,6 @@
 <?php
 require_once 'system/Site/User.php';
-require_once 'admin/php_includes/alerts.inc.php';
+require_once 'backend/php_includes/alerts.inc.php';
 
 use Site\User;
 
@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
             $errors['perms'] = "You do not have admin permissions.";
         } else {
             $user->login();
-            redirectWithSuccessAlert('/admin/', "Welcome back $user->firstname.");
+            redirectWithSuccessAlert('/admin', "Welcome back $user->firstname.");
         }
     }
 } elseif (isset($_POST['logoutSubmit'])) {
@@ -52,10 +52,10 @@ $getValidationClass = $makeGetValidationClass(isset($_POST['submit']))
 <html lang="en">
 
 <head>
-    <?php require "admin/partials/head.inc.php" ?>
+    <?php require "backend/partials/head.inc.php" ?>
     <title>Admin - Login</title>
-    <link rel="stylesheet" href="/admin/css/login.css">
-    <script type="module" src="/admin/js/theme-switcher.js"></script>
+    <link rel="stylesheet" href="/backend/css/login.css">
+    <script type="module" src="/backend/js/theme-switcher.js"></script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -95,7 +95,7 @@ $getValidationClass = $makeGetValidationClass(isset($_POST['submit']))
                 </form>
             </div>
             <div class="card-footer p-4">
-                <p class="text-secondary">Lost? <a href="/frontend/">Go back home.</a></p>
+                <p class="text-secondary">Lost? <a href="/">Go back home.</a></p>
             </div>
         </div>
     </main>

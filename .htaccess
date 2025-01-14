@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Serve files from assets & uploads directory directly
+RewriteCond %{REQUEST_URI} ^/assets/.+ [OR]
+RewriteCond %{REQUEST_URI} ^/uploads/.+ [OR]
+RewriteCond %{REQUEST_URI} ^/frontend/images/.+ [OR]
+RewriteCond %{REQUEST_URI} ^/backend/images/.+ [OR]
+RewriteCond %{REQUEST_URI} ^/frontend/fonts/.+ [OR]
+RewriteCond %{REQUEST_URI} ^/backend/fonts/.+
+RewriteRule .+ - [END]
+
+# Redirect all other requests to index.php
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^(.*)$ /index.php?url=$1 [END,QSA]
+
+# Block anything that isn't a request for index or root
+RewriteRule ^(?!index\.php|$) - [F]
+
+</IfModule>

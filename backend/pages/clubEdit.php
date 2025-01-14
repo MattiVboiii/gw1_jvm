@@ -3,15 +3,15 @@
 use Site\Admin\MimeType;
 use Site\Admin\Upload;
 
-include 'admin/partials/header.inc.php';
+include 'backend/partials/header.inc.php';
 require_once 'system/db.inc.php';
-require_once 'admin/php_includes/upload.inc.php';
+require_once 'backend/php_includes/upload.inc.php';
 
 $id = (int)($_GET['id'] ?? 0);
 $club = getClub($id);
 
 if (!$club) {
-    redirectWithDangerAlert('/admin/pages/clubs.php', "could not find club with id: $id");
+    redirectWithDangerAlert('/admin/clubs', "could not find club with id: $id");
 }
 
 
@@ -116,7 +116,7 @@ if (isset($_POST['submit'])) {
             $description
         );
         if ($success) {
-            redirectWithSuccessAlert('/admin/pages/clubs.php', "Updated club #$id : $name");
+            redirectWithSuccessAlert('/admin/clubs', "Updated club #$id : $name");
         } elseif ($success === 0) {
             addWarningAlert('No updates were made.<br> - Club might already be updated. (most likely)<br> - Club might no longer exist.');
         } else {
@@ -198,7 +198,7 @@ if ($submitM) {
             (int)$showOnClubM
         );
         if ($success) {
-            redirectWithSuccessAlert("/admin/pages/clubEdit.php?id=$id", "Updated role #$idM : {$managementRoles[$roleIdM]} - $firstNameM $lastNameM");
+            redirectWithSuccessAlert("/admin/clubs/edit?id=$id", "Updated role #$idM : {$managementRoles[$roleIdM]} - $firstNameM $lastNameM");
         } elseif ($success === 0) {
             addWarningAlert('No updates were made.<br> - Role might already be updated. (most likely)<br> - Role might no longer exist.');
         } else {
@@ -256,7 +256,7 @@ if ($submitMC) {
             (int)$showOnClubMC
         );
         if ($success) {
-            redirectWithSuccessAlert("/admin/pages/clubEdit.php?id=$id", "created role #$idMC : {$managementRoles[$roleIdMC]} - $firstNameMC $lastNameMC");
+            redirectWithSuccessAlert("/admin/clubs/edit?id=$id", "created role #$idMC : {$managementRoles[$roleIdMC]} - $firstNameMC $lastNameMC");
         } else {
             addDangerAlert('Something went critically wrong, no new role was created.');
         }
@@ -275,13 +275,13 @@ if (isset($_POST['submitRoleDeletion'], $_POST['inputRoleDeletionId'])) {
 
     // every option redirect because this form is too dangerous to risk re-submission;
     if ($deletionCount > 1) {
-        redirectWithDangerAlert("/admin/pages/clubEdit.php?id=$id", "Multiple deletions were made.<br> - This should never have happened.<br> - Please contact support.<br> - $deletionCount deletions were made.");
+        redirectWithDangerAlert("/admin/clubs/edit?id=$id", "Multiple deletions were made.<br> - This should never have happened.<br> - Please contact support.<br> - $deletionCount deletions were made.");
     } elseif ($success) {
-        redirectWithSuccessAlert("/admin/pages/clubEdit.php?id=$id", "Deleted role $fullName");
+        redirectWithSuccessAlert("/admin/clubs/edit?id=$id", "Deleted role $fullName");
     } elseif ($deletionCount === 0) {
-        redirectWithWarningAlert("/admin/pages/clubEdit.php?id=$id", 'No deletions were made.<br> - Role might already be deleted.');
+        redirectWithWarningAlert("/admin/clubs/edit?id=$id", 'No deletions were made.<br> - Role might already be deleted.');
     } else {
-        redirectWithDangerAlert("/admin/pages/clubEdit.php?id=$id", "Something went critically wrong.<br>$fullName<br>was not deleted.");
+        redirectWithDangerAlert("/admin/clubs/edit?id=$id", "Something went critically wrong.<br>$fullName<br>was not deleted.");
     }
 }
 
@@ -298,11 +298,11 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
 <html lang="en">
 
 <head>
-    <?php require 'admin/partials/head.inc.php' ?>
+    <?php require 'backend/partials/head.inc.php' ?>
     <title>Admin - Club:<?= $club['name'] ?></title>
-    <link rel="stylesheet" href="/admin/css/clubForm.css">
-    <script defer type="module" src="/admin/js/clubEdit-modal.js"></script>
-    <script type="module" src="/admin/js/clubEdit-roleCreate.js"></script>
+    <link rel="stylesheet" href="/backend/css/clubForm.css">
+    <script defer type="module" src="/backend/js/clubEdit-modal.js"></script>
+    <script type="module" src="/backend/js/clubEdit-roleCreate.js"></script>
 </head>
 
 <body>
@@ -320,7 +320,7 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                         <fieldset class="mb-3">
                             <div class="img-container img-thumbnail m-auto mb-3">
                                 <img src="<?= $logoURL ?>" alt="Club logo" id="img-logo"
-                                    onerror="this.onerror=null;this.src='/admin/images/default-logo.png'">
+                                    onerror="this.onerror=null;this.src='/backend/images/default-logo.png'">
                             </div>
                             <legend class="mb-3">Club info</legend>
                             <div class="mb-3">

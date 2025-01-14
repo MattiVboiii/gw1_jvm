@@ -1,10 +1,10 @@
 <?php
 require_once 'system/Site/User.php';
-include_once 'admin/php_includes/alerts.inc.php';
+include_once 'backend/php_includes/alerts.inc.php';
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 global $user;
-$user = Site\User::requireLogin('/admin/pages/login.php');
+$user = Site\User::requireLogin('/admin/login');
 enum NAV
 {
     case HOME;
@@ -14,9 +14,9 @@ enum NAV
     public function ref(): string
     {
         return match ($this) {
-            NAV::HOME => '/admin/',
-            NAV::CLUBS => '/admin/pages/clubs.php',
-            NAV::TEAMS => '/admin/pages/teams.php',
+            NAV::HOME => '/admin',
+            NAV::CLUBS => '/admin/clubs',
+            NAV::TEAMS => '/admin/teams',
             default => '#'
         };
     }
@@ -81,7 +81,7 @@ function renderNavBodyContents(NAV $activePage)
     </ul>
     <?php renderNavUserMenu(id: 'user-menu-desktop') ?>
     <div class="d-flex justify-content-center mt-4 pb-3">
-        <?php include 'admin/partials/theme-switcher.inc.php' ?>
+        <?php include 'backend/partials/theme-switcher.inc.php' ?>
     </div>
 <?php
 }
@@ -98,7 +98,7 @@ function renderNavUserMenu(string $direction = 'right', string $id = null)
         <button type="button" class="btn dropdown-toggle mx-auto" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" data-bs-reference="parent" data-bs-offset="0,8">
             <div class="hstack gap-1">
                 <div class="avatar-container">
-                    <img src="/admin/images/default-avatar.png" alt="">
+                    <img src="/backend/images/default-avatar.png" alt="">
                 </div>
                 <div class="vstack">
                     <h4><?= mb_strimwidth($user->username, 0, 8, '…') ?></h4>
@@ -111,7 +111,7 @@ function renderNavUserMenu(string $direction = 'right', string $id = null)
                 <div class="card-header">
                     <div class="hstack gap-3">
                         <div class="avatar-container">
-                            <img src="/admin/images/default-avatar.png" alt="">
+                            <img src="/backend/images/default-avatar.png" alt="">
                         </div>
                         <div>
                             <h4><?= $user->getFullName(); ?></h4>
@@ -122,7 +122,7 @@ function renderNavUserMenu(string $direction = 'right', string $id = null)
                 <div class="card-body py-2 px-0">
                     <ul>
                         <li>
-                            <form action="/admin/pages/login.php" method="post">
+                            <form action="/admin/login" method="post">
                                 <button type="submit" name="logoutSubmit" class="dropdown-item">
                                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                     Logout

@@ -2,7 +2,6 @@
 
 namespace Site\Admin;
 
-use GrahamCampbell\ResultType\Success;
 use Site\Admin\MimeType;
 use Site\Admin\FileSizeUnits as FS;
 use Site\Admin\UploadError;

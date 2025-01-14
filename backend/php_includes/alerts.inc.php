@@ -1,6 +1,6 @@
 <?php
-include 'admin/php_includes/Site/Admin/Alert.php';
-include 'admin/php_includes/Site/Admin/AlertType.php';
+include 'backend/php_includes/Site/Admin/Alert.php';
+include 'backend/php_includes/Site/Admin/AlertType.php';
 
 use Site\Admin\{Alert, AlertType};
 

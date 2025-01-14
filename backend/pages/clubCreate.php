@@ -3,9 +3,9 @@
 use Site\Admin\MimeType;
 use Site\Admin\Upload;
 
-include 'admin/partials/header.inc.php';
+include 'backend/partials/header.inc.php';
 require_once 'system/db.inc.php';
-require_once 'admin/php_includes/upload.inc.php';
+require_once 'backend/php_includes/upload.inc.php';
 
 
 $logoUpload = (new Upload('inputLogoUpload'))
@@ -108,7 +108,7 @@ if (isset($_POST['submit'])) {
             $description
         );
         if ($success) {
-            redirectWithSuccessAlert('/admin/pages/clubs.php', "Created club #$newId : $name");
+            redirectWithSuccessAlert('/admin/clubs', "Created club #$newId : $name");
         } else {
             addDangerAlert('Something went critically wrong, no club was created.');
         }
@@ -146,11 +146,11 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
 <html lang="en">
 
 <head>
-    <?php require 'admin/partials/head.inc.php' ?>
+    <?php require 'backend/partials/head.inc.php' ?>
     <title>Admin - Clubs: create</title>
-    <link rel="stylesheet" href="/admin/css/clubForm.css">
-    <script defer type="module" src="/admin/js/clubEdit-modal.js"></script>
-    <script type="module" src="/admin/js/clubEdit-roleCreate.js"></script>
+    <link rel="stylesheet" href="/backend/css/clubForm.css">
+    <script defer type="module" src="/backend/js/clubEdit-modal.js"></script>
+    <script type="module" src="/backend/js/clubEdit-roleCreate.js"></script>
 </head>
 
 <body>
@@ -168,7 +168,7 @@ $makeGetValidationClass = function ($isSubmitted) use ($errors) {
                         <fieldset class="mb-3">
                             <div class="img-container img-thumbnail m-auto mb-3">
                                 <img src="<?= $logoURL ?>" alt="Club logo" id="img-logo"
-                                    onerror="this.onerror=null;this.src='/admin/images/default-logo.png'">
+                                    onerror="this.onerror=null;this.src='/backend/images/default-logo.png'">
                             </div>
                             <legend class="mb-3">Club info</legend>
                             <div class="mb-3">

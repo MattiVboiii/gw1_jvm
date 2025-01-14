@@ -6,5 +6,5 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous">
 </script>
-<link rel="stylesheet" crossorigin href="/admin/css/style.css">
-<script type="module" src="/admin/js/resize-anim-stopper.js"></script>
+<link rel="stylesheet" crossorigin href="/backend/css/style.css">
+<script type="module" src="/backend/js/resize-anim-stopper.js"></script>

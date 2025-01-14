@@ -1,5 +1,5 @@
 <?php
-include 'admin/partials/header.inc.php';
+include 'backend/partials/header.inc.php';
 require_once 'system/db.inc.php';
 
 $clubs = getClubs();
@@ -12,13 +12,13 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
 
     // every option redirect because this form is too dangerous to risk re-submission;
     if ($deletionCount > 1) {
-        redirectWithDangerAlert("/admin/pages/clubs.php", "Multiple deletions were made.<br> - This should never have happened.<br> - Please contact support.<br> - $deletionCount deletions were made.");
+        redirectWithDangerAlert("/admin/clubs", "Multiple deletions were made.<br> - This should never have happened.<br> - Please contact support.<br> - $deletionCount deletions were made.");
     } elseif ($success) {
-        redirectWithSuccessAlert("/admin/pages/clubs.php", "Deleted club #$deletionId: $deletionClubName");
+        redirectWithSuccessAlert("/admin/clubs", "Deleted club #$deletionId: $deletionClubName");
     } elseif ($deletionCount === 0) {
-        redirectWithWarningAlert("/admin/pages/clubs.php", 'No deletions were made.<br> - Club might already be deleted.');
+        redirectWithWarningAlert("/admin/clubs", 'No deletions were made.<br> - Club might already be deleted.');
     } else {
-        redirectWithDangerAlert("/admin/pages/clubs.php", "Something went critically wrong.<br>#$deletionId: $deletionClubName<br>was not deleted.");
+        redirectWithDangerAlert("/admin/clubs", "Something went critically wrong.<br>#$deletionId: $deletionClubName<br>was not deleted.");
     }
 }
 
@@ -28,10 +28,10 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
 <html lang="en">
 
 <head>
-    <?php require "admin/partials/head.inc.php" ?>
+    <?php require "backend/partials/head.inc.php" ?>
     <title>Admin - Clubs</title>
-    <link rel="stylesheet" href="/admin/css/clubs.css">
-    <script type="module" src="/admin/js/club-modals.js" defer></script>
+    <link rel="stylesheet" href="/backend/css/clubs.css">
+    <script type="module" src="/backend/js/club-modals.js" defer></script>
 </head>
 
 <body>
@@ -41,7 +41,7 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h1 class="card-title fs-3">Club List</h1>
-                    <a href="/admin/pages/clubCreate.php" class="btn btn-success">Create Club</a>
+                    <a href="/admin/clubs/create" class="btn btn-success">Create Club</a>
                 </div>
                 <div class="card-body">
                     <div class="container-fluid">
@@ -86,10 +86,10 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
                                                 </td>
                                                 <td class="actions fit">
                                                     <div class="no-wrap d-none d-md-block">
-                                                        <a href="/frontend/pages/detail.php?id=<?= $club['id'] ?>" target="_blank" class="btn btn-outline-secondary bg-secondary-subtle btn-sm">
+                                                        <a href="/detail?id=<?= $club['id'] ?>" target="_blank" class="btn btn-outline-secondary bg-secondary-subtle btn-sm">
                                                             <i class="fa-solid fa-eye"></i>
                                                         </a>
-                                                        <a href="/admin/pages/clubEdit.php?id=<?= $club['id'] ?>" class="btn btn-outline-primary bg-primary-subtle btn-sm">
+                                                        <a href="/admin/clubs/edit?id=<?= $club['id'] ?>" class="btn btn-outline-primary bg-primary-subtle btn-sm">
                                                             <i class="fa-solid fa-pen-to-square"></i>
                                                         </a>
                                                         <button class="btn btn-outline-danger bg-danger-subtle btn-sm"
@@ -106,13 +106,13 @@ if (isset($_POST['submitClubDeletion'], $_POST['inputDeletionClubId'])) {
                                                         </span>
                                                         <ul class="dropdown-menu">
                                                             <li>
-                                                                <a class="dropdown-item" href="/frontend/pages/detail.php?id=<?= $club['id'] ?>" target="_blank">
+                                                                <a class="dropdown-item" href="/detail?id=<?= $club['id'] ?>" target="_blank">
                                                                     <i class="fa-solid fa-eye text-subtle"></i>
                                                                     Preview
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a class="dropdown-item" href="/admin/pages/clubEdit.php?id=<?= $club['id'] ?>">
+                                                                <a class="dropdown-item" href="/admin/club/edit?id=<?= $club['id'] ?>">
                                                                     <i class="fa-solid fa-pen-to-square text-primary"></i>
                                                                     Edit
                                                                 </a>

@@ -1,4 +1,4 @@
-<script src="/admin/js/theme-switcher.js" defer type="module"></script>
+<script src="/backend/js/theme-switcher.js" defer type="module"></script>
 <div class="theme-switcher">
     <button data-ts-theme="dark">
         <i class="fa-solid fa-moon"></i>

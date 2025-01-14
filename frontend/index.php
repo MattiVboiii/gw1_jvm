@@ -1,4 +1,5 @@
 <?php
+
 require_once 'system/db.inc.php';
 include_once 'frontend/php_includes/func.inc.php';
 
@@ -56,7 +57,7 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
     <?php include('frontend/partials/header.inc.php') ?>
     <main>
         <div class="container">
-            <form action="/frontend/index.php" method="get">
+            <form action="/" method="get">
                 <h2>Search for clubs</h2>
                 <label for="search">Name/City/Province:</label>
                 <input type="search" name="search" value="<?= $_GET['search'] ?? '' ?>" minlength="3">
@@ -85,7 +86,7 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
             <div class="club-container">
                 <div>
                     <?php foreach ($clubsToShow as $club): ?>
-                        <a href="/frontend/pages/detail.php?id=<?= (int) $club['id'] ?>">
+                        <a href="/detail?id=<?= (int) $club['id'] ?>">
                             <article>
                                 <div>
                                     <img src="<?= $club['logo_url'] ?>" alt="<?= $club['name'] ?> logo">

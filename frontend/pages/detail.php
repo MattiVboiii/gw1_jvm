@@ -130,7 +130,7 @@ function maxID()
 
 
 if ($id > $maxID) {
-    header("Location:/frontend/pages/404.php");
+    header("Location:/404");
 }
 
 // print '<pre>';

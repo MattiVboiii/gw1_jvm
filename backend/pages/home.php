@@ -1,12 +1,12 @@
 <?php
-include 'admin/partials/header.inc.php';
+include 'backend/partials/header.inc.php';
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <?php require "admin/partials/head.inc.php" ?>
+    <?php require "backend/partials/head.inc.php" ?>
     <title>ADMIN</title>
 </head>
 
