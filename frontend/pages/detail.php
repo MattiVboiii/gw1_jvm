@@ -129,8 +129,10 @@ function maxID()
 
 
 
-if ($id > $maxID) {
-    header("Location:/404");
+if (!$clubinfo) {
+    header("HTTP/1.0 404 Not Found");
+    header('Location: /404');
+    exit;
 }
 
 // print '<pre>';
