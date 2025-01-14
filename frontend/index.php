@@ -36,6 +36,7 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
 
     <link rel="stylesheet" href="/frontend/css/index.css" />
     <script src="/frontend/js/index.js" defer type="module"></script>
+    <script type="module" src="/frontend/js/advanced-search.js" defer></script>
     <link rel="icon" type="image/png" href="/frontend/images/logo_trimmed.png" />
     <style>
         .club-container {
@@ -47,6 +48,10 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
             visibility: hidden;
             position: absolute;
             display: block;
+        }
+
+        .advanced-search-toggle {
+            display: none;
         }
 
         <?php endif ?>
@@ -81,6 +86,8 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
                 <button type="submit">Search</button>
                 <?php if (empty($clubsToShow)): ?>
                     <p class="error">No clubs found, please try again with different search terms.</p>
+                <?php else: ?>
+                    <i class="advanced-search-toggle fa-solid fa-chevron-down"></i>
                 <?php endif; ?>
             </form>
             <div class="club-container">
