@@ -25,7 +25,7 @@ usort($clubs, fn($a, $b) => ($sortDirection === 'asc' ? 1 : -1) * strcmp($a[$sor
     <title>WEBSITE HOMEPAGE</title>
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="http://localhost:5173/frontend/">
+    <meta property="og:url" content="http://thebelgiandiamond.infinityfreeapp.com">
     <meta property="og:type" content="website">
     <meta property="og:title" content="The Belgian Diamond">
     <meta property="og:description" content="a list of all the Belgian baseball clubs from Belgium">
