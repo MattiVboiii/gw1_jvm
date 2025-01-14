@@ -46,7 +46,7 @@ function getClubUrl(int $id): array|bool
 function getFutureMatches(int $id): array|bool
 {
 
-    $sql = "SELECT clubs.id,clubs.name as clubname, team_1_id,team_2_name as opponent, date FROM baseball.matches
+    $sql = "SELECT clubs.id,clubs.name as clubname, team_1_id,team_2_name as opponent, date FROM matches
 left join teams on team_1_id = teams.id
 left join clubs on club_id
 where date > NOW()
@@ -66,7 +66,7 @@ limit 3";
 
 function getManagement($id)
 {
-    $sql = "SELECT role_name as role, CONCAT(firstname, ' ', lastname) as fullname  FROM baseball.management 
+    $sql = "SELECT role_name as role, CONCAT(firstname, ' ', lastname) as fullname  FROM management 
 left join management_roles on management.management_role_id = management_roles.id
 where club_id = :id
 and  show_on_club = 1";
@@ -81,7 +81,7 @@ and  show_on_club = 1";
 
 function getSfeerFoto($id)
 {
-    $sql = "SELECT * FROM baseball.clubs
+    $sql = "SELECT * FROM clubs
 left join media on clubs.id = media.club_id
 where show_on_club = 1
 and club_id = :id
@@ -113,7 +113,7 @@ and is_social = 1;";
 
 function maxID()
 {
-    $sql = "SELECT max(id) as max_id FROM baseball.clubs";
+    $sql = "SELECT max(id) as max_id FROM clubs";
     $stmt = connectToDatabase()->prepare($sql);
 
     // Execute the query
